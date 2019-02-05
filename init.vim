@@ -147,9 +147,14 @@ endf
 "--- alternative to ESC ---"
 inoremap hh <esc>
 
+"--- line numbering auto toggle ---"
+augroup numbertoggle
+    autocmd!
+    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+augroup END
+
 "--- TODO ---
 "   - zwijanie funkcji / function fold
 "   - Insert-mode only Caps Lock
-"   - relative line number toggle
-"   - you complete me albo cos podobnego
-"   - replacement for esp key?
+"   - you complete me or something
