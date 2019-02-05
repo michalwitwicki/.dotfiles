@@ -144,6 +144,8 @@ function QuoteDelim(char)
     endif
 endf
 
+"--- alternative to ESC ---"
+inoremap hh <esc>
 
 "--- TODO ---
 "   - zwijanie funkcji / function fold
