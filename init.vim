@@ -36,8 +36,8 @@ set textwidth=80 "automatic line break
 "--- color scheme management ---"
 syntax on
 colorscheme molokai 
-""let g:molokai_original = 1
-""set background=dark "gruvbox dark mode
+let g:molokai_original = 1
+"set background=dark "gruvbox dark mode
 
 "--- mapping for easy clipboard ---"
 vnoremap <C-c> "+y
