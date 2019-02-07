@@ -96,12 +96,15 @@ nmap <c-w> :q<CR>
 "--- open NERDTree on startup ---"
 autocmd VimEnter * NERDTree
 
+"--- focus right window on startup ---"
+autocmd VimEnter * wincmd l 
+
 "--- edit vimrc ---"
 ""nnoremap confe :e $MYVIMRC<CR>
 nnoremap confe :e ~/Documents/vimrc/init.vim<CR>
 
 "--- reload vimrc ---"
-nnoremap confe :source ~/Documents/vimrc/init.vim<CR>
+nnoremap confr :source ~/Documents/vimrc/init.vim<CR>
 
 "--- super intelligence bracket management ---"
 inoremap ( ()<Esc>i
@@ -114,7 +117,7 @@ inoremap } <c-r>=CloseBracket()<CR>
 inoremap " <c-r>=QuoteDelim('"')<CR>
 inoremap ' <c-r>=QuoteDelim("'")<CR>
 
-function ClosePair(char)
+function! ClosePair(char)
     if getline('.')[col('.') - 1] == a:char
     return "\<Right>"
     else
@@ -122,7 +125,7 @@ function ClosePair(char)
     endif
 endf
 
-function CloseBracket()
+function! CloseBracket()
     if match(getline(line('.') + 1), '\s*}') < 0
     return "\<CR>}"
     else
@@ -130,7 +133,7 @@ function CloseBracket()
     endif
 endf
 
-function QuoteDelim(char)
+function! QuoteDelim(char)
     let line = getline('.')
     let col = col('.')
     if line[col - 2] == "\\"
@@ -154,6 +157,10 @@ augroup numbertoggle
     autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
     autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 augroup END
+
+"--- adding empty lines above or below current one---"
+nmap <a-Enter> O<Esc>j
+nmap <CR> o<Esc>k
 
 "--- TODO ---
 "   - zwijanie funkcji / function fold
