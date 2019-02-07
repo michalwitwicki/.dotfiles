@@ -97,10 +97,11 @@ nmap <c-w> :q<CR>
 autocmd VimEnter * NERDTree
 
 "--- edit vimrc ---"
-nnoremap confe :e $MYVIMRC<CR>
+""nnoremap confe :e $MYVIMRC<CR>
+nnoremap confe :e ~/Documents/vimrc/init.vim<CR>
 
 "--- reload vimrc ---"
-nnoremap confr :source $MYVIMRC<CR>
+nnoremap confe :source ~/Documents/vimrc/init.vim<CR>
 
 "--- super intelligence bracket management ---"
 inoremap ( ()<Esc>i
