@@ -39,6 +39,16 @@ colorscheme molokai
 let g:molokai_original = 1
 "set background=dark "gruvbox dark mode
 
+"--- fixes annoying brackets coloring ---"
+highlight MatchParen cterm=bold ctermbg=none ctermfg=Yellow
+
+"--- tab bar colors ---"
+hi TabLineFill ctermfg=DarkGrey ctermbg=none
+"hi TabLine ctermfg=Blue ctermbg=Yellow "not active tab
+hi TabLineSel ctermfg=White ctermbg=Grey "active tab
+"hi Title ctermfg=Black ctermbg=Yellow "this affect window counter per tab
+
+
 "--- mapping for easy clipboard ---"
 vnoremap <C-c> "+y
 map <C-v> "+P
@@ -161,6 +171,9 @@ augroup END
 "--- adding empty lines above or below current one---"
 nmap <a-Enter> O<Esc>j
 nmap <CR> o<Esc>k
+
+
+
 
 "--- TODO ---
 "   - zwijanie funkcji / function fold
