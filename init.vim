@@ -14,6 +14,8 @@ call plug#begin()
     Plug 'morhetz/gruvbox' "color scheme
     Plug 'dracula/vim', { 'as': 'dracula' } "color scheme
     Plug 'tomasr/molokai' "color scheme
+    Plug 'nanotech/jellybeans.vim' "color scheme
+    Plug 'sjl/badwolf' "color scheme
 
     Plug 'octol/vim-cpp-enhanced-highlight' "cpp better highlight
     Plug 'scrooloose/nerdtree' "nerd tree
@@ -35,8 +37,9 @@ set textwidth=80 "automatic line break
 
 "--- color scheme management ---"
 syntax on
-colorscheme molokai 
-let g:molokai_original = 1
+colorscheme badwolf 
+let g:badwolf_darkgutter = 1
+"let g:molokai_original = 1
 "set background=dark "gruvbox dark mode
 
 "--- fixes annoying brackets coloring ---"
