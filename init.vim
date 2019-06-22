@@ -18,6 +18,7 @@ call plug#begin()
     Plug 'sjl/badwolf' "color scheme
 
     Plug 'octol/vim-cpp-enhanced-highlight' "cpp better highlight
+    Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} "python better highlight
     Plug 'scrooloose/nerdtree' "nerd tree
     Plug 'vim-airline/vim-airline' "airline
     Plug 'vim-airline/vim-airline-themes' "airline themes
@@ -37,8 +38,8 @@ set textwidth=80 "automatic line break
 
 "--- color scheme management ---"
 syntax on
-colorscheme badwolf 
-let g:badwolf_darkgutter = 1
+colorscheme molokai 
+"let g:badwolf_darkgutter = 1
 "let g:molokai_original = 1
 "set background=dark "gruvbox dark mode
 
