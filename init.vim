@@ -39,6 +39,7 @@ set textwidth=80 "automatic line break
 "--- color scheme management ---"
 syntax on
 colorscheme molokai 
+"colorscheme dracula 
 "let g:badwolf_darkgutter = 1
 "let g:molokai_original = 1
 "set background=dark "gruvbox dark mode
@@ -108,14 +109,14 @@ imap <c-w> <ESC>:q<CR>
 nmap <c-w> :q<CR>
 
 "--- open NERDTree on startup ---"
-autocmd VimEnter * NERDTree
+"autocmd VimEnter * NERDTree
 
 "--- focus right window on startup ---"
 autocmd VimEnter * wincmd l 
 
 "--- edit vimrc ---"
-""nnoremap confe :e $MYVIMRC<CR>
-nnoremap confe :e ~/Documents/vimrc/init.vim<CR>
+nnoremap confe :e $MYVIMRC<CR>
+"nnoremap confe :e ~/Documents/vimrc/init.vim<CR>
 
 "--- reload vimrc ---"
 nnoremap confr :source ~/Documents/vimrc/init.vim<CR>
