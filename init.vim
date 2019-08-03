@@ -14,7 +14,6 @@ if !exists("g:os")
     endif
 endif
 
-
 " ==============================================================================
 " PLUG
 " ==============================================================================
@@ -35,20 +34,23 @@ endif
 call plug#begin()
     Plug 'morhetz/gruvbox' "color scheme
     Plug 'tomasr/molokai' "color scheme
+    Plug 'joshdick/onedark.vim'
 
     Plug 'octol/vim-cpp-enhanced-highlight' "cpp better highlight
     Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} "python better highlight
     Plug 'scrooloose/nerdtree' "nerd tree
     Plug 'vim-airline/vim-airline' "airline
     Plug 'vim-airline/vim-airline-themes' "airline themes
+    Plug 'dense-analysis/ale'
+    Plug 'mbbill/undotree'
+    "Plug 'itchyny/lightline.vim'"maybe someday ?
 call plug#end()
 
-
 " ==============================================================================
-" BASIC SETS
+" GENERAL
 " ==============================================================================
 set nocompatible
-set t_Co=256
+"set t_Co=256
 set number
 set relativenumber
 set smartindent
@@ -65,10 +67,34 @@ set sidescrolloff=5
 filetype plugin on "for netrw
 "set termguicolors
 
-"=== more natural split opening ==="
+" Sets how many lines of history VIM has to remember
+set history=500
+
+" Set to auto read when a file is changed from the outside
+set autoread
+
+" More natural split opening
 set splitbelow
 set splitright
 
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc
+if g:os == "Windows"
+    set wildignore+=.git\*,.hg\*,.svn\*
+else
+    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+endif
+
+" Let 'tl' toggle between this and the last accessed tab
+let g:lasttab = 1
+nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
+au TabLeave * let g:lasttab = tabpagenr()
+
+" Return to last edit position when opening files (You want this!)
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+set noshowmode
+set mouse=a
 
 " ==============================================================================
 " THAT YOUTUBE VIDEO
@@ -106,12 +132,11 @@ command! MakeTags !ctags -R .
 "^n for anything specified by the 'complete' option
 "^n and ^p to go back and forth in the suggestion list
 
-
 " ==============================================================================
 " COLOR SCHEME MANAGEMENT
 " ==============================================================================
 syntax enable
-colorscheme molokai 
+colorscheme onedark 
 "let g:molokai_original = 1
 "set background=dark "gruvbox dark mode
 
@@ -123,20 +148,31 @@ hi TabLineFill ctermfg=DarkGrey ctermbg=none
 "hi TabLine ctermfg=Blue ctermbg=Yellow "not active tab
 hi TabLineSel ctermfg=White ctermbg=Grey "active tab
 "hi Title ctermfg=Black ctermbg=Yellow "this affect window counter per tab
-
+"hi Normal guibg=NONE ctermbg=NONE "transparent background
 
 " ==============================================================================
 " MAPPING
 " ==============================================================================
+"=== Leader key as comma ==="
+let mapleader = ","
+
 "=== Mapping for easy clipboard ==="
 vnoremap <C-c> "+y
 map <C-v> "+P
 
 "=== Mapping for easier split navigations ==="
-nnoremap <C-J> <C-W><C-J>
-nnoremap <C-K> <C-W><C-K>
-nnoremap <C-L> <C-W><C-L>
-nnoremap <C-H> <C-W><C-H>
+:tnoremap <C-h> <C-\><C-N><C-w>h
+:tnoremap <C-j> <C-\><C-N><C-w>j
+:tnoremap <C-k> <C-\><C-N><C-w>k
+:tnoremap <C-l> <C-\><C-N><C-w>l
+:inoremap <C-h> <C-\><C-N><C-w>h
+:inoremap <C-j> <C-\><C-N><C-w>j
+:inoremap <C-k> <C-\><C-N><C-w>k
+:inoremap <C-l> <C-\><C-N><C-w>l
+:nnoremap <C-h> <C-w>h
+:nnoremap <C-j> <C-w>j
+:nnoremap <C-k> <C-w>k
+:nnoremap <C-l> <C-w>l
 
 "=== Run make from inside vim ==="
 imap <f9> <ESC>:w<CR>:make<CR>
@@ -165,6 +201,11 @@ nmap <CR> o<Esc>k
 "=== Alternative to ESC ==="
 inoremap hh <esc>
 
+"=== Resizing splits ==="
+:nnoremap <silent> <c-Up> <c-w>+
+:nnoremap <silent> <c-Down> <c-w>-
+:nnoremap <silent> <c-Right> <c-w>>
+:nnoremap <silent> <c-Left> <c-w><
 
 " ==============================================================================
 " AUTO COMMANDS
@@ -221,6 +262,12 @@ function! QuoteDelim(char)
     endif
 endf
 
+"=== Mapping NERDTree toggler ===" 
+augroup remember_folds
+  autocmd!
+  autocmd BufWinLeave * mkview
+  autocmd BufWinEnter * silent! loadview
+augroup END
 
 " ==============================================================================
 " PLUGIN NERDTree
@@ -232,8 +279,7 @@ map <C-n> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 "=== Open NERDTree on startup ==="
-"autocmd VimEnter * NERDTree
-
+autocmd VimEnter * NERDTree
 
 " ==============================================================================
 " PLUGIN Airline
@@ -248,6 +294,18 @@ let g:airline_powerline_fonts = 1
 "=== Airline theme ==="
 let g:airline_theme='violet'
 
+" Set this. Airline will handle the rest.
+"=== ALE information in Airline ==="
+let g:airline#extensions#ale#enabled = 1
+
+" ==============================================================================
+" TIPS/ LESSONS/ TUTORIALS ?
+" ==============================================================================
+"=== Concerning folding ==="
+"zf => create a fold on visual selected lines
+"zf#j => fold down # lines
+"za => unfold
+"zR => unfold all
 
 "=== TODO ===
 "   - Folding sections
