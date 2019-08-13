@@ -44,6 +44,8 @@ call plug#begin()
     Plug 'dense-analysis/ale'
     Plug 'mbbill/undotree'
     "Plug 'itchyny/lightline.vim'"maybe someday ?
+    "Plug 'mhinz/vim-startify'
+    "Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' } "alternative for NERDTree
 call plug#end()
 
 " ==============================================================================
@@ -95,6 +97,7 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 
 set noshowmode
 set mouse=a
+set hidden "allows to close window with not saved buffer
 
 " ==============================================================================
 " THAT YOUTUBE VIDEO
@@ -207,6 +210,9 @@ inoremap hh <esc>
 :nnoremap <silent> <c-Right> <c-w>>
 :nnoremap <silent> <c-Left> <c-w><
 
+"=== Exit terminal-mode ==="
+:tnoremap <Esc> <c-\><c-n>
+
 " ==============================================================================
 " AUTO COMMANDS
 " ==============================================================================
@@ -262,12 +268,18 @@ function! QuoteDelim(char)
     endif
 endf
 
-"=== Mapping NERDTree toggler ===" 
+"=== Remeber folds after restart ===" 
 augroup remember_folds
   autocmd!
   autocmd BufWinLeave * mkview
   autocmd BufWinEnter * silent! loadview
 augroup END
+
+"=== Set insert-mode when entering the terminal ===" 
+autocmd BufWinEnter,WinEnter term://* startinsert
+
+"=== Set normal-mode when leaving terminal ===" 
+"autocmd BufLeave term://* stopinsert
 
 " ==============================================================================
 " PLUGIN NERDTree
@@ -280,6 +292,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 "=== Open NERDTree on startup ==="
 autocmd VimEnter * NERDTree
+
 
 " ==============================================================================
 " PLUGIN Airline
@@ -306,6 +319,19 @@ let g:airline#extensions#ale#enabled = 1
 "zf#j => fold down # lines
 "za => unfold
 "zR => unfold all
+
+"=== Splits, tabs, buffers ==="
+":new
+":vnew
+":tabnew :tabe
+":edit or better version :find
+":ls for listing buffers
+":b N for moving to Nth buffer
+":bd N for deleting buffer
+
+"=== Resizing ==="
+":resize N
+":vertical resize N
 
 "=== TODO ===
 "   - Folding sections
