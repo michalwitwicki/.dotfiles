@@ -44,7 +44,7 @@ call plug#begin()
     Plug 'dense-analysis/ale'
     Plug 'mbbill/undotree'
     "Plug 'itchyny/lightline.vim'"maybe someday ?
-    "Plug 'mhinz/vim-startify'
+    Plug 'mhinz/vim-startify'
     "Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' } "alternative for NERDTree
 call plug#end()
 
@@ -282,6 +282,13 @@ autocmd BufWinEnter,WinEnter term://* startinsert
 "autocmd BufLeave term://* stopinsert
 
 " ==============================================================================
+" Vim Startup
+" ==============================================================================
+"=== Open Startify on startup ==="
+autocmd VimEnter * Startify
+autocmd VimEnter * NERDTree
+
+" ==============================================================================
 " PLUGIN NERDTree
 " ==============================================================================
 "=== Mapping NERDTree toggler ===" 
@@ -289,10 +296,6 @@ map <C-n> :NERDTreeToggle<CR>
 
 "=== Closing vim if the only window left is a NERDTree ==="
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-"=== Open NERDTree on startup ==="
-autocmd VimEnter * NERDTree
-
 
 " ==============================================================================
 " PLUGIN Airline
