@@ -285,7 +285,7 @@ autocmd BufWinEnter,WinEnter term://* startinsert
 " Vim Startup
 " ==============================================================================
 "=== Open Startify on startup ==="
-autocmd VimEnter * Startify
+"autocmd VimEnter * Startify
 autocmd VimEnter * NERDTree
 
 " ==============================================================================
