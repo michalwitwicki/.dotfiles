@@ -2,7 +2,8 @@
 
 f() {
     fff "$@"
-    cd "$(cat "${XDG_CACHE_HOME:=${HOME}/.cache}/fff/.fff_d")"
+    #cd "$(cat "${XDG_CACHE_HOME:=${HOME}/.cache}/fff/.fff_d")"
+    cd "$(cat ~/.fff_d)"
 }
 
 # Use LS_COLORS to color fff.
@@ -12,19 +13,19 @@ export FFF_LS_COLORS=1
 
 # Show/Hide hidden files on open.
 # (On by default)
-export FFF_HIDDEN=1
+#export FFF_HIDDEN=1
 
 # Directory color [0-9]
-export FFF_COL1=2
+#export FFF_COL1=2
 
 # Status color [0-9]
-export FFF_COL2=7
+#export FFF_COL2=7
 
 # Selection color [0-9] (copied/moved files)
-export FFF_COL3=6
+#export FFF_COL3=6
 
 # Cursor color [0-9]
-export FFF_COL4=1
+#export FFF_COL4=1
 
 # Text Editor
 export EDITOR="nvim"
@@ -39,23 +40,23 @@ export FFF_CD_ON_EXIT=1
 # CD on exit helper file
 # Default: '${XDG_CACHE_HOME}/fff/fff.d'
 #          If not using XDG, '${HOME}/.cache/fff/fff.d' is used.
-#export FFF_CD_FILE=~/.fff_d
+export FFF_CD_FILE=~/.fff_d
 
 # Trash Directory
 # Default: '${XDG_DATA_HOME}/fff/trash'
 #          If not using XDG, '${XDG_DATA_HOME}/fff/trash' is used.
-#export FFF_TRASH=~/.local/share/fff/trash
+export FFF_TRASH=~/.local/share/fff/trash
 
 # Trash Command
 # Default: 'mv'
 #          Define a custom program to use to trash files.
 #          The program will be passed the list of selected files
 #          and directories.
-export FFF_TRASH_CMD="mv"
+#export FFF_TRASH_CMD="mv"
 
 # Favourites (Bookmarks) (keys 1-9) (dir or file)
 export FFF_FAV1=~/
-export FFF_FAV2=/mnt/windows/nextcloud
+export FFF_FAV2=/mnt/windows/nextcloud/studia/INZ_MODULAR_SYNTH/linux_projs
 export FFF_FAV3=~/Pictures/Wallpapers/
 export FFF_FAV4=/usr/share
 export FFF_FAV5=/

@@ -35,13 +35,15 @@ call plug#begin()
     Plug 'morhetz/gruvbox' "color scheme
     Plug 'tomasr/molokai' "color scheme
     Plug 'joshdick/onedark.vim'
+    Plug 'nanotech/jellybeans.vim'
+    Plug 'jacoborus/tender.vim'
 
     Plug 'octol/vim-cpp-enhanced-highlight' "cpp better highlight
     Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} "python better highlight
     Plug 'scrooloose/nerdtree' "nerd tree
     Plug 'vim-airline/vim-airline' "airline
     Plug 'vim-airline/vim-airline-themes' "airline themes
-    Plug 'dense-analysis/ale'
+    "Plug 'dense-analysis/ale'
     Plug 'mbbill/undotree'
     "Plug 'itchyny/lightline.vim'"maybe someday ?
     Plug 'mhinz/vim-startify'
@@ -93,7 +95,7 @@ nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
 au TabLeave * let g:lasttab = tabpagenr()
 
 " Return to last edit position when opening files (You want this!)
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+" au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 set noshowmode
 set mouse=a
@@ -139,7 +141,7 @@ command! MakeTags !ctags -R .
 " COLOR SCHEME MANAGEMENT
 " ==============================================================================
 syntax enable
-colorscheme onedark 
+colorscheme tender
 "let g:molokai_original = 1
 "set background=dark "gruvbox dark mode
 
@@ -286,7 +288,7 @@ autocmd BufWinEnter,WinEnter term://* startinsert
 " ==============================================================================
 "=== Open Startify on startup ==="
 "autocmd VimEnter * Startify
-autocmd VimEnter * NERDTree
+"autocmd VimEnter * NERDTree
 
 " ==============================================================================
 " PLUGIN NERDTree
