@@ -2,7 +2,6 @@
 "   - in case of linux:     ~/.config/nvim/init.vim
 "   - in case of windows:   ~\AppData\Local\nvim\init.vim
 
-
 " ==============================================================================
 " DETECTING OPERATING SYSTEM
 " ==============================================================================
@@ -38,21 +37,27 @@ call plug#begin()
     Plug 'nanotech/jellybeans.vim'
     Plug 'jacoborus/tender.vim'
 
-    Plug 'octol/vim-cpp-enhanced-highlight' "cpp better highlight
-    Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} "python better highlight
+    "Plug 'octol/vim-cpp-enhanced-highlight' "cpp better highlight
+    "Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} "python better highlight
     Plug 'scrooloose/nerdtree' "nerd tree
+    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+    Plug 'ryanoasis/vim-devicons'
     Plug 'vim-airline/vim-airline' "airline
-    Plug 'vim-airline/vim-airline-themes' "airline themes
+    "Plug 'vim-airline/vim-airline-themes' "airline themes
     "Plug 'dense-analysis/ale'
     Plug 'mbbill/undotree'
     "Plug 'itchyny/lightline.vim'"maybe someday ?
     Plug 'mhinz/vim-startify'
     "Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' } "alternative for NERDTree
+    "justinmk/vim-dirvish is another alternative for nerdtree
+    Plug 'sheerun/vim-polyglot' "A collection of language packs for Vim
 call plug#end()
 
 " ==============================================================================
 " GENERAL
 " ==============================================================================
+"=== Leader key as comma ==="
+let mapleader = ","
 set nocompatible
 "set t_Co=256
 set number
@@ -81,6 +86,7 @@ set autoread
 set splitbelow
 set splitright
 
+set wildmenu
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
 if g:os == "Windows"
@@ -101,47 +107,21 @@ set noshowmode
 set mouse=a
 set hidden "allows to close window with not saved buffer
 
-" ==============================================================================
-" THAT YOUTUBE VIDEO
-" ==============================================================================
-"=== Finding Files ===" 
-"Search down into subfolders
-"Provides tab-completion for all file-related tasks
-set path+=**
+set encoding=utf-8
 
-"Dispaly all matching files when we tab complete
-set wildmenu
+set noswapfile
 
-"NOW WE CAN
-"- hit tab to :find by partial match
-"- use * to make it fuzzy
+set path+=** "Search down into subfolders
 
-"THING TO CONSIDER
-"- :ls lets you list all buffers
-"- :b lets you autocomplete for any buffer
-
-"=== Tag Jumping ==="
-"Create tags file
-command! MakeTags !ctags -R .
-
-"NOW WE CAN
-"- use ^] to jump to tag under cursor
-"- use g^] for ambiguous tags
-"- use ^t to jump back up the tag stack
-
-"=== Autocomplete ==="
-"check documentation in |ins-completion|
-"^x^n for just this file
-"^x^f for filenames
-"^x^] for tags only
-"^n for anything specified by the 'complete' option
-"^n and ^p to go back and forth in the suggestion list
 
 " ==============================================================================
 " COLOR SCHEME MANAGEMENT
 " ==============================================================================
 syntax enable
-colorscheme tender
+let g:onedark_terminal_italics=1
+let g:onedark_termcolors=256
+let g:onedark_hide_endofbuffer=1
+colorscheme onedark
 "let g:molokai_original = 1
 "set background=dark "gruvbox dark mode
 
@@ -158,8 +138,6 @@ hi TabLineSel ctermfg=White ctermbg=Grey "active tab
 " ==============================================================================
 " MAPPING
 " ==============================================================================
-"=== Leader key as comma ==="
-let mapleader = ","
 
 "=== Mapping for easy clipboard ==="
 vnoremap <C-c> "+y
@@ -187,13 +165,13 @@ nmap <f9> :w<CR>:make<CR>
 imap <c-s> <Esc>:w<CR>
 nmap <c-s> :w<CR>
 
-"=== Close tab wit ctrl-w ==="
+"=== Close tab/window with ctrl-w ==="
 imap <c-w> <ESC>:q<CR>
 nmap <c-w> :q<CR>
 
 "=== Edit vimrc ==="
-nnoremap confe :e $MYVIMRC<CR>
 "nnoremap confe :e ~/Documents/vimrc/init.vim<CR>
+nnoremap confe :e $MYVIMRC<CR>
 
 "=== Reload vimrc ==="
 "nnoremap confr :source ~/Documents/vimrc/init.vim<CR>
@@ -214,6 +192,13 @@ inoremap hh <esc>
 
 "=== Exit terminal-mode ==="
 :tnoremap <Esc> <c-\><c-n>
+
+" ==============================================================================
+" COMMANDS
+" ==============================================================================
+"Create tags file
+command! MakeTags !ctags -R .
+
 
 " ==============================================================================
 " AUTO COMMANDS
@@ -273,7 +258,7 @@ endf
 "=== Remeber folds after restart ===" 
 augroup remember_folds
   autocmd!
-  autocmd BufWinLeave * mkview
+  "autocmd BufWinLeave * mkview
   autocmd BufWinEnter * silent! loadview
 augroup END
 
@@ -299,6 +284,8 @@ map <C-n> :NERDTreeToggle<CR>
 "=== Closing vim if the only window left is a NERDTree ==="
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
+let NERDTreeMinimalUI = 1
+
 " ==============================================================================
 " PLUGIN Airline
 " ==============================================================================
@@ -310,11 +297,37 @@ let g:airline#extensions#whitespace#enabled = 0
 let g:airline_powerline_fonts = 1
 
 "=== Airline theme ==="
-let g:airline_theme='violet'
+let g:airline_theme='onedark'
 
-" Set this. Airline will handle the rest.
-"=== ALE information in Airline ==="
-let g:airline#extensions#ale#enabled = 1
+"let g:airline#extensions#tabline#enabled = 1
+
+
+
+" vim-devicons
+let g:DevIconsEnableFoldersOpenClose = 1
+
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {}
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['html'] = ''
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['js'] = ''
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['json'] = ''
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['jsx'] = 'ﰆ'
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['md'] = ''
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['vim'] = ''
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['yaml'] = ''
+let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['yml'] = ''
+
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols = {}
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.*vimrc.*'] = ''
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.gitignore'] = ''
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['package.json'] = ''
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['package.lock.json'] = ''
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['node_modules'] = ''
+let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['webpack\.'] = 'ﰩ'
+
+"let g:NERDTreeHighlightFolders = 1
+"let g:NERDTreeHighlightFoldersFullName = 1
+
+
 
 " ==============================================================================
 " TIPS/ LESSONS/ TUTORIALS ?
@@ -337,6 +350,23 @@ let g:airline#extensions#ale#enabled = 1
 "=== Resizing ==="
 ":resize N
 ":vertical resize N
+
+"=== Finding Files ===" 
+"hit tab to :find by partial match
+"use * to make it fuzzy
+
+"=== Tag Jumping ==="
+"^] => jump to tag under cursor
+"g^] => for ambiguous tags
+"^t => jump back up the tag stack
+
+"=== Autocomplete ==="
+"check documentation in |ins-completion|
+"^x^n for just this file
+"^x^f for filenames
+"^x^] for tags only
+"^n for anything specified by the 'complete' option
+"^n and ^p to go back and forth in the suggestion list
 
 "=== TODO ===
 "   - Folding sections
