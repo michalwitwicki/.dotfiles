@@ -37,19 +37,18 @@ call plug#begin()
     Plug 'nanotech/jellybeans.vim'
     Plug 'jacoborus/tender.vim'
 
-    "Plug 'octol/vim-cpp-enhanced-highlight' "cpp better highlight
-    "Plug 'numirias/semshi', {'do': ':UpdateRemotePlugins'} "python better highlight
     Plug 'scrooloose/nerdtree' "nerd tree
+    "Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' } "alternative for NERDTree
+    "Plug 'justinmk/vim-dirvish' "is another alternative for nerdtree
+    
     Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
     Plug 'ryanoasis/vim-devicons'
     Plug 'vim-airline/vim-airline' "airline
-    "Plug 'vim-airline/vim-airline-themes' "airline themes
+
     "Plug 'dense-analysis/ale'
     Plug 'mbbill/undotree'
     "Plug 'itchyny/lightline.vim'"maybe someday ?
     Plug 'mhinz/vim-startify'
-    "Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' } "alternative for NERDTree
-    "justinmk/vim-dirvish is another alternative for nerdtree
     Plug 'sheerun/vim-polyglot' "A collection of language packs for Vim
 call plug#end()
 
@@ -97,7 +96,7 @@ endif
 
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1
-nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
+nmap <leader>tl :exe "tabn ".g:lasttab<CR>
 au TabLeave * let g:lasttab = tabpagenr()
 
 " Return to last edit position when opening files (You want this!)
@@ -121,9 +120,9 @@ syntax enable
 let g:onedark_terminal_italics=1
 let g:onedark_termcolors=256
 let g:onedark_hide_endofbuffer=1
-colorscheme onedark
+colorscheme gruvbox
 "let g:molokai_original = 1
-"set background=dark "gruvbox dark mode
+set background=dark "gruvbox dark mode
 
 "=== Fixes annoying brackets coloring ==="
 highlight MatchParen cterm=bold ctermbg=none ctermfg=Yellow
@@ -133,7 +132,8 @@ hi TabLineFill ctermfg=DarkGrey ctermbg=none
 "hi TabLine ctermfg=Blue ctermbg=Yellow "not active tab
 hi TabLineSel ctermfg=White ctermbg=Grey "active tab
 "hi Title ctermfg=Black ctermbg=Yellow "this affect window counter per tab
-"hi Normal guibg=NONE ctermbg=NONE "transparent background
+
+hi Normal guibg=NONE ctermbg=NONE "transparent background
 
 " ==============================================================================
 " MAPPING
@@ -193,25 +193,32 @@ inoremap hh <esc>
 "=== Exit terminal-mode ==="
 :tnoremap <Esc> <c-\><c-n>
 
+"=== Traversing long lines ==="
+nnoremap <Up> gk
+nnoremap <Down> gj
+
 " ==============================================================================
 " COMMANDS
 " ==============================================================================
 "Create tags file
 command! MakeTags !ctags -R .
 
-
 " ==============================================================================
 " AUTO COMMANDS
 " ==============================================================================
+"=== Open Startify on startup ==="
+"autocmd VimEnter * Startify
+autocmd VimEnter * NERDTree
+
 "=== Focus right window on startup ==="
 autocmd VimEnter * wincmd l 
 
 "=== Line numbering auto toggle ==="
-augroup numbertoggle
-    autocmd!
-    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-augroup END
+"augroup numbertoggle
+"    autocmd!
+"    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+"    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+"augroup END
 
 "=== Super intelligence bracket management ==="
 inoremap ( ()<Esc>i
@@ -269,13 +276,6 @@ autocmd BufWinEnter,WinEnter term://* startinsert
 "autocmd BufLeave term://* stopinsert
 
 " ==============================================================================
-" Vim Startup
-" ==============================================================================
-"=== Open Startify on startup ==="
-"autocmd VimEnter * Startify
-"autocmd VimEnter * NERDTree
-
-" ==============================================================================
 " PLUGIN NERDTree
 " ==============================================================================
 "=== Mapping NERDTree toggler ===" 
@@ -285,6 +285,7 @@ map <C-n> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 let NERDTreeMinimalUI = 1
+let NERDTreeShowLineNumbers=0
 
 " ==============================================================================
 " PLUGIN Airline
@@ -324,8 +325,8 @@ let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['package.lock.json'] = '
 let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['node_modules'] = ''
 let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['webpack\.'] = 'ﰩ'
 
-"let g:NERDTreeHighlightFolders = 1
-"let g:NERDTreeHighlightFoldersFullName = 1
+let g:NERDTreeHighlightFolders = 1
+let g:NERDTreeHighlightFoldersFullName = 1
 
 
 
@@ -367,6 +368,9 @@ let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['webpack\.'] = 'ﰩ'
 "^x^] for tags only
 "^n for anything specified by the 'complete' option
 "^n and ^p to go back and forth in the suggestion list
+
+"=== Others ==="
+"gx to open link in browser
 
 "=== TODO ===
 "   - Folding sections
