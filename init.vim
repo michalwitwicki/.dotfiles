@@ -208,7 +208,7 @@ command! MakeTags !ctags -R .
 " ==============================================================================
 "=== Open Startify on startup ==="
 "autocmd VimEnter * Startify
-autocmd VimEnter * NERDTree
+"autocmd VimEnter * NERDTree
 
 "=== Focus right window on startup ==="
 autocmd VimEnter * wincmd l 
