@@ -2,13 +2,19 @@
 #This script will make links to config files from appropriate places
 
 #Destination paths
-bashrch_path="~/"
-tmux_conf_path="~/"
-alacritty_conf_path="~/.config/alacritty"
-nvim_conf_path="~/.config/nvim"
+bashrch_path="$HOME"
+tmux_conf_path="$HOME"
+alacritty_conf_path="$HOME/.config/alacritty"
+nvim_conf_path="$HOME/.config/nvim"
+test_path="$HOME/test_dir"
 
-#file="~/link_test/to_remove"
-#eval rm -f $file
+#Test
+rm -f "$test_path/test_file"
+mkdir -p "$test_path"
+ln -s "$HOME/test_target" "$test_path"
 
-file=~/link_test/to_remove
-rm -f "$file"
+#.bashrc
+rm -f "$bashrch_path/.bashrc"
+mkdir -p "$bashrch_path"
+ln -s "$PWD/.bashrc" "$bashrch_path"
+
