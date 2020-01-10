@@ -11,6 +11,10 @@ declare -a config_files_names
 dest_paths+=("$HOME")
 config_files_names+=(".bashrc")
 
+#profile
+dest_paths+=("$HOME")
+config_files_names+=(".profile")
+
 #tmux
 dest_paths+=("$HOME")
 config_files_names+=(".tmux.conf")
