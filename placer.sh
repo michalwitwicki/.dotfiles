@@ -1,20 +1,40 @@
 #!/bin/bash
-#This script will make links to config files from appropriate places
+#This script makes links to config files from appropriate places
 
-#Destination paths
-bashrch_path="$HOME"
-tmux_conf_path="$HOME"
-alacritty_conf_path="$HOME/.config/alacritty"
-nvim_conf_path="$HOME/.config/nvim"
-test_path="$HOME/test_dir"
+target_path=$(cd `dirname $0` && pwd)
 
-#Test
-rm -f "$test_path/test_file"
-mkdir -p "$test_path"
-ln -s "$HOME/test_target" "$test_path"
 
-#.bashrc
-rm -f "$bashrch_path/.bashrc"
-mkdir -p "$bashrch_path"
-ln -s "$PWD/.bashrc" "$bashrch_path"
+declare -a dest_paths
+declare -a config_files_names
+
+#bashrc
+dest_paths+=("$HOME")
+config_files_names+=(".bashrc")
+
+#tmux
+dest_paths+=("$HOME")
+config_files_names+=(".tmux.conf")
+
+#alacritty
+dest_paths+=("$HOME/.config/alacritty")
+config_files_names+=("alacritty.yml")
+
+#nvim
+dest_paths+=("$HOME/.config/nvim")
+config_files_names+=("init.vim")
+
+
+for(( i=0; i<${#dest_paths[@]}; i++ ));
+do
+    path=${dest_paths[$i]}
+    file=${config_files_names[$i]}
+    echo -e "$((i+1)). $file \t--> $path"
+
+    rm -f "$path/$file"
+    mkdir -p "$path"
+    ln -s "$target_path/$file" "$path"
+done
+
+echo -e "\nDone!"
+
 
