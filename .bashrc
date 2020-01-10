@@ -36,4 +36,8 @@ parse_git_branch() {
 export PS1="\[$(tput bold)\]\[$(tput setaf 1)\][\[$(tput setaf 2)\]\t \[$(tput setaf 3)\]\W\[$(tput setaf 1)\]]\[$(tput setaf 5)\]\$(parse_git_branch)\[$(tput setaf 7)\]\\$ \[$(tput sgr0)\]"
 
 
-source ~/.dotfiles/.fffrc
+# cd on exit for lf file manager
+LFCD="~/.config/lf/lfcd.sh"
+if [ -f "$LFCD" ]; then
+    source "$LFCD"
+fi
