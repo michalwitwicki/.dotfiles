@@ -23,6 +23,10 @@ config_files_names+=("alacritty.yml")
 dest_paths+=("$HOME/.config/nvim")
 config_files_names+=("init.vim")
 
+#lf
+dest_paths+=("$HOME/.config/lf")
+config_files_names+=("lfcd.sh")
+
 
 for(( i=0; i<${#dest_paths[@]}; i++ ));
 do
