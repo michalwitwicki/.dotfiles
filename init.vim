@@ -29,6 +29,12 @@ endif
 "In Windows case run script from link below in PowerShell
 "https://github.com/junegunn/vim-plug
 
+"=== Automatically install missing plugins on startup ==="
+autocmd VimEnter *
+  \  if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \|   PlugInstall --sync | q
+  \| endif
+
 "=== Plugins to install ==="
 call plug#begin()
     Plug 'morhetz/gruvbox' "color scheme
