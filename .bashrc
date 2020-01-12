@@ -40,4 +40,6 @@ export PS1="\[$(tput bold)\]\[$(tput setaf 1)\][\[$(tput setaf 2)\]\t \[$(tput s
 LFCD="$HOME/.config/lf/lfcd.sh"
 if [ -f "$LFCD" ]; then
     source "$LFCD"
+    alias lf='lfcd'
 fi
+
