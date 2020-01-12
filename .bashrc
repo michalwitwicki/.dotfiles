@@ -37,7 +37,7 @@ export PS1="\[$(tput bold)\]\[$(tput setaf 1)\][\[$(tput setaf 2)\]\t \[$(tput s
 
 
 # cd on exit for lf file manager
-LFCD="~/.config/lf/lfcd.sh"
+LFCD="$HOME/.config/lf/lfcd.sh"
 if [ -f "$LFCD" ]; then
     source "$LFCD"
 fi
