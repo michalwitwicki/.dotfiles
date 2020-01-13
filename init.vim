@@ -118,7 +118,6 @@ set noswapfile
 
 set path+=** "Search down into subfolders
 
-
 " ==============================================================================
 " COLOR SCHEME MANAGEMENT
 " ==============================================================================
@@ -308,8 +307,6 @@ let g:airline_theme='onedark'
 
 "let g:airline#extensions#tabline#enabled = 1
 
-
-
 " vim-devicons
 let g:DevIconsEnableFoldersOpenClose = 1
 
@@ -333,8 +330,6 @@ let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['webpack\.'] = 'ﰩ'
 
 let g:NERDTreeHighlightFolders = 1
 let g:NERDTreeHighlightFoldersFullName = 1
-
-
 
 " ==============================================================================
 " TIPS/ LESSONS/ TUTORIALS ?
