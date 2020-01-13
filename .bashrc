@@ -18,6 +18,7 @@ alias ls='ls --color=auto'
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias gs='git status'
 
 # don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
