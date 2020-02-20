@@ -1,4 +1,8 @@
-# Profile file. Runs on login. Environmental variables are set here.
+#
+# ~/.bash_profile
+#
+
+[[ -f ~/.bashrc ]] && . ~/.bashrc
 
 # Default programs:
 export EDITOR="nvim"
