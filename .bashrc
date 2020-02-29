@@ -6,7 +6,7 @@
 [[ $- != *i* ]] && return
 
 # launch tmux session on bash startup
-if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+if command -v tmux &> /dev/null && [ -z "$TMUX" ] && [ -n "$DISPLAY" ]; then
     tmux attach -t default || tmux new -s default
 fi
 
