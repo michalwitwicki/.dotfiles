@@ -3,7 +3,6 @@
 
 target_path=$(cd `dirname $0` && pwd)
 
-
 declare -a dest_paths
 declare -a config_files_names
 
@@ -14,6 +13,10 @@ config_files_names+=(".bashrc")
 #bash_profile
 dest_paths+=("$HOME")
 config_files_names+=(".bash_profile")
+
+#xinitrc
+dest_paths+=("$HOME")
+config_files_names+=(".xinitrc")
 
 #tmux
 dest_paths+=("$HOME")
