@@ -213,7 +213,7 @@ command! MakeTags !ctags -R .
 " ==============================================================================
 "=== Open Startify on startup ==="
 "autocmd VimEnter * Startify
-"autocmd VimEnter * NERDTree
+autocmd VimEnter * NERDTree
 
 "=== Focus right window on startup ==="
 autocmd VimEnter * wincmd l 
@@ -271,6 +271,66 @@ function! QuoteDelim(char)
     return a:char.a:char."\<Esc>i"
     endif
 endf
+
+"=== Commenting blocks of code ==="
+"autocmd FileType c,cpp,java,scala let b:comment_leader = '// '
+"autocmd FileType sh,ruby,python   let b:comment_leader = '# '
+"autocmd FileType conf,fstab       let b:comment_leader = '# '
+"autocmd FileType tex              let b:comment_leader = '% '
+"autocmd FileType mail             let b:comment_leader = '> '
+"autocmd FileType vim              let b:comment_leader = '" '
+"noremap <silent> ,cc :<C-B>silent <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:nohlsearch<CR>
+"noremap <silent> ,cu :<C-B>silent <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:nohlsearch<CR>
+
+let s:comment_map = { 
+    \   "c": '\/\/',
+    \   "cpp": '\/\/',
+    \   "go": '\/\/',
+    \   "java": '\/\/',
+    \   "javascript": '\/\/',
+    \   "lua": '--',
+    \   "scala": '\/\/',
+    \   "php": '\/\/',
+    \   "python": '#',
+    \   "ruby": '#',
+    \   "rust": '\/\/',
+    \   "sh": '#',
+    \   "desktop": '#',
+    \   "fstab": '#',
+    \   "conf": '#',
+    \   "profile": '#',
+    \   "bashrc": '#',
+    \   "bash_profile": '#',
+    \   "mail": '>',
+    \   "eml": '>',
+    \   "bat": 'REM',
+    \   "ahk": ';',
+    \   "vim": '"',
+    \   "tex": '%',
+    \ }
+
+function! ToggleComment()
+    if has_key(s:comment_map, &filetype)
+        let comment_leader = s:comment_map[&filetype]
+        if getline('.') =~ "^\\s*" . comment_leader . " " 
+            " Uncomment the line
+            execute "silent s/^\\(\\s*\\)" . comment_leader . " /\\1/"
+        else 
+            if getline('.') =~ "^\\s*" . comment_leader
+                " Uncomment the line
+                execute "silent s/^\\(\\s*\\)" . comment_leader . "/\\1/"
+            else
+                " Comment the line
+                execute "silent s/^\\(\\s*\\)/\\1" . comment_leader . " /"
+            end
+        end
+    else
+        echo "No comment leader found for filetype"
+    end
+endfunction
+
+nnoremap <C-_> :call ToggleComment()<cr>
+vnoremap <C-_> :call ToggleComment()<cr>
 
 "=== Remeber folds after restart ===" 
 augroup remember_folds
@@ -381,5 +441,4 @@ let g:NERDTreeHighlightFoldersFullName = 1
 "=== TODO ===
 "   - Folding sections
 "   - Build in autocomplete system 
-
 
