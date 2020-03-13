@@ -312,21 +312,20 @@ let s:comment_map = {
 function! ToggleComment()
     if has_key(s:comment_map, &filetype)
         let comment_leader = s:comment_map[&filetype]
-        if getline('.') =~ "^\\s*" . comment_leader . " " 
+        if getline('.') =~ '^\s*$'
+            " Skip empty line
+            return
+        endif
+        if getline('.') =~ '^\s*' . comment_leader
             " Uncomment the line
-            execute "silent s/^\\(\\s*\\)" . comment_leader . " /\\1/"
-        else 
-            if getline('.') =~ "^\\s*" . comment_leader
-                " Uncomment the line
-                execute "silent s/^\\(\\s*\\)" . comment_leader . "/\\1/"
-            else
-                " Comment the line
-                execute "silent s/^\\(\\s*\\)/\\1" . comment_leader . " /"
-            end
-        end
+            execute 'silent s/\v\s*\zs' . comment_leader . '\s*\ze//'
+        else
+            " Comment the line
+            execute 'silent s/\v^(\s*)/\1' . comment_leader . ' /'
+        endif
     else
         echo "No comment leader found for filetype"
-    end
+    endif
 endfunction
 
 nnoremap <C-_> :call ToggleComment()<cr>
