@@ -47,12 +47,12 @@ call plug#begin()
     "Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' } "alternative for NERDTree
     "Plug 'justinmk/vim-dirvish' "is another alternative for nerdtree
     
-    Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+    "Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
     Plug 'ryanoasis/vim-devicons'
     Plug 'vim-airline/vim-airline' "airline
 
     "Plug 'dense-analysis/ale'
-    Plug 'mbbill/undotree'
+    "Plug 'mbbill/undotree'
     "Plug 'itchyny/lightline.vim'"maybe someday ?
     Plug 'mhinz/vim-startify'
     Plug 'sheerun/vim-polyglot' "A collection of language packs for Vim
@@ -225,6 +225,11 @@ autocmd VimEnter * wincmd l
 "    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
 "augroup END
 
+"=== Switch tab to last active ==="
+au TabLeave * let g:lasttab = tabpagenr()
+nnoremap <silent> <c-Space> :exe "tabn ".g:lasttab<cr>
+vnoremap <silent> <c-Space> :exe "tabn ".g:lasttab<cr>
+
 "=== Super intelligence bracket management ==="
 inoremap ( ()<Esc>i
 inoremap [ []<Esc>i
@@ -376,3 +381,5 @@ let g:NERDTreeHighlightFoldersFullName = 1
 "=== TODO ===
 "   - Folding sections
 "   - Build in autocomplete system 
+
+
