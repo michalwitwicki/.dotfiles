@@ -1,33 +1,14 @@
-"Place vimrc in:
-"   - in case of linux:     ~/.config/nvim/init.vim
-"   - in case of windows:   ~\AppData\Local\nvim\init.vim
-
-" ==============================================================================
-" DETECTING OPERATING SYSTEM
-" ==============================================================================
-if !exists("g:os")
-    if has("win64") || has("win32") || has("win16")
-        let g:os = "Windows"
-    else
-        let g:os = substitute(system('uname'), '\n', '', '')
-    endif
-endif
+"Place vimrc in:     ~/.config/nvim/init.vim
 
 " ==============================================================================
 " PLUG
 " ==============================================================================
 "=== Plug installation ==="
-"In Linux case installation is automatic
-if g:os != "Windows"
-    if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-      silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
-        \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-      autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-    endif
+if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+  silent !curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
-
-"In Windows case run script from link below in PowerShell
-"https://github.com/junegunn/vim-plug
 
 "=== Automatically install missing plugins on startup ==="
 autocmd VimEnter *
@@ -47,7 +28,6 @@ call plug#begin()
     "Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' } "alternative for NERDTree
     "Plug 'justinmk/vim-dirvish' "is another alternative for nerdtree
     
-    "Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
     Plug 'ryanoasis/vim-devicons'
     Plug 'vim-airline/vim-airline' "airline
 
@@ -56,6 +36,8 @@ call plug#begin()
     "Plug 'itchyny/lightline.vim'"maybe someday ?
     Plug 'mhinz/vim-startify'
     Plug 'sheerun/vim-polyglot' "A collection of language packs for Vim
+
+    "Plug 'Shougo/deoplete.nvim' "asynchronous completion framework
 call plug#end()
 
 " ==============================================================================
@@ -64,7 +46,6 @@ call plug#end()
 "=== Leader key as comma ==="
 let mapleader = ","
 set nocompatible
-"set t_Co=256
 set number
 set relativenumber
 set smartindent
@@ -78,45 +59,22 @@ set smarttab
 set incsearch
 set scrolloff=2
 set sidescrolloff=5
-filetype plugin on "for netrw
-"set termguicolors
-
-" Sets how many lines of history VIM has to remember
-set history=500
-
-" Set to auto read when a file is changed from the outside
-set autoread
-
-" More natural split opening
+set noswapfile
 set splitbelow
 set splitright
-
+set history=500
+set autoread "Set to auto read when a file is changed from the outside
 set wildmenu
-" Ignore compiled files
-set wildignore=*.o,*~,*.pyc
-if g:os == "Windows"
-    set wildignore+=.git\*,.hg\*,.svn\*
-else
-    set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
-endif
-
-" Let 'tl' toggle between this and the last accessed tab
-let g:lasttab = 1
-nmap <leader>tl :exe "tabn ".g:lasttab<CR>
-au TabLeave * let g:lasttab = tabpagenr()
-
-" Return to last edit position when opening files (You want this!)
-" au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
+set wildignore=*.o,*~,*.pyc,*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store "Ignore compiled files
 set noshowmode
 set mouse=a
 set hidden "allows to close window with not saved buffer
-
 set encoding=utf-8
-
-set noswapfile
-
 set path+=** "Search down into subfolders
+filetype plugin on "for netrw
+"set termguicolors
+"set t_Co=256
+
 
 " ==============================================================================
 " COLOR SCHEME MANAGEMENT
@@ -143,16 +101,11 @@ hi Normal guibg=NONE ctermbg=NONE "transparent background
 " ==============================================================================
 " MAPPING
 " ==============================================================================
-
 "=== Mapping for easy clipboard ==="
 vnoremap <C-c> "+y
 map <C-v> "+P
 
 "=== Mapping for easier split navigations ==="
-:tnoremap <C-h> <C-\><C-N><C-w>h
-:tnoremap <C-j> <C-\><C-N><C-w>j
-:tnoremap <C-k> <C-\><C-N><C-w>k
-:tnoremap <C-l> <C-\><C-N><C-w>l
 :inoremap <C-h> <C-\><C-N><C-w>h
 :inoremap <C-j> <C-\><C-N><C-w>j
 :inoremap <C-k> <C-\><C-N><C-w>k
@@ -175,11 +128,9 @@ imap <c-w> <ESC>:q<CR>
 nmap <c-w> :q<CR>
 
 "=== Edit vimrc ==="
-"nnoremap confe :e ~/Documents/vimrc/init.vim<CR>
 nnoremap confe :e $MYVIMRC<CR>
 
 "=== Reload vimrc ==="
-"nnoremap confr :source ~/Documents/vimrc/init.vim<CR>
 nnoremap confr :source $MYVIMRC<CR>
 
 "=== Adding empty lines above or below current one ==="
@@ -195,9 +146,6 @@ inoremap hh <esc>
 :nnoremap <silent> <c-Right> <c-w>>
 :nnoremap <silent> <c-Left> <c-w><
 
-"=== Exit terminal-mode ==="
-:tnoremap <Esc> <c-\><c-n>
-
 "=== Traversing long lines ==="
 nnoremap <Up> gk
 nnoremap <Down> gj
@@ -205,14 +153,13 @@ nnoremap <Down> gj
 " ==============================================================================
 " COMMANDS
 " ==============================================================================
-"Create tags file
+"=== Create tags file ==="
 command! MakeTags !ctags -R .
 
 " ==============================================================================
 " AUTO COMMANDS
 " ==============================================================================
-"=== Open Startify on startup ==="
-"autocmd VimEnter * Startify
+"=== Open NERDTree on startup ==="
 autocmd VimEnter * NERDTree
 autocmd BufWinEnter * NERDTreeMirror
 
@@ -230,6 +177,9 @@ autocmd VimEnter * wincmd l
 au TabLeave * let g:lasttab = tabpagenr()
 nnoremap <silent> <c-Space> :exe "tabn ".g:lasttab<cr>
 vnoremap <silent> <c-Space> :exe "tabn ".g:lasttab<cr>
+
+"=== Return to last edit position when opening files ==="
+" au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 "=== Super intelligence bracket management ==="
 inoremap ( ()<Esc>i
@@ -339,12 +289,6 @@ augroup remember_folds
   autocmd BufWinEnter * silent! loadview
 augroup END
 
-"=== Set insert-mode when entering the terminal ===" 
-autocmd BufWinEnter,WinEnter term://* startinsert
-
-"=== Set normal-mode when leaving terminal ===" 
-"autocmd BufLeave term://* stopinsert
-
 " ==============================================================================
 " PLUGIN NERDTree
 " ==============================================================================
@@ -355,7 +299,8 @@ map <C-n> :NERDTreeToggle<CR>
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 let NERDTreeMinimalUI = 1
-let NERDTreeShowLineNumbers=0
+let NERDTreeShowLineNumbers = 0
+let NERDTreeStatusline = 0
 
 " ==============================================================================
 " PLUGIN Airline
@@ -369,32 +314,6 @@ let g:airline_powerline_fonts = 1
 
 "=== Airline theme ==="
 let g:airline_theme='onedark'
-
-"let g:airline#extensions#tabline#enabled = 1
-
-" vim-devicons
-let g:DevIconsEnableFoldersOpenClose = 1
-
-let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols = {}
-let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['html'] = ''
-let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['js'] = ''
-let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['json'] = ''
-let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['jsx'] = 'ﰆ'
-let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['md'] = ''
-let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['vim'] = ''
-let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['yaml'] = ''
-let g:WebDevIconsUnicodeDecorateFileNodesExtensionSymbols['yml'] = ''
-
-let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols = {}
-let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.*vimrc.*'] = ''
-let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.gitignore'] = ''
-let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['package.json'] = ''
-let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['package.lock.json'] = ''
-let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['node_modules'] = ''
-let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['webpack\.'] = 'ﰩ'
-
-let g:NERDTreeHighlightFolders = 1
-let g:NERDTreeHighlightFoldersFullName = 1
 
 " ==============================================================================
 " TIPS/ LESSONS/ TUTORIALS ?
