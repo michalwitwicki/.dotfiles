@@ -19,6 +19,8 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 alias gs='git status'
+alias gl="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold
+green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all"
 
 # don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
