@@ -154,7 +154,8 @@ nnoremap <Down> gj
 " COMMANDS
 " ==============================================================================
 "=== Create tags file ==="
-command! MakeTags !ctags -R .
+" command! MakeTags !ctags -R .
+command! MakeTags !cscope -bcqR 
 
 " ==============================================================================
 " AUTO COMMANDS
@@ -288,6 +289,23 @@ augroup remember_folds
   "autocmd BufWinLeave * mkview
   autocmd BufWinEnter * silent! loadview
 augroup END
+
+" ==============================================================================
+" Cscope setting
+" ==============================================================================
+if has("cscope")
+    set csprg=/usr/bin/cscope
+    set csto=0
+    set cst
+    " add any database in current directory
+    if filereadable("cscope.out")
+        silent cs add cscope.out
+    " else add database pointed to by environment
+    elseif $CSCOPE_DB != ""
+        " silent cs add $CSCOPE_DB
+    endif
+endif
+nmap <C-]> :vert scscope find 1 <C-R>=expand("<cword>")<CR><CR>
 
 " ==============================================================================
 " PLUGIN NERDTree
