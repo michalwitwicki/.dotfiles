@@ -65,7 +65,7 @@ set splitright
 set history=500
 set autoread "Set to auto read when a file is changed from the outside
 set wildmenu
-set wildignore=*.o,*~,*.pyc,*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store "Ignore compiled files
+set wildignore=*.o,*~,*.pyc,*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store,**/build/** "Ignore compiled files
 set noshowmode
 set mouse=a
 set hidden "allows to close window with not saved buffer
@@ -116,8 +116,10 @@ map <C-v> "+P
 :nnoremap <C-l> <C-w>l
 
 "=== Run make from inside vim ==="
-imap <f9> <ESC>:w<CR>:make<CR>
-nmap <f9> :w<CR>:make<CR>
+imap <f9> <ESC>:w<CR>:make --no-print-directory -j5 -C build/<CR>
+nmap <f9> :w<CR>:make --no-print-directory -j5 -C build/<CR>
+imap <f10> <ESC>:w<CR>:cnext<CR>
+nmap <f10> :w<CR>:cprevious<CR>
 
 "=== Save with ctrl-s ==="
 imap <c-s> <Esc>:w<CR>
@@ -305,9 +307,18 @@ if has("cscope")
         " silent cs add $CSCOPE_DB
     endif
 endif
-nmap <C-]> :vert scscope find 1 <C-R>=expand("<cword>")<CR><CR>
+" nmap <C-]> :vert scscope find 1 <C-R>=expand("<cword>")<CR><CR>
 
-" ==============================================================================
+" Find functions calling this functions
+map <f5> :cscope find 3 <C-R>=expand("<cword>")<CR><CR>
+" Fing this text string
+map <f6> :cscope find 4 <C-R>=expand("<cword>")<CR><CR>
+" Fing this file
+map <f7> :cscope find 7 <C-R>=expand("<cword>")<CR><CR>
+" Find places where this symbol is assigned a value 
+map <f8> :cscope find 9 <C-R>=expand("<cword>")<CR><CR>
+
+" =====k========================================================================
 " PLUGIN NERDTree
 " ==============================================================================
 "=== Mapping NERDTree toggler ===" 
