@@ -180,6 +180,7 @@ autocmd VimEnter * wincmd l
 au TabLeave * let g:lasttab = tabpagenr()
 nnoremap <silent> <c-Space> :exe "tabn ".g:lasttab<cr>
 vnoremap <silent> <c-Space> :exe "tabn ".g:lasttab<cr>
+inoremap <silent> <c-Space> :exe "tabn ".g:lasttab<cr>
 
 "=== Return to last edit position when opening files ==="
 " au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -318,7 +319,7 @@ map <f7> :cscope find 7 <C-R>=expand("<cword>")<CR><CR>
 " Find places where this symbol is assigned a value 
 map <f8> :cscope find 9 <C-R>=expand("<cword>")<CR><CR>
 
-" =====k========================================================================
+" ==============================================================================
 " PLUGIN NERDTree
 " ==============================================================================
 "=== Mapping NERDTree toggler ===" 
