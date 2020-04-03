@@ -36,6 +36,7 @@ call plug#begin()
     "Plug 'itchyny/lightline.vim'"maybe someday ?
     Plug 'mhinz/vim-startify'
     Plug 'sheerun/vim-polyglot' "A collection of language packs for Vim
+    Plug 'mfukar/robotframework-vim' "Syntax color for robot framework
 
     "Plug 'Shougo/deoplete.nvim' "asynchronous completion framework
 call plug#end()
@@ -247,6 +248,7 @@ let s:comment_map = {
     \   "scala": '\/\/',
     \   "php": '\/\/',
     \   "python": '#',
+    \   "robot": '#',
     \   "ruby": '#',
     \   "rust": '\/\/',
     \   "sh": '#',
