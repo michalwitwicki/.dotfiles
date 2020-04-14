@@ -19,10 +19,11 @@ autocmd VimEnter *
 "=== Plugins to install ==="
 call plug#begin()
     Plug 'morhetz/gruvbox' "color scheme
+    Plug 'sainnhe/gruvbox-material' "color scheme
     Plug 'tomasr/molokai' "color scheme
-    Plug 'joshdick/onedark.vim'
-    Plug 'nanotech/jellybeans.vim'
-    Plug 'jacoborus/tender.vim'
+    Plug 'joshdick/onedark.vim' "color scheme
+    Plug 'nanotech/jellybeans.vim' "color scheme
+    Plug 'jacoborus/tender.vim' "color scheme
 
     Plug 'scrooloose/nerdtree' "nerd tree
     "Plug 'Shougo/defx.nvim', { 'do': ':UpdateRemotePlugins' } "alternative for NERDTree
@@ -30,6 +31,7 @@ call plug#begin()
     
     Plug 'ryanoasis/vim-devicons'
     Plug 'vim-airline/vim-airline' "airline
+    Plug 'vim-airline/vim-airline-themes'
 
     "Plug 'dense-analysis/ale'
     "Plug 'mbbill/undotree'
@@ -73,20 +75,22 @@ set hidden "allows to close window with not saved buffer
 set encoding=utf-8
 set path+=** "Search down into subfolders
 filetype plugin on "for netrw
-"set termguicolors
-"set t_Co=256
+" set termguicolors
+" set t_Co=256
 
 
 " ==============================================================================
 " COLOR SCHEME MANAGEMENT
 " ==============================================================================
-syntax enable
-let g:onedark_terminal_italics=1
-let g:onedark_termcolors=256
-let g:onedark_hide_endofbuffer=1
+set background=dark
+" let g:gruvbox_contrast_dark='hard'
 colorscheme gruvbox
-"let g:molokai_original = 1
-set background=dark "gruvbox dark mode
+
+" set background=dark
+" let g:gruvbox_material_background = 'hard'
+" colorscheme gruvbox-material
+
+" highlight Comment cterm=italic gui=italic
 
 "=== Fixes annoying brackets coloring ==="
 highlight MatchParen cterm=bold ctermbg=none ctermfg=Yellow
@@ -97,7 +101,8 @@ hi TabLineFill ctermfg=DarkGrey ctermbg=none
 hi TabLineSel ctermfg=White ctermbg=Grey "active tab
 "hi Title ctermfg=Black ctermbg=Yellow "this affect window counter per tab
 
-hi Normal guibg=NONE ctermbg=NONE "transparent background
+"=== Transparent background ==="
+" hi Normal guibg=NONE ctermbg=NONE "
 
 " ==============================================================================
 " MAPPING
@@ -189,11 +194,13 @@ inoremap <silent> <c-Space> :exe "tabn ".g:lasttab<cr>
 "=== Super intelligence bracket management ==="
 inoremap ( ()<Esc>i
 inoremap [ []<Esc>i
-inoremap { {<CR>}<Esc>O
+" inoremap { {<CR>}<Esc>O
+inoremap { {}<Esc>i
 autocmd Syntax html,vim inoremap < <lt>><Esc>i| inoremap > <c-r>=ClosePair('>')<CR>
 inoremap ) <c-r>=ClosePair(')')<CR>
 inoremap ] <c-r>=ClosePair(']')<CR>
-inoremap } <c-r>=CloseBracket()<CR>
+" inoremap } <c-r>=CloseBracket()<CR>
+inoremap } <c-r>=ClosePair('}')<CR>
 "inoremap " <c-r>=QuoteDelim('"')<CR>
 inoremap ' <c-r>=QuoteDelim("'")<CR>
 
@@ -345,7 +352,8 @@ let g:airline#extensions#whitespace#enabled = 0
 let g:airline_powerline_fonts = 1
 
 "=== Airline theme ==="
-let g:airline_theme='onedark'
+" let g:airline_theme='onedark'
+let g:airline_theme='base16_gruvbox_dark_hard'
 
 " ==============================================================================
 " TIPS/ LESSONS/ TUTORIALS ?
