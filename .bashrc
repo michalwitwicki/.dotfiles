@@ -45,6 +45,11 @@ export PS1="\[$(tput bold)\]\[$(tput setaf 1)\][\[$(tput setaf 2)\]\t \[$(tput s
 # Add $HOME/.local/bin to PATH
 export PATH="$PATH:$HOME/.local/bin"
 
+# Warning to use trash-cli instead of rm
+alias rm='  echo "This is not the command you are looking for."
+            echo "Use trash-cli instead: https://github.com/andreafrancia/trash-cli"
+            echo "If you in desperate need of rm use this -> \rm"; false'
+
 # cd on exit for lf file manager
 LFCD="$HOME/.config/lf/lfcd.sh"
 if [ -f "$LFCD" ]; then
