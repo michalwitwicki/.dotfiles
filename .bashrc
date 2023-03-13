@@ -27,6 +27,9 @@ alias gs='git status'
 alias gl="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold
 green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'"
 
+alias gas='find . -name ".git" -type d | while read dir ; do sh -c "cd $dir/../ && echo "-----------------" && pwd && git status" ; done'
+alias gap='find . -name ".git" -type d | while read dir ; do sh -c "cd $dir/../ && echo "-----------------" && pwd && git pull" ; done'
+
 # warning to use trash-cli instead of rm
 alias rm='  echo "This is not the command you are looking for."
             echo "Use trash-cli instead: https://github.com/andreafrancia/trash-cli"
