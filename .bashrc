@@ -21,6 +21,7 @@ export EDITOR=nvim
 
 alias picocom='picocom --escape=c'
 alias grep='grep --color=auto'
+alias v='nvim'
 alias ls='ls --color=auto'
 alias ll='ls -alF'
 alias gs='git status'
