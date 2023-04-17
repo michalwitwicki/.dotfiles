@@ -51,4 +51,7 @@ return require('packer').startup(function(use)
 
     -- Status line
     use {'nvim-lualine/lualine.nvim'}
+
+    -- Git stuff
+    use {'lewis6991/gitsigns.nvim'}
 end)
