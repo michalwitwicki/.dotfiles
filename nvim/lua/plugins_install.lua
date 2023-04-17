@@ -46,4 +46,9 @@ return require('packer').startup(function(use)
         end
     }
 
+    -- Jump anywhere plugin
+    use {'ggandor/leap.nvim'}
+
+    -- Status line
+    use {'nvim-lualine/lualine.nvim'}
 end)

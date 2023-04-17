@@ -10,4 +10,6 @@ require("plugins/colors")
 require("plugins/telescope")
 require("plugins/lsp")
 require("plugins/comment")
+require("plugins/leap")
+require("plugins/lualine")
 
