@@ -13,4 +13,5 @@ require("plugins/comment")
 require("plugins/leap")
 require("plugins/lualine")
 require("plugins/gitsigns")
+require("plugins/undotree")
 

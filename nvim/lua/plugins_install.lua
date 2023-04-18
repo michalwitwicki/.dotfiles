@@ -54,4 +54,7 @@ return require('packer').startup(function(use)
 
     -- Git stuff
     use {'lewis6991/gitsigns.nvim'}
+
+    -- Undo tree
+    use {'mbbill/undotree'}
 end)
