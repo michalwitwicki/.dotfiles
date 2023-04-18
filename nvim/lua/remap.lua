@@ -33,6 +33,12 @@ vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
 vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
+-- Resize split windows --
+vim.keymap.set("n", "<leader><Up>", ":resize +5<CR>")
+vim.keymap.set("n", "<leader><Down>", ":resize -5<CR>")
+vim.keymap.set("n", "<leader><Right>", ":vertical resize +5<CR>")
+vim.keymap.set("n", "<leader><Left>", ":vertical resize -5<CR>")
+
 
 --- Another stuff ---
 

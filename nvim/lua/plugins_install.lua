@@ -44,12 +44,7 @@ return require('packer').startup(function(use)
     use {'nvim-tree/nvim-tree.lua'}
 
     -- Comment
-    use {
-        'numToStr/Comment.nvim',
-        config = function()
-            require('Comment').setup()
-        end
-    }
+    use {'numToStr/Comment.nvim'}
 
     -- Jump anywhere plugin
     use {'ggandor/leap.nvim'}
