@@ -14,4 +14,5 @@ require("plugins/leap")
 require("plugins/lualine")
 require("plugins/gitsigns")
 require("plugins/undotree")
+require("plugins/neogit")
 

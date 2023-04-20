@@ -54,6 +54,10 @@ return require('packer').startup(function(use)
 
     -- Git stuff
     use {'lewis6991/gitsigns.nvim'}
+    use {
+        'TimUntersberger/neogit',
+        requires = 'nvim-lua/plenary.nvim'
+    }
 
     -- Undo tree
     use {'mbbill/undotree'}
