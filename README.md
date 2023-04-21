@@ -6,10 +6,11 @@ This repository contains my `.bashrc` and configs for various software:
 To leave as a note - I am also using:
 - [fff](https://github.com/dylanaraps/fff)
 - [Trash-CLI](https://github.com/andreafrancia/trash-cli)
+- [delta](https://github.com/dandavison/delta)
+- [fzf](https://github.com/junegunn/fzf)
+- [ripgrep](https://github.com/BurntSushi/ripgrep)
+- [fd](https://github.com/sharkdp/fd)
 
-Apps to try: 
-- fzf
-- some GIT CLI tools: https://github.com/frontaid/git-cli-tools
 
 ## Installation
 To use those best option would be just to make sym links into proper paths.
