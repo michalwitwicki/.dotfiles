@@ -61,4 +61,7 @@ return require('packer').startup(function(use)
 
     -- Undo tree
     use {'mbbill/undotree'}
+
+    -- Highlight words and lines on the cursor
+    use {'yamatsum/nvim-cursorline'}
 end)
