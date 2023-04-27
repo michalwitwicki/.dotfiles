@@ -10,7 +10,9 @@ To leave as a note - I am also using:
 - [fzf](https://github.com/junegunn/fzf)
 - [ripgrep](https://github.com/BurntSushi/ripgrep)
 - [fd](https://github.com/sharkdp/fd)
+- [bat](https://github.com/sharkdp/bat)
 
+Best option to install above software is to download latest release and sm link to ~/bin directory
 
 ## Installation
 To use those best option would be just to make sym links into proper paths.
