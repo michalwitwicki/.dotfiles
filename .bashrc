@@ -129,6 +129,30 @@ alias gap='find . -name ".git" -type d | while read dir ; do sh -c "cd $dir/../ 
 alias gc='git-fzf-checkout'
 alias gl='git-fzf-log'
 
+# --- FZF enhanced finding functions ---
+fzf_find_file() {
+    # nvim `fd --type file --hidden | fzf --preview='bat --color=always {}'`
+    # fd --type file --hidden | \
+    fzf --preview='bat --color=always {}' \
+        --preview-window 'up:60%:border-bottom:~3' \
+        --bind 'enter:become(nvim {})'
+}
+
+fzf_find_grep() {
+    RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+    INITIAL_QUERY="${*:-}"
+    $RG_PREFIX $(printf %q "$INITIAL_QUERY") | \
+        fzf --ansi \
+        --disabled --query "$INITIAL_QUERY" \
+        --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+        --delimiter : \
+        --preview 'bat --color=always {1} --highlight-line {2}' \
+        --preview-window 'up:60%:border-bottom:+{2}+3/3:~3' \
+        --bind 'enter:become(nvim {1} +{2})'
+}
+alias ff='fzf_find_file'
+alias fg='fzf_find_grep'
+
 # --- Set prompt ---
 export PS1="\[$(tput bold)\]\[$(tput setaf 1)\][\[$(tput setaf 2)\]\t \[$(tput setaf 3)\]\W\[$(tput setaf 1)\]]\[$(tput setaf 5)\]\$(git-parse-branch)\[$(tput setaf 7)\]\\$ \[$(tput sgr0)\]"
 
