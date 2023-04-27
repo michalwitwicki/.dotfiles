@@ -32,7 +32,7 @@ nnoremap confr :source $MYVIMRC<CR>
 nmap <a-Enter> O<Esc>j
 nmap <CR> o<Esc>k
 
-inoremap hh <esc>
+inoremap jk <esc>
 
 set undolevels=1000
 set backspace=indent,eol,start
