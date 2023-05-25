@@ -64,4 +64,7 @@ return require('packer').startup(function(use)
 
     -- Highlight words and lines on the cursor
     use {'yamatsum/nvim-cursorline'}
+
+    -- Plugin for cscope
+    use {'dhananjaylatkar/cscope_maps.nvim'}
 end)
