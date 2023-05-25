@@ -22,6 +22,11 @@ require("nvim-tree").setup({
                 modified = false
             }
         }
+    },
+    actions = {
+        open_file = {
+            resize_window = false
+        }
     }
 })
 

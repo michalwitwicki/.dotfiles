@@ -16,4 +16,4 @@ require("plugins/gitsigns")
 require("plugins/undotree")
 require("plugins/neogit")
 require("plugins/nvim-cursorline")
-
+require("plugins/cscope_maps")

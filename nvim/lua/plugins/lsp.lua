@@ -51,3 +51,15 @@ cmp.setup({
         end,
     }
 })
+
+
+local function set_new_root()
+    local client = vim.lsp.get_active_clients({name = 'clangd'})[1]
+    vim.lsp.stop_client(client.id)
+
+    require('lsp-zero').use('clangd', {
+      root_dir = require('lspconfig.util').root_pattern('multi_repo_project_root.txt')
+    })
+end
+
+vim.keymap.set('n', '<leader>r', set_new_root, {})
