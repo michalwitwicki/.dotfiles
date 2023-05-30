@@ -53,7 +53,10 @@ cmp.setup({
 })
 
 
-local function set_new_root()
+-- Change root of LSP to path where given file is.
+-- Usefull in case of multi repo projects.
+-- To use ":lua Lsp_set_multi_repo_project_root_dir()"
+function Lsp_set_multi_repo_project_root_dir()
     local client = vim.lsp.get_active_clients({name = 'clangd'})[1]
     vim.lsp.stop_client(client.id)
 
@@ -62,4 +65,5 @@ local function set_new_root()
     })
 end
 
-vim.keymap.set('n', '<leader>r', set_new_root, {})
+-- Example of keybinding it
+-- vim.keymap.set('n', '<leader>r', Lsp_set_multi_repo_project_root_dir, {})

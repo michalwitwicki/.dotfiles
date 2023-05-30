@@ -67,4 +67,10 @@ return require('packer').startup(function(use)
 
     -- Plugin for cscope
     use {'dhananjaylatkar/cscope_maps.nvim'}
+
+    -- Find and replace plugin
+    use {
+        'nvim-pack/nvim-spectre',
+        requires = 'nvim-lua/plenary.nvim'
+    }
 end)
