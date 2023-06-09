@@ -45,12 +45,25 @@ alias v='nvim'
 alias ls='ls --color=auto'
 alias ll='ls -alF'
 alias grep='grep --color=auto'
-alias rs='rsync --exclude=.git --info=progress2 --stats --delete -h -azr'
+alias rs='rsync --exclude=.git --info=progress2 --stats -H -azr'
 
 # warning to use trash-cli instead of rm
 alias rm='  echo "This is not the command you are looking for."
             echo "Use trash-cli instead: https://github.com/andreafrancia/trash-cli"
             echo "If you in desperate need of rm use this -> \rm"; false'
+
+# --- "Rsync makes life easier" the script ---
+rsync_pass_file()
+{
+    FILE=~/pass
+    if [ ! -f "$FILE" ]; then
+        echo "$FILE does not exist."
+        return
+    fi
+
+    sshpass -f "$FILE" rsync --exclude=.git --exclude='*cscope*' --info=progress2 -azvh "$@"
+}
+alias rsp='rsync_pass_file'
 
 # --- GIT related functions and aliases ---
 git-parse-branch()
