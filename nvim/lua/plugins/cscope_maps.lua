@@ -5,7 +5,8 @@ require('cscope_maps').setup({
     cscope = {
         db_file = "./cscope.out", -- location of cscope db file
         exec = "cscope", -- "cscope" or "gtags-cscope"
-        use_telescope = true, -- true will show results in telescope picker
+        -- use_telescope = true, -- true will show results in telescope picker
+        picker = "telescope", -- "telescope", "fzf-lua" or "quickfix"
         db_build_cmd_args = { "-bqkvR" }, -- args used for db build (:Cscope build)
     },
 })

@@ -16,7 +16,8 @@ require('telescope').setup{
             n = {
                 ["<C-c>"] = "close"
             }
-        }
+        },
+        path_display = { "truncate" }
     }
 }
 

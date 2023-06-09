@@ -5,6 +5,7 @@ vim.g.mapleader = " "
 -- Save file with ctrl-s --
 vim.keymap.set("n", "<C-s>", ":w<CR>")
 vim.keymap.set("i", "<C-s>", "<ESC>:w<CR>")
+vim.keymap.set("v", "<C-s>", "<ESC>:w<CR>gv")
 
 -- Keep cursor in the middle while half-page jumping --
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
