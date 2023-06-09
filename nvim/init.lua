@@ -18,3 +18,5 @@ require("plugins/neogit")
 require("plugins/nvim-cursorline")
 require("plugins/cscope_maps")
 require("plugins/nvim-spectre")
+require("plugins/harpoon")
+
