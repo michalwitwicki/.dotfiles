@@ -12,9 +12,11 @@ require('telescope').setup{
                 ["<C-c>"] = "close",
                 ["<C-j>"] = "move_selection_next",
                 ["<C-k>"] = "move_selection_previous",
+                ["<C-l>"] = "select_vertical"
             },
             n = {
-                ["<C-c>"] = "close"
+                ["<C-c>"] = "close",
+                ["<C-l>"] = "select_vertical"
             }
         },
         path_display = { "truncate" }
