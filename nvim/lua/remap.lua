@@ -40,8 +40,8 @@ vim.keymap.set("n", "<leader><Down>", ":resize -5<CR>")
 vim.keymap.set("n", "<leader><Right>", ":vertical resize +5<CR>")
 vim.keymap.set("n", "<leader><Left>", ":vertical resize -5<CR>")
 
--- Open new tmux window with vim config directory --
-vim.keymap.set("n", "<leader>,", ":silent !tmux new-window -n 'vim_config' 'cd $HOME/.config/nvim && nvim'<CR>")
+-- Open new tmux window with vim config directory and reload config on exit --
+vim.keymap.set("n", "<leader>,", ":silent !tmux new-window -n 'vim_config' 'cd $HOME/.config/nvim && nvim'<CR>:source $MYVIMRC<CR>")
 
 --- Another stuff ---
 
