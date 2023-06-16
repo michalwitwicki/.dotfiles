@@ -28,3 +28,5 @@ vim.opt.updatetime = 50
 
 vim.opt.mouse = 'a'
 vim.opt.laststatus = 3
+
+vim.opt.jumpoptions = 'view'
