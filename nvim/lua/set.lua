@@ -21,7 +21,7 @@ vim.opt.incsearch = true
 vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 8
-vim.opt.signcolumn = "yes"
+vim.opt.signcolumn = 'yes'
 vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
@@ -30,3 +30,5 @@ vim.opt.mouse = 'a'
 vim.opt.laststatus = 3
 
 vim.opt.jumpoptions = 'view'
+
+vim.o.sessionoptions= 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'

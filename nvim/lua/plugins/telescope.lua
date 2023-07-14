@@ -22,5 +22,3 @@ require('telescope').setup{
         path_display = { "truncate" }
     }
 }
-
--- preview_scrolling_up
