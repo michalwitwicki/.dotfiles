@@ -16,3 +16,15 @@ Best option to install above software is to download latest release and sm link 
 
 ## Installation
 To use those best option would be just to make sym links into proper paths.
+
+example:
+```
+cd
+ln -s /path/to/repo/.inputrc ./.inputrc
+```
+
+
+In case of .bashrc also good idea is to source my bashrc from currenlty available on the system.
+```
+source /path/to/repo/.bashrc
+```
