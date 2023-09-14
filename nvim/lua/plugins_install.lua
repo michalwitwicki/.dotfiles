@@ -7,9 +7,12 @@ return require('packer').startup(function(use)
 
     -- Telescope
     use {
-        'nvim-telescope/telescope.nvim', tag = '0.1.1',
+        'nvim-telescope/telescope.nvim', tag = '0.1.2',
         -- or                            , branch = '0.1.x',
-        requires = { {'nvim-lua/plenary.nvim'} }
+        requires = {
+            {'nvim-lua/plenary.nvim'},
+            {'nvim-telescope/telescope-live-grep-args.nvim'}
+        }
     }
 
     -- Colors
@@ -54,10 +57,6 @@ return require('packer').startup(function(use)
 
     -- Git stuff
     use {'lewis6991/gitsigns.nvim'}
-    use {
-        'TimUntersberger/neogit',
-        requires = 'nvim-lua/plenary.nvim'
-    }
 
     -- Undo tree
     use {'mbbill/undotree'}
@@ -68,9 +67,4 @@ return require('packer').startup(function(use)
     -- Plugin for cscope
     use {'dhananjaylatkar/cscope_maps.nvim'}
 
-    -- Find and replace plugin
-    use {
-        'nvim-pack/nvim-spectre',
-        requires = 'nvim-lua/plenary.nvim'
-    }
 end)
