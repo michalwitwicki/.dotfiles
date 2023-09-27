@@ -67,4 +67,7 @@ return require('packer').startup(function(use)
     -- Plugin for cscope
     use {'dhananjaylatkar/cscope_maps.nvim'}
 
+    -- Automatic pairs
+    use { 'echasnovski/mini.pairs', branch = 'stable' }
+
 end)
