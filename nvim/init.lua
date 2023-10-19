@@ -1,5 +1,4 @@
 -- Load config files
-
 require("remap")
 require("set")
 require("plugins_install")
@@ -17,3 +16,5 @@ require("plugins/undotree")
 require("plugins/nvim-cursorline")
 require("plugins/cscope_maps")
 require("plugins/mini_pairs")
+-- require("plugins/mini_files")
+-- require("plugins/carbon")

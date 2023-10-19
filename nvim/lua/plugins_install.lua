@@ -70,4 +70,10 @@ return require('packer').startup(function(use)
     -- Automatic pairs
     use { 'echasnovski/mini.pairs', branch = 'stable' }
 
+    -- Currently disabled
+    -- -- Mini file explorer
+    -- use { 'echasnovski/mini.files', branch = 'stable' }
+    --
+    -- -- File explorer
+    -- use { 'SidOfc/carbon.nvim' }
 end)
