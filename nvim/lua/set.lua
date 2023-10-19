@@ -31,4 +31,6 @@ vim.opt.laststatus = 3
 
 vim.opt.jumpoptions = 'view'
 
-vim.o.sessionoptions= 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'
+vim.o.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'
+
+vim.o.splitright = true
