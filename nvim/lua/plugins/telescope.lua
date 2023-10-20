@@ -3,7 +3,8 @@ local telescope = require("telescope")
 local lga_actions = require("telescope-live-grep-args.actions")
 
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
--- vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+vim.keymap.set('n', '<leader>fhf', "<cmd>Telescope find_files hidden=true<cr>", {})
+-- vim.keymap.set('n', '<leader>fs', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>ft', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>fu', builtin.grep_string, {}) --grep string under cursor
@@ -40,5 +41,5 @@ telescope.setup {
 
 -- Extensions start
 require("telescope").load_extension("live_grep_args")
-vim.keymap.set("n", "<leader>fg", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
+vim.keymap.set("n", "<leader>fs", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
 -- Extensions end

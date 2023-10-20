@@ -152,7 +152,7 @@ fzf_find_file() {
 }
 
 fzf_find_grep() {
-    RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
+    RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case --hidden"
     INITIAL_QUERY="${*:-}"
     $RG_PREFIX $(printf %q "$INITIAL_QUERY") | \
         fzf --ansi \
@@ -164,7 +164,7 @@ fzf_find_grep() {
         --bind 'enter:become(nvim {1} +{2})'
 }
 alias ff='fzf_find_file'
-alias fg='fzf_find_grep'
+alias fs='fzf_find_grep'
 
 # --- Set prompt ---
 export PS1="\[$(tput bold)\]\[$(tput setaf 1)\][\[$(tput setaf 2)\]\t \[$(tput setaf 3)\]\W\[$(tput setaf 1)\]]\[$(tput setaf 5)\]\$(git-parse-branch)\[$(tput setaf 7)\]\\$ \[$(tput sgr0)\]"
