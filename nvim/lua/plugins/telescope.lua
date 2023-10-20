@@ -3,11 +3,12 @@ local telescope = require("telescope")
 local lga_actions = require("telescope-live-grep-args.actions")
 
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fhf', "<cmd>Telescope find_files hidden=true<cr>", {})
+vim.keymap.set('n', '<leader>fhf', "<cmd>Telescope find_files hidden=true<cr>", {}) -- find hidden files
 -- vim.keymap.set('n', '<leader>fs', builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+vim.keymap.set('n', '<leader>fb', "<cmd>Telescope buffers hidden=true sort_lastused=true sort_mru=true<cr>", {})
 vim.keymap.set('n', '<leader>ft', builtin.help_tags, {})
-vim.keymap.set('n', '<leader>fu', builtin.grep_string, {}) --grep string under cursor
+vim.keymap.set('n', '<leader>fu', builtin.grep_string, {}) -- grep string under cursor
+vim.keymap.set('n', '<leader>fp', builtin.resume, {}) -- resume previous picker in exact state
 
 telescope.setup {
     defaults = {
@@ -32,7 +33,7 @@ telescope.setup {
             -- define mappings, e.g.
             mappings = { -- extend mappings
             i = {
-                ["<C-e>"] = lga_actions.quote_prompt({ postfix = " --fixed-strings " }) --search exact match
+                ["<C-e>"] = lga_actions.quote_prompt({ postfix = " --fixed-strings " }) -- search exact match
             }
         }
     }
@@ -43,3 +44,23 @@ telescope.setup {
 require("telescope").load_extension("live_grep_args")
 vim.keymap.set("n", "<leader>fs", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>")
 -- Extensions end
+
+
+-- Custom function to search selected text in visual mode
+local getVisualSelection = function()
+	vim.cmd('noau normal! "vy"')
+	local text = vim.fn.getreg('v')
+	vim.fn.setreg('v', {})
+
+	text = string.gsub(text, "\n", "")
+	if #text > 0 then
+		return text
+	else
+		return ''
+	end
+end
+
+vim.keymap.set('v', '<leader>fs', function()
+	local text = getVisualSelection()
+	builtin.live_grep({ default_text = text })
+end)
