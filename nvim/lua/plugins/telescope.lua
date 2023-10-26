@@ -9,6 +9,7 @@ vim.keymap.set('n', '<leader>fb', "<cmd>Telescope buffers hidden=true sort_lastu
 vim.keymap.set('n', '<leader>ft', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>fu', builtin.grep_string, {}) -- grep string under cursor
 vim.keymap.set('n', '<leader>fp', builtin.resume, {}) -- resume previous picker in exact state
+vim.keymap.set('n', '<leader>fm', builtin.marks, {})
 
 telescope.setup {
     defaults = {
