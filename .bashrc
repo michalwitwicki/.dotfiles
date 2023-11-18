@@ -61,7 +61,8 @@ rsync_pass_file()
         return
     fi
 
-    sshpass -f "$FILE" rsync --exclude=.git --exclude='*cscope*' --info=progress2 -azvh "$@"
+    # sshpass -f "$FILE" rsync --exclude=.git --exclude='*cscope*' --info=progress2 -azvh "$@"
+    sshpass -f "$FILE" rsync --exclude='*cscope*' --info=progress2 -azvh "$@"
 }
 alias rsp='rsync_pass_file'
 
@@ -75,7 +76,7 @@ git-fzf-branch()
 {
     git rev-parse HEAD > /dev/null 2>&1 || return
 
-    git branch --color=always --all --sort=-committerdate |
+    { git reflog | egrep -io "moving from ([^[:space:]]+)" | awk '{ print $3 }' | awk ' !x[$0]++' | egrep -v '^[a-f0-9]{40}$'; git branch --color=always --all --sort=-committerdate; } | cat |
         grep -v HEAD |
         fzf --height 50% --ansi --no-multi --preview-window right:65% \
             --preview 'git log -n 50 --color=always --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed "s/.* //" <<< {})' |
