@@ -35,10 +35,10 @@ vim.o.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,
 
 vim.o.splitright = true
 
-vim.opt.list = true
-vim.opt.listchars = {
-    tab='▸-',
-    lead='·',
-    trail='·',
-    -- eol = '¬'
-}
+-- vim.opt.list = true
+-- vim.opt.listchars = {
+--     tab='▸-',
+--     lead='·',
+--     trail='·',
+--     -- eol = '¬'
+-- }

@@ -133,13 +133,14 @@ git-fzf-log ()
 		# --bind "enter:execute:${ENTER_COMMAND}"
 }
 
-alias gs='git status'
+# alias gs='git status'
 alias gd='git diff'
+alias gds='git diff --staged'
 alias gll="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold
 green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'"
 
-alias gas='find . -name ".git" -type d | while read dir ; do sh -c "cd $dir/../ && echo "-----------------" && pwd && git status" ; done'
-alias gap='find . -name ".git" -type d | while read dir ; do sh -c "cd $dir/../ && echo "-----------------" && pwd && git pull" ; done'
+alias gs='find . -name ".git" -type d | while read dir ; do sh -c "cd $dir/../ && printf "REPO:" && pwd && git status && echo "---------------------------------------------------"" ; done'
+alias gp='find . -name ".git" -type d | while read dir ; do sh -c "cd $dir/../ && printf "REPO:" && pwd && git pull && echo "---------------------------------------------------"" ; done'
 alias gc='git-fzf-checkout'
 alias gl='git-fzf-log'
 
