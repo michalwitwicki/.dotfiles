@@ -1,0 +1,39 @@
+; ---- Delta settings ----
+[core]
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only --features=interactive
+
+[delta]
+    ; features = calochortus-lyallii
+    navigate = true
+    side-by-side = true
+
+; [merge]
+;     conflictstyle = diff3
+
+[diff]
+    colorMoved = default
+
+; ---- Git LFS settings ----
+[filter "lfs"]
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+
+; ---- Colors for git status ----
+[color "status"]
+    header = normal
+    added = green
+    changed = red bold
+    untracked = magenta bold
+    branch = yellow bold
+    untracked = cyan
+    localBranch = yellow
+    remoteBranch = green
+    unmerged = blue
+
+; all possible colors here: https://git-scm.com/docs/git-config#Documentation/git-config.txt-color
+
