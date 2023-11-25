@@ -10,6 +10,7 @@ vim.keymap.set('n', '<leader>ft', builtin.help_tags, {})
 vim.keymap.set('n', '<leader>fu', builtin.grep_string, {}) -- grep string under cursor
 vim.keymap.set('n', '<leader>fp', builtin.resume, {}) -- resume previous picker in exact state
 vim.keymap.set('n', '<leader>fm', builtin.marks, {})
+vim.keymap.set('n', '<leader>fr', builtin.registers, {})
 vim.keymap.set('n', '<leader>fj', "<cmd>Telescope jumplist fname_width=200<cr>", {})
 
 telescope.setup {
