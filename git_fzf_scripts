@@ -1,0 +1,68 @@
+#!/bin/sh
+
+# --- FZF settings ---
+# export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore'
+export FZF_DEFAULT_COMMAND='fd --type file --hidden'
+export FZF_DEFAULT_OPTS=''
+
+git_fzf_branch()
+{
+    git rev-parse HEAD > /dev/null 2>&1 || return
+
+    { git reflog | egrep -io "moving from ([^[:space:]]+)" | awk '{ print $3 }' | awk ' !x[$0]++' | egrep -v '^[a-f0-9]{40}$'; git branch --color=always --all --sort=-committerdate; } | cat |
+        grep -v HEAD |
+        fzf --height 50% --ansi --no-multi --preview-window right:65% \
+            --preview 'git log -n 50 --color=always --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed "s/.* //" <<< {})' |
+        sed "s/.* //"
+}
+
+git_fzf_checkout()
+{
+    git rev-parse HEAD > /dev/null 2>&1 || return
+
+    local branch
+
+    branch=$(git_fzf_branch)
+    if [[ "$branch" = "" ]]; then
+        echo "No branch selected."
+        return
+    fi
+
+    # If branch name starts with 'remotes/' then it is a remote branch. By
+    # using --track and a remote branch name, it is the same as:
+    # git checkout -b branchName --track origin/branchName
+    if [[ "$branch" = 'remotes/'* ]]; then
+        git checkout --track $branch
+    else
+        git checkout $branch;
+    fi
+}
+
+
+git_fzf_log ()
+{
+	PREVIEW_COMMAND='f() {
+		set -- $(echo -- "$@" | grep -o "[a-f0-9]\{7\}")
+		[ $# -eq 0 ] || (
+			git show --no-patch --color=always $1
+			echo
+			git show --stat --format="" --color=always $1 |
+			while read line; do
+				tput dim
+				echo " $line" | sed "s/\x1B\[m/\x1B\[2m/g"
+				tput sgr0
+			done |
+			tac | sed "1 a \ " | tac
+            echo
+            git show $1 --format="" --color=always | delta --side-by-side -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}
+		)
+	}; f {}'
+
+	ENTER_COMMAND='git show'
+
+	git log --graph --color=always --format="%C(auto)%h %s%d " | \
+		fzf --ansi --reverse --height 100% --no-sort --tiebreak=index \
+		--preview-window=top:50 --preview "${PREVIEW_COMMAND}" | awk '{print $2}' #\
+		# --bind "enter:execute:${ENTER_COMMAND}"
+}
+
