@@ -36,115 +36,72 @@ shopt -s histappend
 shopt -s checkwinsize
 
 # --- FZF settings ---
-# export FZF_DEFAULT_COMMAND='fd --type file --hidden --no-ignore'
 export FZF_DEFAULT_COMMAND='fd --type file --hidden'
 export FZF_DEFAULT_OPTS=''
 
-# --- Various aliases ---
-alias v='nvim'
-alias ls='ls --color=auto'
-alias ll='ls -alF'
-alias grep='grep --color=auto'
-alias rs='rsync --exclude=.git --info=progress2 --stats -H -azr'
+# --- FORGIT settings ---
+# enable Forgit
+export FORGIT_NO_ALIASES=1
+source ~/tools/forgit/forgit.plugin.sh
 
-# warning to use trash-cli instead of rm
-alias rm='  echo "This is not the command you are looking for."
-            echo "Use trash-cli instead: https://github.com/andreafrancia/trash-cli"
-            echo "If you in desperate need of rm use this -> \rm"; false'
+export FORGIT_LOG_FZF_OPTS="
+--height '100%'
+--preview-window=top:50
+"
 
-# --- "Rsync makes life easier" the script ---
-rsync_pass_file()
-{
-    FILE=~/pass
-    if [ ! -f "$FILE" ]; then
-        echo "$FILE does not exist."
-        return
-    fi
+export FORGIT_DIFF_FZF_OPTS="
+--height '100%'
+--preview-window=top:50
+"
 
-    # sshpass -f "$FILE" rsync --exclude=.git --exclude='*cscope*' --info=progress2 -azvh "$@"
-    sshpass -f "$FILE" rsync --exclude='*cscope*' --info=progress2 -azvh "$@"
-}
-alias rsp='rsync_pass_file'
+export FORGIT_ADD_FZF_OPTS="
+--height '100%'
+--preview-window=top:50
+"
 
-# --- GIT related functions and aliases ---
-git-parse-branch()
-{
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
-}
+export forgit_add="${forgit_add:-ga}"
+export forgit_reset_head="${forgit_reset_head:-grh}"
+# export forgit_log="${forgit_log:-glo}"
+export forgit_log="${forgit_log:-gl}"
+export forgit_diff="${forgit_diff:-gd}"
+export forgit_ignore="${forgit_ignore:-gi}"
+export forgit_checkout_file="${forgit_checkout_file:-gcf}"
+# export forgit_checkout_branch="${forgit_checkout_branch:-gcb}"
+export forgit_checkout_branch="${forgit_checkout_branch:-gc}"
+# export forgit_checkout_commit="${forgit_checkout_commit:-gco}"
+export forgit_checkout_commit="${forgit_checkout_commit:-gcc}"
+export forgit_checkout_tag="${forgit_checkout_tag:-gct}"
+export forgit_branch_delete="${forgit_branch_delete:-gbd}"
+export forgit_revert_commit="${forgit_revert_commit:-grc}"
+export forgit_clean="${forgit_clean:-gclean}"
+export forgit_stash_show="${forgit_stash_show:-gss}"
+export forgit_stash_push="${forgit_stash_push:-gsp}"
+export forgit_cherry_pick="${forgit_cherry_pick:-gcp}"
+export forgit_rebase="${forgit_rebase:-grb}"
+export forgit_fixup="${forgit_fixup:-gfu}"
+export forgit_blame="${forgit_blame:-gbl}"
 
-git-fzf-branch()
-{
-    git rev-parse HEAD > /dev/null 2>&1 || return
-
-    { git reflog | egrep -io "moving from ([^[:space:]]+)" | awk '{ print $3 }' | awk ' !x[$0]++' | egrep -v '^[a-f0-9]{40}$'; git branch --color=always --all --sort=-committerdate; } | cat |
-        grep -v HEAD |
-        fzf --height 50% --ansi --no-multi --preview-window right:65% \
-            --preview 'git log -n 50 --color=always --date=short --pretty="format:%C(auto)%cd %h%d %s" $(sed "s/.* //" <<< {})' |
-        sed "s/.* //"
-}
-
-git-fzf-checkout()
-{
-    git rev-parse HEAD > /dev/null 2>&1 || return
-
-    local branch
-
-    branch=$(git-fzf-branch)
-    if [[ "$branch" = "" ]]; then
-        echo "No branch selected."
-        return
-    fi
-
-    # If branch name starts with 'remotes/' then it is a remote branch. By
-    # using --track and a remote branch name, it is the same as:
-    # git checkout -b branchName --track origin/branchName
-    if [[ "$branch" = 'remotes/'* ]]; then
-        git checkout --track $branch
-    else
-        git checkout $branch;
-    fi
-}
-
-
-git-fzf-log ()
-{
-	PREVIEW_COMMAND='f() {
-		set -- $(echo -- "$@" | grep -o "[a-f0-9]\{7\}")
-		[ $# -eq 0 ] || (
-			git show --no-patch --color=always $1
-			echo
-			git show --stat --format="" --color=always $1 |
-			while read line; do
-				tput dim
-				echo " $line" | sed "s/\x1B\[m/\x1B\[2m/g"
-				tput sgr0
-			done |
-			tac | sed "1 a \ " | tac
-            echo
-            git show $1 --format="" --color=always | delta --side-by-side -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}
-		)
-	}; f {}'
-
-	ENTER_COMMAND='git show'
-
-	git log --graph --color=always --format="%C(auto)%h %s%d " | \
-		fzf --ansi --reverse --height 100% --no-sort --tiebreak=index \
-		--preview-window=top:50 --preview "${PREVIEW_COMMAND}" | awk '{print $2}' #\
-		# --bind "enter:execute:${ENTER_COMMAND}"
-}
-
-# alias gs='git status'
-alias gd='git diff'
-alias gds='git diff --staged'
-alias gll="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold
-green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'"
-
-alias gs='find . -name ".git" -type d | while read dir ; do sh -c "cd $dir/../ && printf "REPO:" && pwd && git status && echo "---------------------------------------------------"" ; done'
-alias gp='find . -name ".git" -type d | while read dir ; do sh -c "cd $dir/../ && printf "REPO:" && pwd && git pull && echo "---------------------------------------------------"" ; done'
-alias gc='git-fzf-checkout'
-alias gl='git-fzf-log'
+alias "${forgit_add}"='forgit::add'
+alias "${forgit_reset_head}"='forgit::reset::head'
+alias "${forgit_log}"='forgit::log'
+alias "${forgit_diff}"='forgit::diff'
+alias "${forgit_ignore}"='forgit::ignore'
+alias "${forgit_checkout_file}"='forgit::checkout::file'
+alias "${forgit_checkout_branch}"='forgit::checkout::branch'
+alias "${forgit_checkout_commit}"='forgit::checkout::commit'
+alias "${forgit_checkout_tag}"='forgit::checkout::tag'
+alias "${forgit_branch_delete}"='forgit::branch::delete'
+alias "${forgit_revert_commit}"='forgit::revert::commit'
+alias "${forgit_clean}"='forgit::clean'
+alias "${forgit_stash_show}"='forgit::stash::show'
+alias "${forgit_stash_push}"='forgit::stash::push'
+alias "${forgit_cherry_pick}"='forgit::cherry::pick::from::branch'
+alias "${forgit_rebase}"='forgit::rebase'
+alias "${forgit_fixup}"='forgit::fixup'
+alias "${forgit_blame}"='forgit::blame'
 
 # --- FZF enhanced finding functions ---
+# source "$(dirname "$BASH_SOURCE")/fzf_scripts"
 fzf_find_file() {
     # nvim `fd --type file --hidden | fzf --preview='bat --color=always {}'`
     # fd --type file --hidden | \
@@ -165,11 +122,52 @@ fzf_find_grep() {
         --preview-window 'up:60%:border-bottom:+{2}+3/3:~3' \
         --bind 'enter:become(nvim {1} +{2})'
 }
+
+# --- Aliases ---
+alias v='nvim'
+alias ls='ls --color=auto'
+alias ll='ls -alF'
+alias grep='grep --color=auto'
+alias rs='rsync --exclude=.git --info=progress2 --stats -H -azr'
+
+# warning to use trash-cli instead of rm
+alias rm='  echo "This is not the command you are looking for."
+            echo "Use trash-cli instead: https://github.com/andreafrancia/trash-cli"
+            echo "If you in desperate need of rm use this -> \rm"; false'
+
+# alias gd='git diff'
+# alias gds='git diff --staged'
+alias gll="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold
+green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'"
+
+alias gs='find . -name ".git" -type d | while read dir ; do sh -c "cd $dir/../ && printf "REPO:" && pwd && git status && echo "---------------------------------------------------"" ; done'
+alias gp='find . -name ".git" -type d | while read dir ; do sh -c "cd $dir/../ && printf "REPO:" && pwd && git pull && echo "---------------------------------------------------"" ; done'
+# alias gc='git_fzf_checkout'
+# alias gl='git_fzf_log'
+
 alias ff='fzf_find_file'
 alias fs='fzf_find_grep'
 
+# --- "Rsync makes life easier" the script ---
+rsync_pass_file()
+{
+    FILE=~/pass
+    if [ ! -f "$FILE" ]; then
+        echo "$FILE does not exist."
+        return
+    fi
+
+    # sshpass -f "$FILE" rsync --exclude=.git --exclude='*cscope*' --info=progress2 -azvh "$@"
+    sshpass -f "$FILE" rsync --exclude='*cscope*' --info=progress2 -azvh "$@"
+}
+alias rsp='rsync_pass_file'
+
 # --- Set prompt ---
-export PS1="\[$(tput bold)\]\[$(tput setaf 1)\][\[$(tput setaf 2)\]\t \[$(tput setaf 3)\]\W\[$(tput setaf 1)\]]\[$(tput setaf 5)\]\$(git-parse-branch)\[$(tput setaf 7)\]\\$ \[$(tput sgr0)\]"
+git_parse_branch()
+{
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+export PS1="\[$(tput bold)\]\[$(tput setaf 1)\][\[$(tput setaf 2)\]\t \[$(tput setaf 3)\]\W\[$(tput setaf 1)\]]\[$(tput setaf 5)\]\$(git_parse_branch)\[$(tput setaf 7)\]\\$ \[$(tput sgr0)\]"
 
 # --- FFF cd on exit function ---
 f() {
