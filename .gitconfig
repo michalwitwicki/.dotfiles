@@ -1,6 +1,18 @@
 ; ---- Delta settings ----
 [core]
-    pager = delta
+    ; pager = delta
+    ; pager = delta --side-by-side -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}
+    ; pager = "{ [ $COLUMNS -lt 160 ] && delta || delta --side-by-side -w ${FZF_PREVIEW_COLUMNS:-$COLUMNS}; }"
+    pager = "{                                                           \
+    COLUMNS=$(tput cols);                                            \
+    if [ $COLUMNS -ge 80 ] && [ -z $FZF_PREVIEW_COLUMNS ]; then      \
+        delta --side-by-side -w $COLUMNS;                            \
+    elif [ $COLUMNS -ge 160 ] && [ ! -z $FZF_PREVIEW_COLUMNS ]; then \
+        delta --side-by-side -w $FZF_PREVIEW_COLUMNS;                \
+    else                                                             \
+        delta;                                                       \
+    fi                                                               \
+    }"
 
 [interactive]
     diffFilter = delta --color-only --features=interactive
@@ -8,7 +20,7 @@
 [delta]
     ; features = calochortus-lyallii
     navigate = true
-    side-by-side = true
+    ; side-by-side = true
 
 ; [merge]
 ;     conflictstyle = diff3
