@@ -12,10 +12,13 @@ To leave as a note - I am also using:
 - [fd](https://github.com/sharkdp/fd)
 - [bat](https://github.com/sharkdp/bat)
 - [bear](https://github.com/rizsotto/Bear)
+- [forgit](https://github.com/wfxr/forgit)
 
-Best option to install above software is to download latest release and sm link to ~/bin directory 
+My approach is to download latest releases of above to '~/tools' directory and then symlink bins to '~/bin' directory
 
 FZF should be installed with provided installation scriptt, check FZF README
+
+Forgit should be installed by sourcing proper file, check my bashrc
 
 ## Installation
 To use those best option would be just to make sym links into proper paths.
@@ -36,5 +39,3 @@ In ~/.gitconfig add lines following lines to include config from repo:
 [include]
     path = /path/to/repo/.gitconfig
 ```
-
-FZF should be installed using built-in script
