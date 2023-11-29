@@ -46,7 +46,7 @@ source ~/tools/forgit/forgit.plugin.sh
 
 export FORGIT_MY_COMMON_SETTINGS="
 --height '100%'
---preview-window=top:50
+--preview-window=top:90%
 "
 export FORGIT_LOG_FZF_OPTS="
 $FORGIT_MY_COMMON_SETTINGS
@@ -147,15 +147,16 @@ alias rm='  echo "This is not the command you are looking for."
             echo "Use trash-cli instead: https://github.com/andreafrancia/trash-cli"
             echo "If you in desperate need of rm use this -> \rm"; false'
 
-# alias gd='git diff'
-# alias gds='git diff --staged'
+alias gds='git diff --staged'
 alias gll="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold
 green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)'"
 
 alias gs='find . -name ".git" -type d | while read dir ; do sh -c "cd $dir/../ && printf "REPO:" && pwd && git status && echo "---------------------------------------------------"" ; done'
 alias gp='find . -name ".git" -type d | while read dir ; do sh -c "cd $dir/../ && printf "REPO:" && pwd && git pull && echo "---------------------------------------------------"" ; done'
-# alias gc='git_fzf_checkout'
-# alias gl='git_fzf_log'
+alias gcm='git commit'
+alias gcma='git commit --amend'
+alias grbc='git rebase --continue'
+alias gcpc='git cherry-pick --continue'
 
 alias ff='fzf_find_file'
 alias fs='fzf_find_grep'
