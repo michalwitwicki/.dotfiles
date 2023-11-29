@@ -44,21 +44,33 @@ export FZF_DEFAULT_OPTS=''
 export FORGIT_NO_ALIASES=1
 source ~/tools/forgit/forgit.plugin.sh
 
-export FORGIT_LOG_FZF_OPTS="
+export FORGIT_MY_COMMON_SETTINGS="
 --height '100%'
 --preview-window=top:50
+"
+export FORGIT_LOG_FZF_OPTS="
+$FORGIT_MY_COMMON_SETTINGS
 "
 
 export FORGIT_DIFF_FZF_OPTS="
---height '100%'
---preview-window=top:50
+$FORGIT_MY_COMMON_SETTINGS
 "
-
 export FORGIT_ADD_FZF_OPTS="
---height '100%'
---preview-window=top:50
+$FORGIT_MY_COMMON_SETTINGS
 "
+export FORGIT_CHERRY_PICK_FZF_OPTS="
+$FORGIT_MY_COMMON_SETTINGS
+"
+export FORGIT_CHERRY_PICK_FROM_BRANCH_FZF_OPTS="
+$FORGIT_MY_COMMON_SETTINGS
+"
+export FORGIT_CHECKOUT_BRANCH_FZF_OPTS="
+--height '50%'
+--preview-window=top:50%
+"
+export FORGIT_CHERRY_PICK_GIT_OPTS="-s -x"
 
+# set Forgit aliases
 export forgit_add="${forgit_add:-ga}"
 export forgit_reset_head="${forgit_reset_head:-grh}"
 # export forgit_log="${forgit_log:-glo}"
