@@ -42,6 +42,7 @@ export FZF_DEFAULT_OPTS=''
 # --- FORGIT settings ---
 # enable Forgit
 export FORGIT_NO_ALIASES=1
+export FORGIT_GLO_FORMAT='%C(auto)%h %s%d %C(black)%C(bold)%cr%Creset'
 source ~/tools/forgit/forgit.plugin.sh
 
 export FORGIT_MY_COMMON_SETTINGS="
