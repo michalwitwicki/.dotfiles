@@ -114,7 +114,7 @@ alias "${forgit_fixup}"='forgit::fixup'
 alias "${forgit_blame}"='forgit::blame'
 
 # --- FZF enhanced finding functions ---
-# source "$(dirname "$BASH_SOURCE")/fzf_scripts"
+# source "$(dirname "$BASH_SOURCE")/git_fzf_scripts"
 fzf_find_file() {
     # nvim `fd --type file --hidden | fzf --preview='bat --color=always {}'`
     # fd --type file --hidden | \
