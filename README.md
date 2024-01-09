@@ -39,3 +39,9 @@ In ~/.gitconfig add lines following lines to include config from repo:
 [include]
     path = /path/to/repo/.gitconfig
 ```
+
+Neovim
+```
+cd ~/.config
+ln -s /path/to/repo/nvim ./nvim
+```
