@@ -141,7 +141,7 @@ alias v='nvim'
 alias ls='ls --color=auto'
 alias ll='ls -alF'
 alias grep='grep --color=auto'
-alias rs='rsync --exclude=.git --info=progress2 --stats -H -azr'
+alias sshrs='rsync --exclude=.git --exclude='*cscope*' --info=progress2 --stats -azvh -e "ssh"' # use rsync with ssh keys
 
 # warning to use trash-cli instead of rm
 alias rm='  echo "This is not the command you are looking for."
