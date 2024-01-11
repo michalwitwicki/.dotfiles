@@ -138,8 +138,9 @@ fzf_find_grep() {
 
 # --- Aliases ---
 alias v='nvim'
-alias ls='ls --color=auto'
-alias ll='ls -alF'
+alias ls='ls --color=auto -F'
+alias l='ls -lhF'
+alias ll='ls -AlhF'
 alias grep='grep --color=auto'
 alias sshrs='rsync --exclude=.git --exclude='*cscope*' --info=progress2 --stats -azvh -e "ssh"' # use rsync with ssh keys
 
