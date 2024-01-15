@@ -13,6 +13,7 @@ To leave as a note - I am also using:
 - [bat](https://github.com/sharkdp/bat)
 - [bear](https://github.com/rizsotto/Bear)
 - [forgit](https://github.com/wfxr/forgit)
+- [neofetch](https://github.com/dylanaraps/neofetch)
 
 My approach is to download latest releases of above to '~/tools' directory and then symlink bins to '~/bin' directory
 
@@ -45,3 +46,25 @@ Neovim
 cd ~/.config
 ln -s /path/to/repo/nvim ./nvim
 ```
+
+## Installation steps
+1. Tools from package manager:
+    - sudo dnf install neovim tmux fzf trash-cli git-delta ripgrep fd-find bat bear neofetch -y
+
+2. Download to `~/tools/` and install:
+    - fff: run `make install`
+    - forgit: will be sourced from bashrc
+
+3. Git clone this repo
+4. Create sym links:
+    - .tmux.conf
+    - .inputrc
+    - neovim config
+5. Modify current configs to source (include) my stuff
+    - .bashrc
+    - .gitconfig
+6. Use color_test script to check if colors are right
+
+
+
+
