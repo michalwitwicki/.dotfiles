@@ -1,10 +1,10 @@
 ## Description
 This repository contains my dotfiles and configs:
-    - .bashrc
-    - .inputrc
-    - .tmux.info
-    - .gitconfig
-    - nvim
+- `.bashrc`
+- `.inputrc`
+- `.tmux.info`
+- `.gitconfig`
+- `nvim`
 
 ## List of tools
 - [Neovim](https://github.com/neovim/neovim)
@@ -25,32 +25,49 @@ This repository contains my dotfiles and configs:
 2. Getting the tools:
     Many tools listed above can be installed from package manager. If for whatever reason you don't want to use package manager, you can also install them manually.
     For my current Fedora setup I am installing listed below with `dnf`:
-    - sudo dnf install neovim tmux fzf trash-cli git-delta ripgrep fd-find bat bear neofetch -y
+    ```
+    sudo dnf install -y \
+    neovim \
+    tmux \
+    fzf \
+    trash-cli \
+    git-delta \
+    ripgrep \
+    fd-find \
+    bat \
+    bear \
+    neofetch
+    ```
 
-    And those I install manually by downloading and extracting them into `~/tools/`: *
-    - fff
-    - forgit
+    `*` And those I install manually by downloading and extracting them into `~/tools/`:
+    - `fff`
+    - `forgit`
 
     Manuall installation for those two:
-    - fff: run `make install`
-    - forgit: will be sourced from bashrc
+    - `fff`: run `make install`
+    - `forgit`: will be sourced from `.bashrc`
 
     If another tools would be downloaded manually, for example `nvim`, make a sym link of its binary into `~/bin`
 
-3. Create sym links *
-    - .tmux.conf -> ~/.tmux.conf
-    - .inputrc -> ~/.inputrc
-    - nvim -> ~/.config/nvim
+3. `*` Create sym links
+    - `/path/to/repo/.tmux.conf` -> `~/.tmux.conf`
+    - `/path/to/repo/.inputrc` -> `~/.inputrc`
+    - `/path/to/repo/nvim` -> `~/.config/nvim`
 
-4. Modify current configs to source (include) my configs *
-    - .bashrc -> `[ -f /path/to/repo/.bashrc ] && source /path/to/repo/.bashrc`
-    - .gitconfig ->
-    ```
-    [include]
-        path = /path/to/repo/.gitconfig
-    ```
+4. `*` Modify current configs to source (include) my configs
+    - to `~/.bashrc` add `[ -f /path/to/repo/.bashrc ] && source /path/to/repo/.bashrc`
+    - to `~/.gitconfig` add
+        ```
+        [include]
+            path = /path/to/repo/.gitconfig
+        ```
 
-5. Use color_test script inside tmux to check if colors are right
+5. Use `color_test.sh` script inside `tmux` session to check if colors are right
 
-* Those steps can be handled by running `python install.py`
+`*` Those steps are already automated in `install.py` scritp, you can use it by running `python install.py`
+
+## Miscellaneous
+There are also two folders not mentioned before:
+1. `configs_for_remote`: minimal configs for working on temporary remote machine
+2. `unsuded_stuff`: old / not finished scripts
 
