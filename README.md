@@ -6,9 +6,11 @@ This repository contains my dotfiles and configs:
 - `.gitconfig`
 - `nvim`
 
-## List of tools
-- [Neovim](https://github.com/neovim/neovim)
+## List of tools I am using
+- git
+- python
 - [Tmux](https://github.com/tmux/tmux)
+- [Neovim](https://github.com/neovim/neovim)
 - [fff](https://github.com/dylanaraps/fff)
 - [Trash-CLI](https://github.com/andreafrancia/trash-cli)
 - [delta](https://github.com/dandavison/delta)
@@ -27,8 +29,10 @@ This repository contains my dotfiles and configs:
     For my current Fedora setup I am installing listed below with `dnf`:
     ```
     sudo dnf install -y \
-    neovim \
     tmux \
+    git \
+    python \
+    neovim \
     fzf \
     trash-cli \
     git-delta \
@@ -36,8 +40,11 @@ This repository contains my dotfiles and configs:
     fd-find \
     bat \
     bear \
-    neofetch
+    neofetch \
+    npm
     ```
+
+    `npm` is there because some languege servers are using it
 
     `*` And those I install manually by downloading and extracting them into `~/tools/`:
     - `fff`
