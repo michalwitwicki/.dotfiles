@@ -64,10 +64,10 @@ This repository contains my dotfiles and configs:
 
 5. Use `color_test.sh` script inside `tmux` session to check if colors are right
 
-`*` Those steps are already automated in `install.py` scritp, you can use it by running `python install.py`
+`*` Those steps are already automated in `install.py` script, you can use it by running `python install.py`
 
 ## Miscellaneous
 There are also two folders not mentioned before:
 1. `configs_for_remote`: minimal configs for working on temporary remote machine
-2. `unsuded_stuff`: old / not finished scripts
+2. `unsuded_stuff`: old / not finished scripts or configs
 
