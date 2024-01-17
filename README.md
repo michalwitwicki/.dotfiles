@@ -33,7 +33,6 @@ This repository contains my dotfiles and configs:
     git \
     python \
     neovim \
-    fzf \
     trash-cli \
     git-delta \
     ripgrep \
@@ -50,11 +49,18 @@ This repository contains my dotfiles and configs:
     - `fff`
     - `forgit`
 
-    Manuall installation for those two:
+    Manuall installation for above:
     - `fff`: run `make install`
     - `forgit`: will be sourced from `.bashrc`
 
     If another tools would be downloaded manually, for example `nvim`, make a sym link of its binary into `~/bin`
+
+    `fzf` requires another approach if you want to have fuzzy auto-completion and additional key bindings.
+    ```
+    cd ~/tools
+    git clone --depth 1 https://github.com/junegunn/fzf.git ./fzf
+    ./fzf/install --all
+    ```
 
 3. `*` Create sym links
     - `/path/to/repo/.tmux.conf` -> `~/.tmux.conf`
