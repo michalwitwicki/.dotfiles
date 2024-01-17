@@ -27,44 +27,45 @@ return {
                 lsp_zero.default_setup,
             }
         })
+
+        -- completion configuration
+        require('lsp-zero').extend_cmp()
+
+        local cmp = require('cmp')
+        local cmp_action = require('lsp-zero').cmp_action()
+
+        cmp.setup({
+            mapping = cmp.mapping.preset.insert({
+                ['<CR>'] = cmp.mapping.confirm({select = false}),
+                ['<Tab>'] = cmp_action.luasnip_supertab(),
+                ['<S-Tab>'] = cmp_action.luasnip_shift_supertab(),
+                ['<C-Space>'] = cmp.mapping.complete(),
+            }),
+            preselect = 'item',
+            completion = {
+                completeopt = 'menu,menuone,noinsert'
+            },
+            formatting = {
+                -- changing the order of fields so the icon is the first
+                fields = {'menu', 'abbr', 'kind'},
+
+                -- here is where the change happens
+                format = function(entry, item)
+                    local menu_icon = {
+                        nvim_lsp = 'λ',
+                        luasnip = '⋗',
+                        buffer = 'Ω',
+                        path = '🖫',
+                        nvim_lua = 'Π',
+                    }
+
+                    item.menu = menu_icon[entry.source.name]
+                    return item
+                end,
+            },
+        })
     end
 }
-
--- --- Snip from previous config ---
--- local cmp = require('cmp')
--- local cmp_action = require('lsp-zero').cmp_action()
---
--- cmp.setup({
---     mapping = {
---         ['<CR>'] = cmp.mapping.confirm({select = false}),
---         ['<Tab>'] = cmp_action.luasnip_supertab(),
---         ['<S-Tab>'] = cmp_action.luasnip_shift_supertab(),
---     },
---     preselect = 'item',
---     completion = {
---         completeopt = 'menu,menuone,noinsert'
---     },
---     formatting = {
---         -- changing the order of fields so the icon is the first
---         fields = {'menu', 'abbr', 'kind'},
---
---         -- here is where the change happens
---         format = function(entry, item)
---             local menu_icon = {
---                 nvim_lsp = 'λ',
---                 luasnip = '⋗',
---                 buffer = 'Ω',
---                 path = '🖫',
---                 nvim_lua = 'Π',
---             }
---
---             item.menu = menu_icon[entry.source.name]
---             return item
---         end,
---     }
--- })
-
-
 
 -- K: Displays hover information about the symbol under the cursor in a floating window. See :help vim.lsp.buf.hover().
 --
