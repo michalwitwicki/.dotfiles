@@ -28,6 +28,13 @@ return {
             }
         })
 
+        lsp_zero.set_sign_icons({
+            error = '✘',
+            warn = '▲',
+            hint = '⚑',
+            info = '»'
+        })
+
         -- completion configuration
         require('lsp-zero').extend_cmp()
 

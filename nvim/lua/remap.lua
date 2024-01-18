@@ -43,6 +43,9 @@ vim.keymap.set("n", "<leader><Left>", ":vertical resize -5<CR>")
 -- Open new tmux window with vim config directory and reload config on exit --
 vim.keymap.set("n", "<leader>,", ":silent !tmux new-window -n 'vim_config' 'cd $HOME/.config/nvim && nvim'<CR>:source $MYVIMRC<CR>")
 
+-- Adjust indents for whole file --
+vim.keymap.set("n", "<leader>=", "gg=G<C-o><C-o>")
+
 --- Another stuff ---
 
 -- Escape insert mode --
