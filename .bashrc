@@ -35,6 +35,16 @@ shopt -s histappend
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
+# --- FFF settings ---
+# Status background color [0-9]
+export FFF_COL2=3
+
+# Cursor color [0-9]
+export FFF_COL4=5
+
+# Status foreground color [0-9]
+export FFF_COL5=0
+
 # --- FZF settings ---
 export FZF_DEFAULT_COMMAND='fd --type file --hidden'
 export FZF_DEFAULT_OPTS=''
