@@ -35,6 +35,10 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 
+; ---- Push settings ----
+[push]
+    autoSetupRemote = true
+
 ; ---- Colors for git status ----
 [color "status"]
     header = normal
