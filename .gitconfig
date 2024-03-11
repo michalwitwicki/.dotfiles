@@ -53,3 +53,11 @@
 
 ; all possible colors here: https://git-scm.com/docs/git-config#Documentation/git-config.txt-color
 
+; ---- Reuse Recorded Resolution ---- 
+[rerere]
+	enabled = true
+	autoUpdate = true
+
+; ---- force push with lease alias ----
+[alias]
+	fpush = push --force-with-lease
