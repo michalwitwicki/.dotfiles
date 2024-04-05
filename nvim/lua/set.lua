@@ -33,7 +33,8 @@ vim.opt.jumpoptions = 'view'
 
 vim.o.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'
 
-vim.o.splitright = true
+vim.opt.splitright = true
+vim.opt.splitbelow = true
 
 -- vim.opt.list = true
 -- vim.opt.listchars = {

@@ -49,6 +49,6 @@ return {
         vim.keymap.set('n', '<leader>/', '<Plug>(comment_toggle_linewise_current)')
 
         -- Toggle in VISUAL mode
-         vim.keymap.set('x', '<leader>/', '<Plug>(comment_toggle_linewise_visual)')
+        vim.keymap.set('x', '<leader>/', '<Plug>(comment_toggle_linewise_visual)')
     end
- }
+}
