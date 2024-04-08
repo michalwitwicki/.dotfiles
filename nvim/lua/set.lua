@@ -21,13 +21,13 @@ vim.opt.incsearch = true
 vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 8
+vim.opt.sidescrolloff = 8
 vim.opt.signcolumn = 'yes'
 vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
 vim.opt.mouse = 'a'
-vim.opt.laststatus = 3
 
 vim.opt.jumpoptions = 'view'
 
@@ -35,6 +35,15 @@ vim.o.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,
 
 vim.opt.splitright = true
 vim.opt.splitbelow = true
+
+vim.opt.helpheight = 30
+
+vim.g.editorconfig = false
+
+vim.api.nvim_create_autocmd("BufEnter", { command = [[set formatoptions-=o]] })
+vim.api.nvim_create_autocmd("BufEnter", { command = [[set formatoptions+=r]] })
+  -- - "o" -- O and o, don't continue comments
+  -- + "r" -- But do continue when pressing enter.
 
 -- vim.opt.list = true
 -- vim.opt.listchars = {

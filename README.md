@@ -76,6 +76,7 @@ This repository contains my dotfiles and configs:
         ```
 
 5. Use `color_test.sh` script inside `tmux` session to check if colors are right
+    Also this is nice alternative: curl -L https://bit.ly/3A5B3u3 | python3 | less -R
 
 `*` Those steps are already automated in `install.py` script, you can use it by running `python install.py`
 
