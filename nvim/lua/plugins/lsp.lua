@@ -35,6 +35,18 @@ return {
             info = '»'
         })
 
+        -- get rid off annoying clangd warning
+        local cmp_nvim_lsp = require "cmp_nvim_lsp"
+
+        require("lspconfig").clangd.setup {
+            on_attach = on_attach,
+            capabilities = cmp_nvim_lsp.default_capabilities(),
+            cmd = {
+                "clangd",
+                "--offset-encoding=utf-16",
+            },
+        }
+
         -- completion configuration
         require('lsp-zero').extend_cmp()
 
