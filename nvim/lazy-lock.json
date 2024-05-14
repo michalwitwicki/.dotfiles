@@ -6,7 +6,7 @@
   "copilot-cmp": { "branch": "master", "commit": "72fbaa03695779f8349be3ac54fa8bd77eed3ee3" },
   "copilot.lua": { "branch": "master", "commit": "f7612f5af4a7d7615babf43ab1e67a2d790c13a6" },
   "cscope_maps.nvim": { "branch": "main", "commit": "34890e68385c6bfcf4ccf2c7316c7b60642a9fe8" },
-  "gitsigns.nvim": { "branch": "main", "commit": "1a50b94066def8591d5f65bd60a4233902e9def4" },
+  "gitsigns.nvim": { "branch": "main", "commit": "805610a9393fa231f2c2b49cb521bfa413fadb3d" },
   "gruvbox.nvim": { "branch": "main", "commit": "6e4027ae957cddf7b193adfaec4a8f9e03b4555f" },
   "lazy.nvim": { "branch": "main", "commit": "31ddbea7c10b6920c9077b66c97951ca8682d5c8" },
   "leap.nvim": { "branch": "main", "commit": "3fc5e8344eac8a306baca09634fd613d1aa2c388" },
