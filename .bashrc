@@ -153,6 +153,7 @@ alias ll='ls -AlhF'
 alias grep='grep --color=auto'
 alias sshrs='rsync --exclude=.git --exclude='*cscope*' --info=progress2 --stats -azvh -e "ssh"' # use rsync with ssh keys
 alias rs='rsync --info=progress2 --stats -azvh' # use rsync with ssh keys
+alias dm='sudo dmesg -wH'
 
 # warning to use trash-cli instead of rm
 alias rm='  echo "This is not the command you are looking for."
