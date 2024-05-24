@@ -73,6 +73,7 @@ def create_symbolic_links():
     create_symbolic_link(os.path.join(os.getcwd(), ".tmux.conf"), "~/.tmux.conf")
     create_symbolic_link(os.path.join(os.getcwd(), ".inputrc"), "~/.inputrc")
     create_symbolic_link(os.path.join(os.getcwd(), "nvim"), "~/.config/nvim")
+    create_symbolic_link(os.path.join(os.getcwd(), ".gdbinit"), "~/.gdbinit")
 
 def check_if_string_in_file(file_path, target_string):
     expanded_file_path = os.path.expanduser(file_path)

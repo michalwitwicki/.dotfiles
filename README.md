@@ -66,6 +66,7 @@ This repository contains my dotfiles and configs:
     - `/path/to/repo/.tmux.conf` -> `~/.tmux.conf`
     - `/path/to/repo/.inputrc` -> `~/.inputrc`
     - `/path/to/repo/nvim` -> `~/.config/nvim`
+    - `/path/to/repo/.gdbinit` -> `~/.gdbinit`
 
 4. `*` Modify current configs to source (include) my configs
     - to `~/.bashrc` add `[ -f /path/to/repo/.bashrc ] && source /path/to/repo/.bashrc`
