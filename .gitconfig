@@ -39,6 +39,10 @@
 [push]
     autoSetupRemote = true
 
+; ---- Pull settings ----
+[pull]
+    ff = only
+
 ; ---- Colors for git status ----
 [color "status"]
     header = normal
