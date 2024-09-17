@@ -56,6 +56,9 @@ vim.opt.listchars = {
     -- eol = '¬'
 }
 
+-- Map <leader>tw to toggle display of invisible characters
+vim.api.nvim_set_keymap('n', '<leader>tw', ':set list!<CR>', {noremap = true, silent = true})
+
 --- Custom functions ---
 -- run with ":lua Print_tab_settings()"
 function Print_tab_settings()
@@ -89,3 +92,16 @@ end
 -- vim.opt.softtabstop = 8
 -- vim.opt.shiftwidth = 8
 -- vim.opt.expandtab = false
+
+-- Function to toggle colorcolumn
+function _G.toggle_colorcolumn()
+  if vim.wo.colorcolumn == "" then
+    vim.wo.colorcolumn = "80"
+  else
+    vim.wo.colorcolumn = ""
+  end
+end
+
+-- Map <leader>tc to toggle colorcolumn
+vim.api.nvim_set_keymap('n', '<leader>tc', ':lua toggle_colorcolumn()<CR>', {noremap = true, silent = true})
+
