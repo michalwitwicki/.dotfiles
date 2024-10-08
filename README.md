@@ -40,7 +40,8 @@ This repository contains my dotfiles and configs:
     bat \
     bear \
     neofetch \
-    npm
+    npm \
+    luarocks
     ```
 
     `npm` is there because some languege servers are using it
@@ -78,6 +79,18 @@ This repository contains my dotfiles and configs:
 
 5. Use `color_test.sh` script inside `tmux` session to check if colors are right
     Also this is nice alternative: curl -L https://bit.ly/3A5B3u3 | python3 | less -R
+
+6. Run below to check if formatting works properly:
+    ```
+    echo -e "\e[1mbold\e[0m"
+    echo -e "\e[3mitalic\e[0m"
+    echo -e "\e[3m\e[1mbold italic\e[0m"
+    echo -e "\e[4munderline\e[0m"
+    echo -e "\e[9mstrikethrough\e[0m"
+    echo -e "\x1B[31mred\e[0m"
+
+    printf "\x1b[58:2::255:0:0m\x1b[4:1msingle\x1b[4:2mdouble\x1b[4:3mcurly\x1b[4:4mdotted\x1b[4:5mdashed\x1b[0m\n"
+    ```
 
 `*` Those steps are already automated in `install.py` script, you can use it by running `python install.py`
 
