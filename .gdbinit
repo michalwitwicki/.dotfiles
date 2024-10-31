@@ -6,6 +6,8 @@ set breakpoint pending on
 set print pretty on
 # set logging enabled on
 set trace-commands on
+
+add-auto-load-safe-path /
 python print('Hello from python!')
 
 
