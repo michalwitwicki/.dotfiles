@@ -22,13 +22,13 @@ return {
     },
     {
         'CopilotC-Nvim/CopilotChat.nvim',
-        -- branch = 'canary',
-        version = "v2.4.2",
+        branch = 'canary',
         dependencies = {
             {'zbirenbaum/copilot.lua'},
             {'nvim-telescope/telescope.nvim'}, -- Use telescope for help actions
             {'nvim-lua/plenary.nvim'}, -- for curl, log wrapper
         },
+        build = "make tiktoken", -- Only on MacOS or Linux
         opts = {
             debug = true, -- Enable debugging
             -- See Configuration section for rest
