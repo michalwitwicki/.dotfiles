@@ -39,7 +39,6 @@ This repository contains my dotfiles and configs:
     fd-find \
     bat \
     bear \
-    neofetch \
     npm \
     luarocks
     ```
