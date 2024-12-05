@@ -22,7 +22,6 @@ return {
     },
     {
         'CopilotC-Nvim/CopilotChat.nvim',
-        branch = 'canary',
         dependencies = {
             {'zbirenbaum/copilot.lua'},
             {'nvim-telescope/telescope.nvim'}, -- Use telescope for help actions
