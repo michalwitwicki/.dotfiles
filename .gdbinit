@@ -1,7 +1,7 @@
 set pagination off
 set history save on
 set history expansion on
-# set debuginfod enabled on
+set debuginfod enabled on
 set breakpoint pending on
 set print pretty on
 # set logging enabled on

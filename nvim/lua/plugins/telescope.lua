@@ -21,6 +21,9 @@ return {
         vim.keymap.set('n', '<leader>fr', builtin.registers, {})
         vim.keymap.set('n', '<leader>fj', "<cmd>Telescope jumplist fname_width=200<cr>", {})
 
+        -- example of custom grep
+        -- vim.keymap.set('n', '<leader>fx', function() builtin.grep_string({ search_dirs = {"/home/<path_to_search>/"} }) end, {})
+
         telescope.setup {
             defaults = {
                 mappings = {
