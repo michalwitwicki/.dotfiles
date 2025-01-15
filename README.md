@@ -94,7 +94,8 @@ This repository contains my dotfiles and configs:
 `*` Those steps are already automated in `install.py` script, you can use it by running `python install.py`
 
 ## Miscellaneous
-There are also two folders not mentioned before:
+Other stuff:
 1. `configs_for_remote`: minimal configs for working on temporary remote machine
 2. `unsuded_stuff`: old / not finished scripts or configs
+3. `windows_terminal_settings.json`
 
