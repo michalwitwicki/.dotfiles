@@ -25,5 +25,6 @@ return {
         vim.keymap.set('n', '<leader>ns', ':vnew<CR>:Neorg index<CR>')
         vim.keymap.set('n', '<leader>nt', ':tabnew<CR>:Neorg index<CR>')
         vim.keymap.set('n', '<leader>nr', ':Neorg return<CR>')
+        vim.keymap.set('n', '<leader>nc', ':Neorg toggle-concealer<CR>')
     end,
 }
