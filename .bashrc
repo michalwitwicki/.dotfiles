@@ -145,6 +145,9 @@ fzf_find_grep() {
         --bind 'enter:become(nvim {1} +{2})'
 }
 
+# --- MAN settings ---
+export MANPAGER='nvim +Man!'
+
 # --- Aliases ---
 alias v='nvim'
 alias ls='ls --color=auto -F'
@@ -177,20 +180,6 @@ alias fs='fzf_find_grep'
 # zip and unzip
 alias zp='function _zp(){ zip -rv "$(basename "$1").zip" "$1"; }; _zp'
 alias uzp='function _uzp(){ unzip "$1" -d "${1%.zip}"; }; _uzp'
-
-# --- "Rsync makes life easier" the script ---
-rsync_pass_file()
-{
-    FILE=~/pass
-    if [ ! -f "$FILE" ]; then
-        echo "$FILE does not exist."
-        return
-    fi
-
-    # sshpass -f "$FILE" rsync --exclude=.git --exclude='*cscope*' --info=progress2 -azvh "$@"
-    sshpass -f "$FILE" rsync --exclude='*cscope*' --info=progress2 -azvh "$@"
-}
-alias rsp='rsync_pass_file'
 
 # --- Set prompt ---
 git_parse_branch()
