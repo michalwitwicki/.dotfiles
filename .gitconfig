@@ -23,25 +23,34 @@
     ; side-by-side = true
 
 [merge]
-    conflictstyle = diff3
+    conflictstyle = zdiff3
 
 [diff]
-    colorMoved = default
+    algorithm = histogram
+    colorMoved = plain
+    mnemonicPrefix = true
+    renames = true
 
 ; ---- Git LFS settings ----
 [filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
 
-; ---- Push settings ----
+; ---- Push, Fetch, Pull settings ----
 [push]
+    default = simple
     autoSetupRemote = true
+    followTags = true
 
-; ---- Pull settings ----
+[fetch]
+    prune = true
+    pruneTags = true
+    all = true
+
 [pull]
-    ff = only
+    rebase = true
 
 ; ---- Colors for git status ----
 [color "status"]
@@ -59,9 +68,29 @@
 
 ; ---- Reuse Recorded Resolution ---- 
 [rerere]
-	enabled = true
-	autoUpdate = true
+    enabled = true
+    autoUpdate = true
 
 ; ---- force push with lease alias ----
 [alias]
-	fpush = push --force-with-lease
+    fpush = push --force-with-lease
+
+[branch]
+    sort = -committerdate
+
+[tag]
+    sort = version:refname
+
+[init]
+    defaultBranch = main
+
+[help]
+    autocorrect = prompt
+
+[commit]
+    verbose = true
+
+[rebase]
+    autoSquash = true
+    autoStash = true
+    updateRefs = true
