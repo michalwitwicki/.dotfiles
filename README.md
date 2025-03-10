@@ -21,6 +21,7 @@ This repository contains my dotfiles and configs:
 - [bear](https://github.com/rizsotto/Bear)
 - [forgit](https://github.com/wfxr/forgit)
 - [neofetch](https://github.com/dylanaraps/neofetch)
+- [cheat.sh](https://github.com/chubin/cheat.sh)
 
 ## Installation steps
 1. Git clone this repo
@@ -40,10 +41,13 @@ This repository contains my dotfiles and configs:
     bat \
     bear \
     npm \
-    luarocks
+    luarocks \
+    rlwrap
     ```
 
-    `npm` is there because some languege servers are using it
+    `npm` - some languege servers are using it
+    `luarocs` - nvim plugin
+    `rlwrap` - cheat.sh
 
     `*` And those I install manually by downloading and extracting them into `~/tools/`:
     - `fff`
@@ -61,6 +65,15 @@ This repository contains my dotfiles and configs:
     git clone --depth 1 https://github.com/junegunn/fzf.git ./fzf
     ./fzf/install --all
     ```
+
+    `cheat.sh` also needs another approach:
+    ```
+    PATH_DIR="$HOME/bin"  # or another directory on your $PATH
+    mkdir -p "$PATH_DIR"
+    curl https://cht.sh/:cht.sh > "$PATH_DIR/cht.sh"
+    chmod +x "$PATH_DIR/cht.sh"
+    ```
+    Completion for `cheat.sh` is already in .bashrc
 
 3. `*` Create sym links
     - `/path/to/repo/.tmux.conf` -> `~/.tmux.conf`
