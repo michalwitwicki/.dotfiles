@@ -216,3 +216,29 @@ _cht_complete()
 }
 complete -F _cht_complete cht.sh
 complete -F _cht_complete ch
+
+# --- Save notes ---
+notes_save() {
+    local notes_dir="$HOME/repos/notes"
+    pushd "$notes_dir" > /dev/null || return
+
+    echo "PWD: $PWD"
+    if ! git rev-parse --is-inside-work-tree &>/dev/null; then
+        echo "Not a git repository: $notes_dir"
+        popd > /dev/null
+        return 1
+    fi
+
+    git status
+
+    if git diff --quiet && git diff --cached --quiet; then
+        popd > /dev/null
+        return 0
+    fi
+
+    echo "---"
+    git add .
+    git commit -sam "$(date '+%Y-%m-%d: update')"
+    git push
+    popd > /dev/null
+}
