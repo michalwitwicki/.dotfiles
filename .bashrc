@@ -217,9 +217,21 @@ _cht_complete()
 complete -F _cht_complete cht.sh
 complete -F _cht_complete ch
 
-# --- Save notes ---
-notes_save() {
+# --- Sync notes ---
+notes_sync() {
     local notes_dir="$HOME/repos/notes"
+    local no_push=false
+
+    # Parse arguments
+    for arg in "$@"; do
+        case $arg in
+            --no-push)
+                no_push=true
+                shift
+                ;;
+        esac
+    done
+
     pushd "$notes_dir" > /dev/null || return
 
     echo "PWD: $PWD"
@@ -229,16 +241,50 @@ notes_save() {
         return 1
     fi
 
-    git status
+    if [ "$no_push" = true ]; then
+        echo -e "\n--- Skipping all pushes."
+    fi
 
-    if git diff --quiet && git diff --cached --quiet; then
+    # Check for unpushed commits
+    if [ "$no_push" = false ] && git log --branches --not --remotes | grep -q .; then
+        echo -e "\n--- Pushing existing local commits..."
+        if ! git push; then
+            echo "Error: Failed to push commits."
+            popd > /dev/null
+            return 1
+        fi
+    fi
+
+    # Pull changes from remote
+    echo -e "\n--- Pulling changes from remote..."
+    if ! git pull --rebase; then
+        echo "Error: Failed to pull changes."
+        popd > /dev/null
+        return 1
+    fi
+
+    # Check for new or untracked changes
+    if git diff --quiet && git diff --cached --quiet && [ -z "$(git ls-files --others --exclude-standard)" ]; then
+        echo -e "\nNo new changes."
         popd > /dev/null
         return 0
     fi
 
-    echo "---"
-    git add .
+    echo -e "\n--- Git status:"
+    git status
+
+    echo -e "\n--- Create new commit:"
+    git add -A
     git commit -sam "$(date '+%Y-%m-%d: update')"
-    git push
+
+    if [ "$no_push" = false ]; then
+        echo -e "\n--- Pushing new commit:"
+        if ! git push; then
+            echo "Error: Failed to push new commit."
+            popd > /dev/null
+            return 1
+        fi
+    fi
+
     popd > /dev/null
 }
