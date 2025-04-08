@@ -7,7 +7,7 @@
 
 # --- Launch tmux session on bash startup ---
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
-  tmux a -t default || exec tmux new -s default && exit;
+    tmux a -t default || exec tmux new -s default && exit;
 fi
 
 # --- Settings ---
@@ -130,20 +130,20 @@ fzf_find_file() {
     fzf --preview='bat --color=always {}' \
         --preview-window 'up:60%:border-bottom:~3' \
         --bind 'enter:become(nvim {})'
-}
+    }
 
-fzf_find_grep() {
-    RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case --hidden"
-    INITIAL_QUERY="${*:-}"
-    $RG_PREFIX $(printf %q "$INITIAL_QUERY") | \
-        fzf --ansi \
-        --disabled --query "$INITIAL_QUERY" \
-        --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
-        --delimiter : \
-        --preview 'bat --color=always {1} --highlight-line {2}' \
-        --preview-window 'up:60%:border-bottom:+{2}+3/3:~3' \
-        --bind 'enter:become(nvim {1} +{2})'
-}
+    fzf_find_grep() {
+        RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case --hidden"
+        INITIAL_QUERY="${*:-}"
+        $RG_PREFIX $(printf %q "$INITIAL_QUERY") | \
+            fzf --ansi \
+            --disabled --query "$INITIAL_QUERY" \
+            --bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+            --delimiter : \
+            --preview 'bat --color=always {1} --highlight-line {2}' \
+            --preview-window 'up:60%:border-bottom:+{2}+3/3:~3' \
+            --bind 'enter:become(nvim {1} +{2})'
+        }
 
 # --- MAN settings ---
 export MANPAGER='nvim +Man!'
@@ -160,8 +160,8 @@ alias dm='sudo dmesg -wH'
 
 # warning to use trash-cli instead of rm
 alias rm='  echo "This is not the command you are looking for."
-            echo "Use trash-cli instead: https://github.com/andreafrancia/trash-cli"
-            echo "If you in desperate need of rm use this -> \rm"; false'
+echo "Use trash-cli instead: https://github.com/andreafrancia/trash-cli"
+echo "If you in desperate need of rm use this -> \rm"; false'
 
 alias gds='git diff --staged'
 alias gll="git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold
@@ -209,8 +209,8 @@ _cht_complete()
     opts="$(curl -s cheat.sh/:list)"
 
     if [ ${COMP_CWORD} = 1 ]; then
-	  COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
-	  __ltrim_colon_completions "$cur"
+        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+        __ltrim_colon_completions "$cur"
     fi
     return 0
 }
@@ -288,3 +288,59 @@ notes_sync() {
 
     popd > /dev/null
 }
+
+# --- some helpers gotten from https://github.com/bahamas10/bash-analysis ---
+# $ cat /etc/passwd | field 7 :
+# /usr/bin/false
+# /bin/sh
+# /usr/bin/false
+# Field separator defaults to ` ` (space)
+field() {
+    awk -F "${2:- }" "{ print \$${1:-1} }"
+}
+
+# $ cat data
+# 1
+# 2
+# 4
+# $ cat data | total
+# 7
+total() {
+    awk -F "${2:- }" "{ s += \$${1:-1} } END { print s }"
+}
+
+# $ cat data
+# a
+# b
+# c
+# c
+# $ cat data | freq
+#    1 a
+#    1 b
+#    2 c
+freq() {
+    sort | uniq -c | sort -n
+}
+
+# Print a summary for input data
+summarize() {
+    local f=${1:-1}
+    awk -F "${2:- }" "
+    length(\$$f) {
+    if (max == \"\")
+        max = min = \$$f;
+        i += 1;
+        sum += \$$f;
+        if (\$$f > max)
+            max = \$$f
+            if (\$$f < min)
+                min = \$$f
+            }
+            END {
+            print \"lines\\t\", i;
+            print \"min\\t\", min;
+            print \"max\\t\", max;
+            print \"sum\\t\", sum;
+            print \"avg\\t\", sum/i;
+        }"
+    }
