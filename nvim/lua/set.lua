@@ -1,10 +1,20 @@
 vim.opt.number = true
 vim.opt.relativenumber = true
 
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.softtabstop = 4
-vim.opt.expandtab = true
+-- vim.opt.tabstop = 4
+-- vim.opt.shiftwidth = 4
+-- vim.opt.softtabstop = 4
+-- vim.opt.expandtab = true
+-- vim.opt.autoindent = true
+-- vim.opt.smartindent = false
+-- vim.opt.smarttab = true
+-- vim.opt.shiftround = true
+
+-- lets test if using kernel settings as defaults works in longer run
+vim.opt.tabstop = 8
+vim.opt.shiftwidth = 8
+vim.opt.softtabstop = -1
+vim.opt.expandtab = false
 vim.opt.autoindent = true
 vim.opt.smartindent = false
 vim.opt.smarttab = true
@@ -80,7 +90,7 @@ end
 -- Quick explanation of the tab options:
 -- tabstop (8): Number of spaces that a <tab> in the file counts for.
 -- shiftwidth (8): Number of spaces to use for each step of (auto)indent.
--- softtabstop (0): Answers the question: how many columns of whitespace is a <tab> or <backspace> keypress worth.
+-- softtabstop (0): Answers the question: how many columns of whitespace is a <tab> or <backspace> keypress worth. If -1 then value of shiftwidth is used.
 -- expandtab (off): If on, <tab> keypress is converted to spaces.
 -- autoindent (on): If on, copy indent from current line when starting a new line.
 -- smartindent (off): If on, automatically inserts indent for example after a line ending in "{". Autoindent should also be on when using smartindent
