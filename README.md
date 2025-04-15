@@ -49,7 +49,7 @@ This repository contains my dotfiles and configs:
     `luarocs` - nvim plugin
     `rlwrap` - cheat.sh
 
-    `*` And those I install manually by downloading and extracting them into `~/tools/`:
+    `*` And those I install manually by git cloning them into `~/tools/`:
     - `fff`
     - `forgit`
 
