@@ -17,7 +17,7 @@ commands=()
 
 while IFS= read -r kernel; do
     kernel_path=$(echo "$kernel")
-    kernel_name=$(echo "$kernel" | awk -F/ '{print $NF}')
+    kernel_name=$(echo "$kernel" | awk -F/ '{print $NF}' | cut -d'-' -f2-)
 
     if [[ "$kernel_name" == *"rescue"* ]]; then
         echo "Warning: Skipping rescue kernel: '$kernel_name'"
