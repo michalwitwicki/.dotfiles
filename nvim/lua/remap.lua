@@ -58,3 +58,6 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 -- Keep search terms in the middle --
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
+
+-- Search within visual selection --
+vim.keymap.set("x", "/", "<Esc>/\\%V")
