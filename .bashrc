@@ -45,6 +45,9 @@ export FFF_COL4=5
 # Status foreground color [0-9]
 export FFF_COL5=0
 
+# Set custom trash command
+export FFF_TRASH_CMD="trash"
+
 # --- FZF settings ---
 export FZF_DEFAULT_COMMAND='fd --type file --hidden'
 export FZF_DEFAULT_OPTS=''
