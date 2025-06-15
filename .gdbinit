@@ -4,6 +4,7 @@ set history expansion on
 set debuginfod enabled on
 set breakpoint pending on
 set print pretty on
+set pagination on
 # set logging enabled on
 set trace-commands on
 
