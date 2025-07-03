@@ -110,3 +110,21 @@ vim.keymap.set('n', '<leader>bb', '!!boxes -a c -s 60 -d simple<CR>', { noremap 
 vim.keymap.set('v', '<leader>bb', '!boxes -a c -s 60 -d simple<CR>', { noremap = true, silent = false, desc = "Draw big box with boxes utility" })
 vim.keymap.set('n', '<leader>bd', '!!boxes -d javadoc<CR>', { noremap = true, silent = false, desc = "Draw doxygen comment" })
 
+
+function surround_line_with_equals(total_length)
+  local line_nr = vim.api.nvim_win_get_cursor(0)[1]
+  local line = vim.api.nvim_get_current_line()
+  local text = vim.trim(line)
+  local text_len = #text
+  if total_length <= text_len + 2 then
+    total_length = text_len + 4
+  end
+  local padding = total_length - text_len - 2
+  local left = math.floor(padding / 2)
+  local right = padding - left
+  local new_line = string.rep("=", left) .. " " .. text .. " " .. string.rep("=", right)
+  vim.api.nvim_set_current_line(new_line)
+end
+
+vim.keymap.set('n', '<leader>bs', ':lua surround_line_with_equals(60)<CR>')
+
