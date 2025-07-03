@@ -105,3 +105,8 @@ end
 -- Map <leader>tc to toggle colorcolumn
 vim.api.nvim_set_keymap('n', '<leader>tc', ':lua toggle_colorcolumn()<CR>', {noremap = true, silent = true})
 
+-- "boxes" utility mappings
+vim.keymap.set('n', '<leader>bb', '!!boxes -a c -s 60 -d simple<CR>', { noremap = true, silent = false, desc = "Draw big box with boxes utility" })
+vim.keymap.set('v', '<leader>bb', '!boxes -a c -s 60 -d simple<CR>', { noremap = true, silent = false, desc = "Draw big box with boxes utility" })
+vim.keymap.set('n', '<leader>bd', '!!boxes -d javadoc<CR>', { noremap = true, silent = false, desc = "Draw doxygen comment" })
+

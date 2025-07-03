@@ -22,6 +22,7 @@ This repository contains my dotfiles and configs:
 - [forgit](https://github.com/wfxr/forgit)
 - [neofetch](https://github.com/dylanaraps/neofetch)
 - [cheat.sh](https://github.com/chubin/cheat.sh)
+- [boxes](https://github.com/ascii-boxes/boxes)
 
 ## Installation steps
 1. Git clone this repo
