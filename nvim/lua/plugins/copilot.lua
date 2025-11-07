@@ -3,29 +3,17 @@ return {
 		'zbirenbaum/copilot.lua',
 		cmd = "Copilot",
 		event = "InsertEnter",
-		config = function()
-			require("copilot").setup({
-				suggestion = { enabled = false },
-				panel = { enabled = false },
-				filetypes = {
-					yaml = true,
-					markdown = true,
-					help = true,
-					gitcommit = true,
-					gitrebase = true,
-				},
-			})
-		end,
-	},
-	{
-		'zbirenbaum/copilot-cmp',
-		dependencies = {
-			{'zbirenbaum/copilot.lua'},
+		opts = {
+			suggestion = { enabled = false },
+			panel = { enabled = false },
+			filetypes = {
+				yaml = true,
+				markdown = true,
+				help = true,
+				gitcommit = true,
+				gitrebase = true,
+			},
 		},
-		config = function ()
-			require("copilot_cmp").setup()
-		end
-		-- copilot-cmp is added as a source in cmp.setup, in lsp.lua file
 	},
 	{
 		'CopilotC-Nvim/CopilotChat.nvim',
