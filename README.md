@@ -47,7 +47,7 @@ This repository contains my dotfiles and configs:
     ```
 
     `npm` - some languege servers are using it
-    `luarocs` - nvim plugin
+    `luarocks` - nvim plugin
     `rlwrap` - cheat.sh
 
     `*` And those I install manually by git cloning them into `~/tools/`:
