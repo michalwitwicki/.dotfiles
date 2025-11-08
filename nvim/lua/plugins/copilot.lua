@@ -19,7 +19,7 @@ return {
 		'CopilotC-Nvim/CopilotChat.nvim',
 		dependencies = {
 			{'zbirenbaum/copilot.lua'},
-			{'nvim-telescope/telescope.nvim'}, -- Use telescope for help actions
+			{'ibhagwan/fzf-lua'}, -- Use fzf-lua as a picker
 			{'nvim-lua/plenary.nvim'}, -- for curl, log wrapper
 		},
 		build = "make tiktoken", -- Only on MacOS or Linux
@@ -29,30 +29,6 @@ return {
 		},
 		event = "VeryLazy",
 		keys = {
-			-- Show help actions with telescope
-			{
-				"<leader>ah",
-				function()
-					local actions = require("CopilotChat.actions")
-					require("CopilotChat.integrations.telescope").pick(actions.help_actions())
-				end,
-				desc = "CopilotChat - Help actions",
-			},
-			-- Show prompts actions with telescope
-			{
-				"<leader>ap",
-				function()
-					local actions = require("CopilotChat.actions")
-					require("CopilotChat.integrations.telescope").pick(actions.prompt_actions())
-				end,
-				desc = "CopilotChat - Prompt actions",
-			},
-			{
-				"<leader>ap",
-				":lua require('CopilotChat.integrations.telescope').pick(require('CopilotChat.actions').prompt_actions({selection = require('CopilotChat.select').visual}))<CR>",
-				mode = "x",
-				desc = "CopilotChat - Prompt actions",
-			},
 			{
 				"<leader>av",
 				function()
@@ -86,12 +62,9 @@ return {
 				end,
 				desc = "CopilotChat - Select whole buffer and ask",
 			},
-			{ "<leader>ad", "<cmd>CopilotChatDebugInfo<cr>", desc = "CopilotChat - Debug Info" },
-			{ "<leader>af", "<cmd>CopilotChatFixDiagnostic<cr>", desc = "CopilotChat - Fix Diagnostic" },
 			{ "<leader>al", "<cmd>CopilotChatReset<cr>", desc = "CopilotChat - Clear buffer and chat history" },
 			{ "<leader>av", "<cmd>CopilotChatToggle<cr>", desc = "CopilotChat - Toggle" },
-			{ "<leader>ae", "<cmd>CopilotChatExplain<cr>", desc = "CopilotChat - Explain code" },
-			{ "<leader>at", "<cmd>CopilotChatTests<cr>", desc = "CopilotChat - Generate tests" },
+			{ "<leader>ap", "<cmd>CopilotChatPrompts<cr>", mode = "v", desc = "CopilotChat - Prompts" },
 		},
 	}
 }
