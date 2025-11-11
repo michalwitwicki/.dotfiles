@@ -29,6 +29,7 @@ return {
 		},
 		event = "VeryLazy",
 		keys = {
+			-- Chat about visual selection
 			{
 				"<leader>av",
 				function()
@@ -62,6 +63,15 @@ return {
 				end,
 				desc = "CopilotChat - Select whole buffer and ask",
 			},
+			-- Use predefined prompt with whole buffer
+			{
+				"<leader>ap",
+				function()
+					require("CopilotChat").select_prompt({ selection = require("CopilotChat.select").buffer })
+				end,
+				desc = "CopilotChat - Use prompt with whole buffer",
+			},
+
 			{ "<leader>al", "<cmd>CopilotChatReset<cr>", desc = "CopilotChat - Clear buffer and chat history" },
 			{ "<leader>av", "<cmd>CopilotChatToggle<cr>", desc = "CopilotChat - Toggle" },
 			{ "<leader>ap", "<cmd>CopilotChatPrompts<cr>", mode = "v", desc = "CopilotChat - Prompts" },
