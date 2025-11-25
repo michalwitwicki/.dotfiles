@@ -13,10 +13,15 @@ return {
                 "markdown_inline",
                 "rust",
                 "gitignore",
+                "gitcommit",
                 "json",
+                "yaml",
                 "diff",
                 "vim",
                 "vimdoc",
+                "comment",
+                "doxygen",
+                "editorconfig",
             },
 
             -- Install parsers synchronously (only applied to `ensure_installed`)
