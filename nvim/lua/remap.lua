@@ -51,10 +51,6 @@ vim.keymap.set("n", "<leader>=", "gg=G<C-o>")
 -- Escape insert mode --
 vim.keymap.set("i", "jk", "<Esc>")
 
--- Move lines selected in visual mode --
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
-
 -- Keep search terms in the middle --
 vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
