@@ -45,15 +45,15 @@ vim.opt.helpheight = 30
 
 vim.api.nvim_create_autocmd("BufEnter", { command = [[set formatoptions-=o]] })
 vim.api.nvim_create_autocmd("BufEnter", { command = [[set formatoptions+=r]] })
-  -- - "o" -- O and o, don't continue comments
-  -- + "r" -- But do continue when pressing enter.
+-- - "o" -- O and o, don't continue comments
+-- + "r" -- But do continue when pressing enter.
 
 vim.opt.list = true
 vim.opt.listchars = {
-    tab='▸-',
-    lead='·',
-    trail='·',
-    -- eol = '¬'
+  tab='▸-',
+  lead='·',
+  trail='·',
+  -- eol = '¬'
 }
 
 -- Map <leader>tw to toggle display of invisible characters
@@ -62,19 +62,19 @@ vim.api.nvim_set_keymap('n', '<leader>tw', ':set list!<CR>', {noremap = true, si
 --- Custom functions ---
 -- run with ":lua Print_tab_settings()"
 function Print_tab_settings()
-    local bufnr = vim.api.nvim_get_current_buf()
-    print("--- Current TAB settings ---")
-    print("tabstop: " .. vim.api.nvim_buf_get_option(bufnr, 'tabstop'))
-    print("shiftwidth: " .. vim.api.nvim_buf_get_option(bufnr, 'shiftwidth'))
-    print("softtabstop: " .. vim.api.nvim_buf_get_option(bufnr, 'softtabstop'))
-    print("expandtab: " .. tostring(vim.api.nvim_buf_get_option(bufnr, 'expandtab')))
-    print("autoindent: " .. tostring(vim.api.nvim_buf_get_option(bufnr, 'autoindent')))
-    print("smartindent: " .. tostring(vim.api.nvim_buf_get_option(bufnr, 'smartindent')))
-    print("smarttab: " .. tostring(vim.api.nvim_get_option('smarttab')))
-    print("shiftround: " .. tostring(vim.api.nvim_get_option('shiftround')))
-    print("fileencoding: " .. vim.api.nvim_buf_get_option(bufnr, 'fileencoding'))
-    print("--- Applied editorconfig properties ---")
-    vim.print(vim.b.editorconfig)
+  local bufnr = vim.api.nvim_get_current_buf()
+  print("--- Current TAB settings ---")
+  print("tabstop: " .. vim.api.nvim_buf_get_option(bufnr, 'tabstop'))
+  print("shiftwidth: " .. vim.api.nvim_buf_get_option(bufnr, 'shiftwidth'))
+  print("softtabstop: " .. vim.api.nvim_buf_get_option(bufnr, 'softtabstop'))
+  print("expandtab: " .. tostring(vim.api.nvim_buf_get_option(bufnr, 'expandtab')))
+  print("autoindent: " .. tostring(vim.api.nvim_buf_get_option(bufnr, 'autoindent')))
+  print("smartindent: " .. tostring(vim.api.nvim_buf_get_option(bufnr, 'smartindent')))
+  print("smarttab: " .. tostring(vim.api.nvim_get_option('smarttab')))
+  print("shiftround: " .. tostring(vim.api.nvim_get_option('shiftround')))
+  print("fileencoding: " .. vim.api.nvim_buf_get_option(bufnr, 'fileencoding'))
+  print("--- Applied editorconfig properties ---")
+  vim.print(vim.b.editorconfig)
 end
 
 -- Quick explanation of the tab options:

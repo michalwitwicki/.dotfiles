@@ -1,3 +1,3 @@
 return {
-    'romainl/vim-cool'
+  'romainl/vim-cool'
 }
