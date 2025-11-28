@@ -42,6 +42,7 @@ This repository contains my dotfiles and configs:
     bat \
     bear \
     npm \
+    lua \
     luarocks \
     rlwrap
     ```
