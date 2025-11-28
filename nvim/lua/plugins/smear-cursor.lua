@@ -1,30 +1,30 @@
 return {
-	"sphamba/smear-cursor.nvim",
-	opts = {
-		-- Smear cursor color. Defaults to Cursor GUI color if not set.
-		-- Set to "none" to match the text color at the target cursor position.
-		-- cursor_color = "#d3cdc3",
-		cursor_color = "#ff8800",
+  "sphamba/smear-cursor.nvim",
+  opts = {
+    -- Smear cursor color. Defaults to Cursor GUI color if not set.
+    -- Set to "none" to match the text color at the target cursor position.
+    -- cursor_color = "#d3cdc3",
+    cursor_color = "#ff8800",
 
-		-- Background color. Defaults to Normal GUI background color if not set.
-		normal_bg = "#282828",
+    -- Background color. Defaults to Normal GUI background color if not set.
+    normal_bg = "#282828",
 
-		-- Smear cursor when switching buffers or windows.
-		smear_between_buffers = true,
+    -- Smear cursor when switching buffers or windows.
+    smear_between_buffers = true,
 
-		-- Smear cursor when moving within line or to neighbor lines.
-		-- Use `min_horizontal_distance_smear` and `min_vertical_distance_smear` for finer control
-		smear_between_neighbor_lines = true,
+    -- Smear cursor when moving within line or to neighbor lines.
+    -- Use `min_horizontal_distance_smear` and `min_vertical_distance_smear` for finer control
+    smear_between_neighbor_lines = true,
 
-		-- Draw the smear in buffer space instead of screen space when scrolling
-		scroll_buffer_space = true,
+    -- Draw the smear in buffer space instead of screen space when scrolling
+    scroll_buffer_space = true,
 
-		-- Set to `true` if your font supports legacy computing symbols (block unicode symbols).
-		-- Smears and particles will look a lot less blocky.
-		legacy_computing_symbols_support = false,
+    -- Set to `true` if your font supports legacy computing symbols (block unicode symbols).
+    -- Smears and particles will look a lot less blocky.
+    legacy_computing_symbols_support = false,
 
-		-- Smear cursor in insert mode.
-		-- See also `vertical_bar_cursor_insert_mode` and `distance_stop_animating_vertical_bar`.
-		smear_insert_mode = true,
-	}
+    -- Smear cursor in insert mode.
+    -- See also `vertical_bar_cursor_insert_mode` and `distance_stop_animating_vertical_bar`.
+    smear_insert_mode = true,
+  }
 }
