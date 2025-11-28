@@ -24,6 +24,17 @@ return {
     { "<leader>fb",  function() require("fzf-lua").buffers() end,         desc = "search buffers" },
   },
   config = function()
+    require("fzf-lua").setup {
+      actions = {
+        files = {
+          ["ctrl-l"]      = FzfLua.actions.file_vsplit,
+        },
+
+      },     -- Fzf "accept" binds
+      fzf_opts = {
+        ["--layout"]         = false,
+      },    -- Fzf CLI flags
+    }
     require('fzf-lua').register_ui_select()
   end
 }
