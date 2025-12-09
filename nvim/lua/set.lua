@@ -59,6 +59,9 @@ vim.opt.listchars = {
 -- Map <leader>tw to toggle display of invisible characters
 vim.api.nvim_set_keymap('n', '<leader>tw', ':set list!<CR>', {noremap = true, silent = true})
 
+-- Map <leader>tl to toggle Line wrapping
+vim.api.nvim_set_keymap('n', '<leader>tl', ':set wrap!<CR>', {noremap = true, silent = true})
+
 --- Custom functions ---
 -- run with ":lua Print_tab_settings()"
 function Print_tab_settings()
