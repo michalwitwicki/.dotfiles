@@ -35,7 +35,7 @@ return {
         function()
           local input = vim.fn.input("Chat about visual selection: ")
           if input ~= "" then
-            require("CopilotChat").ask(input, { selection = require("CopilotChat.select").visual })
+            require("CopilotChat").ask(input, { resources = "selection" })
           end
         end,
         mode = "x",
@@ -47,7 +47,7 @@ return {
         function()
           local input = vim.fn.input("Ask Copilot: ")
           if input ~= "" then
-            vim.cmd("CopilotChat " .. input)
+            require("CopilotChat").ask(input, {})
           end
         end,
         desc = "CopilotChat - Ask input",
@@ -58,7 +58,7 @@ return {
         function()
           local input = vim.fn.input("Chat about whole buffer: ")
           if input ~= "" then
-            require("CopilotChat").ask(input, { selection = require("CopilotChat.select").buffer })
+            require("CopilotChat").ask(input, { resources = "buffer" })
           end
         end,
         desc = "CopilotChat - Select whole buffer and ask",
@@ -67,14 +67,22 @@ return {
       {
         "<leader>ap",
         function()
-          require("CopilotChat").select_prompt({ selection = require("CopilotChat.select").buffer })
+          require("CopilotChat").select_prompt({ resources = "buffer" })
         end,
         desc = "CopilotChat - Use prompt with whole buffer",
+      },
+      -- Use predefined prompt with selection
+      {
+        "<leader>ap",
+        function()
+          require("CopilotChat").select_prompt({ resources = "selection" })
+        end,
+        mode = "x",
+        desc = "CopilotChat - Use prompt with selection",
       },
 
       { "<leader>al", "<cmd>CopilotChatReset<cr>", desc = "CopilotChat - Clear buffer and chat history" },
       { "<leader>av", "<cmd>CopilotChatToggle<cr>", desc = "CopilotChat - Toggle" },
-      { "<leader>ap", "<cmd>CopilotChatPrompts<cr>", mode = "v", desc = "CopilotChat - Prompts" },
     },
   }
 }
