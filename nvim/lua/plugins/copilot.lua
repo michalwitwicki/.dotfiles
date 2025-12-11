@@ -29,39 +29,43 @@ return {
     },
     event = "VeryLazy",
     keys = {
-      -- Chat about visual selection
+      -- Ask about visual selection
       {
         "<leader>av",
         function()
-          local input = vim.fn.input("Chat about visual selection: ")
+          local input = vim.fn.input("Ask AI <visual selection>: ")
           if input ~= "" then
             require("CopilotChat").ask(input, { resources = "selection" })
+          else
+            require("CopilotChat").ask("> #selection", {})
           end
         end,
         mode = "x",
-        desc = "CopilotChat - Select visual selection and ask",
+        desc = "CopilotChat - Ask about visual selection",
       },
       -- Custom input for CopilotChat
       {
         "<leader>ai",
         function()
-          local input = vim.fn.input("Ask Copilot: ")
+          local input = vim.fn.input("Ask AI: ")
           if input ~= "" then
             require("CopilotChat").ask(input, {})
           end
         end,
-        desc = "CopilotChat - Ask input",
+        desc = "CopilotChat - Ask Copilot",
       },
-      -- Quick chat with Copilot
+      -- Ask about buffer
       {
         "<leader>ab",
         function()
-          local input = vim.fn.input("Chat about whole buffer: ")
+          local input = vim.fn.input("Ask AI <buffer>: ")
           if input ~= "" then
             require("CopilotChat").ask(input, { resources = "buffer" })
+          else
+            require("CopilotChat").ask("> #buffer", {})
           end
         end,
-        desc = "CopilotChat - Select whole buffer and ask",
+        desc = "CopilotChat - Ask about buffer",
       },
       -- Use predefined prompt with whole buffer
       {
@@ -82,7 +86,8 @@ return {
       },
 
       { "<leader>al", "<cmd>CopilotChatReset<cr>", desc = "CopilotChat - Clear buffer and chat history" },
-      { "<leader>av", "<cmd>CopilotChatToggle<cr>", desc = "CopilotChat - Toggle" },
+      { "<leader>av", "<cmd>CopilotChatToggle<cr>", desc = "CopilotChat - Toggle side panel" },
     },
   }
 }
+
