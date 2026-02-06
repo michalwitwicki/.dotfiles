@@ -24,6 +24,7 @@ return {
     },
     build = "make tiktoken", -- Only on MacOS or Linux
     opts = {
+      model = 'claude-opus-4.6',
       debug = true, -- Enable debugging
       -- See Configuration section for rest
     },
