@@ -25,7 +25,7 @@ This repository contains my dotfiles and configs:
 - [boxes](https://github.com/ascii-boxes/boxes)
 
 ## Installation steps
-1. Git clone this repo
+1. Git clone this repo: `git clone git@github.com:michalwitwicki/.dotfiles.git`
 2. Getting the tools:
     Many tools listed above can be installed from package manager. If for whatever reason you don't want to use package manager, you can also install them manually.
     For my current Fedora setup I am installing listed below with `dnf`:
