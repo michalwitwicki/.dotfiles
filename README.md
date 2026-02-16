@@ -30,21 +30,7 @@ This repository contains my dotfiles and configs:
     Many tools listed above can be installed from package manager. If for whatever reason you don't want to use package manager, you can also install them manually.
     For my current Fedora setup I am installing listed below with `dnf`:
     ```
-    sudo dnf install -y \
-    tmux \
-    git \
-    python \
-    neovim \
-    trash-cli \
-    git-delta \
-    ripgrep \
-    fd-find \
-    bat \
-    bear \
-    npm \
-    lua \
-    luarocks \
-    rlwrap
+    sudo dnf install -y tmux git python neovim trash-cli git-delta ripgrep fd-find bat bear npm lua luarocks rlwrap
     ```
 
     `npm` - some languege servers are using it
