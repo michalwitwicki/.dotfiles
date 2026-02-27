@@ -37,22 +37,38 @@ This repository contains my dotfiles and configs:
     `luarocks` - nvim plugin
     `rlwrap` - cheat.sh
 
-    `*` And those I install manually by git cloning them into `~/tools/`:
-    - `fff`
-    - `forgit`
-
-    Manuall installation for above:
-    - `fff`: run `make install`
-    - `forgit`: will be sourced from `.bashrc`
-
     If another tools would be downloaded manually, for example `nvim`, make a sym link of its binary into `~/bin`
 
-    `fzf` requires another approach if you want to have fuzzy auto-completion and additional key bindings.
+    Manual installs:
+
+    neovim:
+    ```
+    cd ~/bin
+    wget https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.appimage
+    chmod u+x nvim-linux-x86_64.appimage
+    ln -svf /home/mwitwicki/bin/nvim-linux-x86_64.appimage ./nvim
+    ```
+
+    fzf:
     ```
     cd ~/tools
     git clone --depth 1 https://github.com/junegunn/fzf.git ./fzf
     ./fzf/install --all
     ```
+
+    fff:
+    ```
+    cd ~/tools
+    git clone git@github.com:dylanaraps/fff.git
+    cd fff
+    sudo make install
+    ```
+
+    forgit (will be sourced from .bashrc):
+    ```
+    git clone git@github.com:wfxr/forgit.git
+    ```
+
 
     `cheat.sh` also needs another approach:
     ```
