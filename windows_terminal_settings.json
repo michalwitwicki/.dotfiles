@@ -1,69 +1,104 @@
 {
     "$help": "https://aka.ms/terminal-documentation",
     "$schema": "https://aka.ms/terminal-profiles-schema",
-    "actions": 
+    "actions":
     [
         {
-            "command": 
+            "command":
             {
                 "action": "copy",
                 "singleLine": false
             },
-            "id": "User.copy.644BA8F2",
-            "keys": "ctrl+c"
+            "id": "User.copy.644BA8F2"
         },
         {
             "command": "paste",
-            "id": "User.paste",
-            "keys": "ctrl+v"
+            "id": "User.paste"
         },
         {
-            "command": "find",
-            "id": "User.find",
-            "keys": "ctrl+shift+f"
-        },
-        {
-            "command": 
+            "command":
             {
                 "action": "splitPane",
                 "split": "auto",
                 "splitMode": "duplicate"
             },
-            "id": "User.splitPane.A6751878",
-            "keys": "alt+shift+d"
+            "id": "User.splitPane.A6751878"
+        },
+        {
+            "command": "find",
+            "id": "User.find"
         }
     ],
     "alwaysShowTabs": false,
     "copyFormatting": "none",
     "copyOnSelect": true,
-    "defaultProfile": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
+    "defaultProfile": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
+    "keybindings":
+    [
+        {
+            "id": null,
+            "keys": "alt+enter"
+        },
+        {
+            "id": "User.copy.644BA8F2",
+            "keys": "ctrl+c"
+        },
+        {
+            "id": "User.find",
+            "keys": "ctrl+shift+f"
+        },
+        {
+            "id": "User.paste",
+            "keys": "ctrl+v"
+        },
+        {
+            "id": "User.splitPane.A6751878",
+            "keys": "alt+shift+d"
+        }
+    ],
     "launchMode": "maximized",
-    "newTabMenu": 
+    "newTabMenu":
     [
         {
             "type": "remainingProfiles"
         }
     ],
-    "profiles": 
+    "profiles":
     {
-        "defaults": 
+        "defaults":
         {
             "colorScheme": "CGA",
             "cursorShape": "filledBox",
             "experimental.retroTerminalEffect": false,
-            "font": 
+            "font":
             {
                 "face": "Consolas",
                 "size": 11
             }
         },
-        "list": 
+        "list":
         [
             {
+                "colorScheme": "Gruvbox",
                 "commandline": "%SystemRoot%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                "cursorColor": "#FFFFFF",
+                "font":
+                {
+                    "face": "Fira Code",
+                    "size": 11,
+                    "features":
+                    {
+                        "calt": 0,
+                        "clig": 0,
+                        "dlig": 0,
+                        "liga": 0
+                    }
+                },
                 "guid": "{61c54bbd-c2c6-5271-96e7-009a87ff44bf}",
                 "hidden": false,
-                "name": "Windows PowerShell"
+                "intenseTextStyle": "bold",
+                "name": "Windows PowerShell",
+                "scrollbarState": "hidden"
             },
             {
                 "adjustIndistinguishableColors": "never",
@@ -73,23 +108,23 @@
                 "colorScheme": "Gruvbox",
                 "commandline": "%SystemRoot%\\System32\\cmd.exe",
                 "experimental.retroTerminalEffect": false,
-                "font": 
+                "font":
                 {
                     "cellHeight": "1.2",
                     "face": "Fira Code",
-                    "features": 
+                    "features":
                     {
                         "calt": 0,
                         "clig": 0,
                         "dlig": 0,
                         "liga": 0
                     },
-                    "size": 10,
+                    "size": 11,
                     "weight": "normal"
                 },
                 "guid": "{0caa0dad-35be-5f56-a8ff-afceeeaa6101}",
                 "hidden": false,
-                "intenseTextStyle": "bright",
+                "intenseTextStyle": "bold",
                 "name": "Command Prompt",
                 "opacity": 100,
                 "padding": "8",
@@ -108,7 +143,7 @@
                 "bellStyle": "none",
                 "closeOnExit": "graceful",
                 "commandline": "C:\\Program Files\\Git\\bin\\bash.exe",
-                "font": 
+                "font":
                 {
                     "face": "Consolas",
                     "size": 11,
@@ -126,7 +161,7 @@
             }
         ]
     },
-    "schemes": 
+    "schemes":
     [
         {
             "background": "#282828",
