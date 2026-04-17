@@ -23,7 +23,7 @@ resetOutput()
 # $red $green and $blue are integers
 # ranging between 0 and 255 inclusive
 rainbowColor()
-{ 
+{
     let h=$1/43
     let f=$1-43*$h
     let t=$f*255/43
@@ -97,3 +97,12 @@ for i in `seq 255 128`; do
 done
 resetOutput
 
+# Check formatting
+echo -e "\e[1mbold\e[0m"
+echo -e "\e[3mitalic\e[0m"
+echo -e "\e[3m\e[1mbold italic\e[0m"
+echo -e "\e[4munderline\e[0m"
+echo -e "\e[9mstrikethrough\e[0m"
+echo -e "\x1B[31mred\e[0m"
+
+printf "\x1b[58:2::255:0:0m\x1b[4:1msingle\x1b[4:2mdouble\x1b[4:3mcurly\x1b[4:4mdotted\x1b[4:5mdashed\x1b[0m\n"
