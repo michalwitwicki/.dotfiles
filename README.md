@@ -75,6 +75,16 @@ This repository contains my dotfiles and configs.
     git clone git@github.com:wfxr/forgit.git
     ```
 
+
+    Opencode:
+    ```
+    curl -fsSL https://opencode.ai/install | bash
+    opencode auth login
+    opencode
+    /theme
+    gruvbox
+    ```
+
 5. To test terminal capabilities run:
 ```
 ./scripts/color_formatting_test.sh
