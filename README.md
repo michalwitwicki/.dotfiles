@@ -49,10 +49,10 @@ This repository contains my dotfiles and configs.
 
     neovim:
     ```
-    cd ~/bin
-    wget https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.appimage
+    cd ~/tools/neovim_0_12_1
+    wget https://github.com/neovim/neovim/releases/download/v0.12.1/nvim-linux-x86_64.appimage
     chmod u+x nvim-linux-x86_64.appimage
-    ln -svf /home/mwitwicki/bin/nvim-linux-x86_64.appimage ./nvim
+    ln -svf /home/mwitwicki/tools/neovim_0_12_1/nvim-linux-x86_64.appimage /home/mwitwicki/bin/nvim
     ```
 
     fzf:
@@ -72,6 +72,7 @@ This repository contains my dotfiles and configs.
 
     forgit (will be sourced from .bashrc):
     ```
+    cd ~/tools
     git clone git@github.com:wfxr/forgit.git
     ```
 
@@ -85,7 +86,9 @@ This repository contains my dotfiles and configs.
     gruvbox
     ```
 
-5. To test terminal capabilities run:
+3. run `install.sh`
+
+4. To test terminal capabilities run:
 ```
 ./scripts/color_formatting_test.sh
 ```
