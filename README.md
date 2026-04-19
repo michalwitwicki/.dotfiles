@@ -1,10 +1,5 @@
 ## Description
-This repository contains my dotfiles and configs:
-- `.bashrc`
-- `.inputrc`
-- `.tmux.info`
-- `.gitconfig`
-- `nvim`
+This repository contains my dotfiles and configs.
 
 ## List of tools I am using
 - git
@@ -20,22 +15,33 @@ This repository contains my dotfiles and configs:
 - [bat](https://github.com/sharkdp/bat)
 - [bear](https://github.com/rizsotto/Bear)
 - [forgit](https://github.com/wfxr/forgit)
-- [neofetch](https://github.com/dylanaraps/neofetch)
-- [cheat.sh](https://github.com/chubin/cheat.sh)
 - [boxes](https://github.com/ascii-boxes/boxes)
 
 ## Installation steps
 1. Git clone this repo: `git clone git@github.com:michalwitwicki/.dotfiles.git`
 2. Getting the tools:
-    Many tools listed above can be installed from package manager. If for whatever reason you don't want to use package manager, you can also install them manually.
     For my current Fedora setup I am installing listed below with `dnf`:
     ```
-    sudo dnf install -y tmux git python neovim trash-cli git-delta ripgrep fd-find bat bear npm lua luarocks rlwrap tree-sitter-cli
+    sudo dnf install -y \
+        tmux \
+        git \
+        python \
+        trash-cli \
+        git-delta \
+        ripgrep \
+        fd-find \
+        bat \
+        bear \
+        npm \
+        lua \
+        luarocks \
+        tree-sitter-cli \
+        boxes
     ```
 
     `npm` - some languege servers are using it
     `luarocks` - nvim plugin
-    `rlwrap` - cheat.sh
+    `boxes` - nvim script
 
     If another tools would be downloaded manually, for example `nvim`, make a sym link of its binary into `~/bin`
 
@@ -69,30 +75,6 @@ This repository contains my dotfiles and configs:
     git clone git@github.com:wfxr/forgit.git
     ```
 
-
-    `cheat.sh` also needs another approach:
-    ```
-    PATH_DIR="$HOME/bin"  # or another directory on your $PATH
-    mkdir -p "$PATH_DIR"
-    curl https://cht.sh/:cht.sh > "$PATH_DIR/cht.sh"
-    chmod +x "$PATH_DIR/cht.sh"
-    ```
-    Completion for `cheat.sh` is already in .bashrc
-
-3. `*` Create sym links
-    - `/path/to/repo/.tmux.conf` -> `~/.tmux.conf`
-    - `/path/to/repo/.inputrc` -> `~/.inputrc`
-    - `/path/to/repo/nvim` -> `~/.config/nvim`
-    - `/path/to/repo/.gdbinit` -> `~/.gdbinit`
-
-4. `*` Modify current configs to source (include) my configs
-    - to `~/.bashrc` add `[ -f /path/to/repo/.bashrc ] && source /path/to/repo/.bashrc`
-    - to `~/.gitconfig` add
-        ```
-        [include]
-            path = /path/to/repo/.gitconfig
-        ```
-
 5. To test terminal capabilities run:
 ```
 ./scripts/color_formatting_test.sh
@@ -102,12 +84,8 @@ and / or:
 ./scripts/test_terminal_capabilities.sh
 ```
 
-
-`*` Those steps are already automated in `install.py` script, you can use it by running `python install.py`
-
 ## Miscellaneous
 Other stuff:
 1. `configs_for_remote`: minimal configs for working on temporary remote machine
 2. `unsuded_stuff`: old / not finished scripts or configs
-3. `windows_terminal_settings.json`
 
