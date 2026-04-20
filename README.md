@@ -18,87 +18,48 @@ This repository contains my dotfiles and configs.
 - [boxes](https://github.com/ascii-boxes/boxes)
 
 ## Installation steps
-1. Git clone this repo: `git clone git@github.com:michalwitwicki/.dotfiles.git`
-2. Getting the tools:
-    For my current Fedora setup I am installing listed below with `dnf`:
+1. Clone the repo:
     ```
-    sudo dnf install -y \
-        tmux \
-        git \
-        python \
-        trash-cli \
-        git-delta \
-        ripgrep \
-        fd-find \
-        bat \
-        bear \
-        npm \
-        lua \
-        luarocks \
-        tree-sitter-cli \
-        boxes
+    git clone git@github.com:michalwitwicki/.dotfiles.git ~/repos/.dotfiles
     ```
 
-    `npm` - some languege servers are using it
-    `luarocks` - nvim plugin
-    `boxes` - nvim script
+2. Run the installer:
+    ```
+    ./install.sh
+    ```
+    This will:
+    - Create symlinks for configs (`.tmux.conf`, `.inputrc`, `.gdbinit`, `~/.config/nvim`)
+    - Inject `source`/`include` blocks into `~/.bashrc` and `~/.gitconfig`
+    - Install dnf packages
+    - Install **neovim** — latest stable AppImage downloaded to `~/tools/neovim_<version>/`,
+        symlinked to `~/bin/nvim`
+    - Install **fzf**, **fff**, **forgit** — cloned from GitHub into `~/tools/`
+    - Install **opencode** via `curl -fsSL https://opencode.ai/install | bash`
 
-    If another tools would be downloaded manually, for example `nvim`, make a sym link of its binary into `~/bin`
-
-    Manual installs:
-
-    neovim:
+3. *(Optional)* Authenticate and configure opencode:
     ```
-    cd ~/tools/neovim_0_12_1
-    wget https://github.com/neovim/neovim/releases/download/v0.12.1/nvim-linux-x86_64.appimage
-    chmod u+x nvim-linux-x86_64.appimage
-    ln -svf /home/mwitwicki/tools/neovim_0_12_1/nvim-linux-x86_64.appimage /home/mwitwicki/bin/nvim
-    ```
-
-    fzf:
-    ```
-    cd ~/tools
-    git clone --depth 1 https://github.com/junegunn/fzf.git ./fzf
-    ./fzf/install --all
-    ```
-
-    fff:
-    ```
-    cd ~/tools
-    git clone git@github.com:dylanaraps/fff.git
-    cd fff
-    sudo make install
-    ```
-
-    forgit (will be sourced from .bashrc):
-    ```
-    cd ~/tools
-    git clone git@github.com:wfxr/forgit.git
-    ```
-
-
-    Opencode:
-    ```
-    curl -fsSL https://opencode.ai/install | bash
     opencode auth login
     opencode
     /theme
     gruvbox
     ```
 
-3. run `install.sh`
+    To remove the symlinks created by the installer:
+    ```
+    ./install.sh --uninstall
+    ```
 
 4. To test terminal capabilities run:
-```
-./scripts/color_formatting_test.sh
-```
-and / or:
-```
-./scripts/test_terminal_capabilities.sh
-```
+    ```
+    ./scripts/color_formatting_test.sh
+    ```
+    and / or:
+    ```
+    ./scripts/test_terminal_capabilities.sh
+    ```
 
 ## Miscellaneous
 Other stuff:
 1. `configs_for_remote`: minimal configs for working on temporary remote machine
-2. `unsuded_stuff`: old / not finished scripts or configs
+2. `unused_stuff`: old / not finished scripts or configs
 
