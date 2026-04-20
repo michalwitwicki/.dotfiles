@@ -25,6 +25,7 @@ alias gcm='git commit'
 alias gcma='git commit --amend'
 alias grbc='git rebase --continue'
 alias gcpc='git cherry-pick --continue'
+alias gsl='git stash list --pretty=format:"%gd: %Cred%h%Creset %Cgreen[%ar]%Creset %s"'
 
 # fzf shortcuts
 alias ff='fzf_find_file'
