@@ -255,6 +255,33 @@ install_forgit() {
     echo "[ ok ] forgit cloned to $forgit_dir"
 }
 
+install_opencode_config() {
+    local opencode_config_dir="$HOME/.config/opencode"
+    local src_dir="$CONFIGS_DIR/opencode"
+
+    create_symlink "$src_dir/opencode.json" "$opencode_config_dir/opencode.json"
+    create_symlink "$src_dir/tui.json"      "$opencode_config_dir/tui.json"
+    create_symlink "$src_dir/agents"        "$opencode_config_dir/agents"
+}
+
+install_caveman_skill() {
+    local skill_file="$HOME/.config/opencode/skills/caveman/SKILL.md"
+
+    if [ -f "$skill_file" ]; then
+        echo "[skip] caveman skill already installed at $skill_file"
+        return
+    fi
+
+    if ! command -v npx &>/dev/null; then
+        echo "[skip] npx not found, skipping caveman skill install"
+        return
+    fi
+
+    echo "[ .. ] Installing caveman skill via npx skills..."
+    npx skills add JuliusBrussee/caveman -a opencode -g -y
+    echo "[ ok ] caveman skill installed"
+}
+
 install_opencode() {
     if command -v opencode &>/dev/null; then
         echo "[skip] opencode already in PATH"
@@ -281,6 +308,9 @@ uninstall() {
     remove_symlink_if_ours "$CONFIGS_DIR/.inputrc"   "$HOME/.inputrc"
     remove_symlink_if_ours "$CONFIGS_DIR/.gdbinit"   "$HOME/.gdbinit"
     remove_symlink_if_ours "$SCRIPT_DIR/nvim"        "$HOME/.config/nvim"
+    remove_symlink_if_ours "$CONFIGS_DIR/opencode/opencode.json" "$HOME/.config/opencode/opencode.json"
+    remove_symlink_if_ours "$CONFIGS_DIR/opencode/tui.json"      "$HOME/.config/opencode/tui.json"
+    remove_symlink_if_ours "$CONFIGS_DIR/opencode/agents"        "$HOME/.config/opencode/agents"
     echo ""
     echo "--- Done ---"
 }
@@ -341,6 +371,14 @@ install() {
     echo ""
     echo "[ .. ] opencode"
     install_opencode
+
+    echo ""
+    echo "[ .. ] opencode config"
+    install_opencode_config
+
+    echo ""
+    echo "[ .. ] caveman skill"
+    install_caveman_skill
 
     echo ""
     echo "--- Done ---"
