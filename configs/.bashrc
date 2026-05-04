@@ -35,6 +35,9 @@ shopt -s histappend
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
 
+# expand "**" recursively in globs
+shopt -s globstar
+
 # --- MAN settings ---
 export MANPAGER='nvim +Man!'
 
