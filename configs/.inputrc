@@ -19,4 +19,12 @@ set keymap vi-insert
 
 # Those two are super helpful in insert mode
 Control-k: previous-history
+# Control-j: next-history
+
+# Copilot CLI is using "Control-j" as a linefeed, the character readline uses
+# internally to signal "execute this line". Below workaround works because
+# Copilot CLI uses `$TERM=xterm-color`.
+$if term=screen-256color
 Control-j: next-history
+$endif
+
