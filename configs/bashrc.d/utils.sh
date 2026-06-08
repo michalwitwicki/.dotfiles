@@ -109,3 +109,8 @@ summarize() {
             print \"avg\\t\", sum/i;
         }"
 }
+
+# --- Zip / unzip helpers ---
+
+alias zp='function _zp(){ zip -rv "$(basename "$1").zip" "$1"; }; _zp'
+alias uzp='function _uzp(){ unzip "$1" -d "${1%.zip}"; }; _uzp'
