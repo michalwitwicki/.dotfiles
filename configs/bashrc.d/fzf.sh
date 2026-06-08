@@ -1,5 +1,8 @@
 # --- FZF settings ---
 
+# Guard: skip if fzf is not installed
+[ -d "$HOME/tools/fzf" ] || return
+
 export FZF_DEFAULT_COMMAND='fd --type file --hidden'
 export FZF_DEFAULT_OPTS=''
 
