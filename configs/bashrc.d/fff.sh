@@ -1,5 +1,8 @@
 # --- FFF settings ---
 
+# Guard: skip if fff is not installed
+command -v fff &>/dev/null || return
+
 # Status background color [0-9]
 export FFF_COL2=3
 

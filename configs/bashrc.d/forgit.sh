@@ -1,5 +1,8 @@
 # --- Forgit settings ---
 
+# Guard: skip if forgit is not installed
+[ -d "$HOME/tools/forgit" ] || return
+
 export FORGIT_NO_ALIASES=1
 export FORGIT_GLO_FORMAT='%C(auto)%h %s%d %C(black)%C(bold)%cr%Creset'
 

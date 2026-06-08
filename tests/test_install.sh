@@ -52,12 +52,30 @@ assert_file_contains() {
     fi
 }
 
+assert_file_not_contains() {
+    local desc="$1" file="$2" pattern="$3"
+    if ! grep -qF "$pattern" "$file" 2>/dev/null; then
+        pass "$desc"
+    else
+        fail "$desc (pattern '$pattern' unexpectedly found in '$file')"
+    fi
+}
+
 assert_output_contains() {
     local desc="$1" pattern="$2" output="$3"
     if echo "$output" | grep -qF "$pattern"; then
         pass "$desc"
     else
         fail "$desc (pattern '$pattern' not found in output)"
+    fi
+}
+
+assert_output_not_contains() {
+    local desc="$1" pattern="$2" output="$3"
+    if ! echo "$output" | grep -qF "$pattern"; then
+        pass "$desc"
+    else
+        fail "$desc (pattern '$pattern' unexpectedly found in output)"
     fi
 }
 
@@ -87,6 +105,10 @@ setup() {
     TOOLS_DIR="$TMP_DIR/home/tools"
     BIN_DIR="$TMP_DIR/home/bin"
     mkdir -p "$HOME" "$TOOLS_DIR" "$BIN_DIR"
+    DRY_RUN=0
+    FLAG_ALL=0
+    # Disable colours so captured output is plain text (predictable grep patterns)
+    C_GREEN='' C_YELLOW='' C_RED='' C_CYAN='' C_BLUE='' C_BOLD='' C_RESET=''
 }
 
 teardown() { rm -rf "$TMP_DIR"; }
@@ -165,34 +187,30 @@ test_remove_symlink_skips_when_not_present() {
 }
 
 # ---------------------------------------------------------------------------
-# Tests: add_to_file_if_not_present
+# Tests: add_to_file_if_not_present  (new BEGIN/END marker format)
 # ---------------------------------------------------------------------------
 
 test_append_to_existing_file() {
     local file="$TMP_DIR/testfile"; touch "$file"
-    local block="# Added by .dotfiles/install.sh - myconfig
-some content here"
-    local out; out="$(add_to_file_if_not_present "$file" "myconfig" "$block")"
-    assert_output_contains "reports ok"     "[ ok ] myconfig appended" "$out"
-    assert_file_contains   "marker in file" "$file" "Added by .dotfiles/install.sh - myconfig"
-    assert_file_contains   "content in file" "$file" "some content here"
+    local out; out="$(add_to_file_if_not_present "$file" "myconfig" "some content here")"
+    assert_output_contains "reports ok"        "[ ok ] myconfig appended" "$out"
+    assert_file_contains   "BEGIN marker"      "$file" "# === install.sh: myconfig BEGIN ==="
+    assert_file_contains   "END marker"        "$file" "# === install.sh: myconfig END ==="
+    assert_file_contains   "content in file"   "$file" "some content here"
 }
 
 test_append_skips_if_already_present() {
     local file="$TMP_DIR/testfile"
-    local block="# Added by .dotfiles/install.sh - myconfig
-some content here"
-    printf '\n%s\n' "$block" > "$file"
-    local out; out="$(add_to_file_if_not_present "$file" "myconfig" "$block")"
+    # Pre-populate with the new marker format
+    printf '# === install.sh: myconfig BEGIN ===\nsome content here\n# === install.sh: myconfig END ===\n' > "$file"
+    local out; out="$(add_to_file_if_not_present "$file" "myconfig" "some content here")"
     assert_output_contains "reports skip"       "[skip] myconfig already present" "$out"
     assert_count           "content not duplicated" "1" "$file" "some content here"
 }
 
 test_append_creates_file_if_missing() {
     local file="$TMP_DIR/nonexistent_file"
-    local block="# Added by .dotfiles/install.sh - myconfig
-new content"
-    local out; out="$(add_to_file_if_not_present "$file" "myconfig" "$block")"
+    local out; out="$(add_to_file_if_not_present "$file" "myconfig" "new content")"
     assert_output_contains "reports warn missing file" "[warn] File" "$out"
     assert_output_contains "reports ok after creating" "[ ok ] myconfig appended" "$out"
     assert_path          "file now exists"  -f "$file"
@@ -201,14 +219,106 @@ new content"
 
 test_append_multiple_different_configs() {
     local file="$TMP_DIR/testfile"; touch "$file"
-    add_to_file_if_not_present "$file" "config_a" \
-        "# Added by .dotfiles/install.sh - config_a
-line from a" > /dev/null
-    add_to_file_if_not_present "$file" "config_b" \
-        "# Added by .dotfiles/install.sh - config_b
-line from b" > /dev/null
+    add_to_file_if_not_present "$file" "config_a" "line from a" > /dev/null
+    add_to_file_if_not_present "$file" "config_b" "line from b" > /dev/null
     assert_file_contains "config_a present" "$file" "line from a"
     assert_file_contains "config_b present" "$file" "line from b"
+}
+
+test_append_with_semicolon_comment_char() {
+    local file="$TMP_DIR/testgitconfig"; touch "$file"
+    local block="[include]
+    path = /some/path"
+    local out; out="$(add_to_file_if_not_present "$file" "gitconfig" "$block" ";")"
+    assert_output_contains "reports ok"        "[ ok ] gitconfig appended" "$out"
+    assert_file_contains   "semicolon BEGIN"   "$file" "; === install.sh: gitconfig BEGIN ==="
+    assert_file_contains   "semicolon END"     "$file" "; === install.sh: gitconfig END ==="
+    assert_file_contains   "content present"   "$file" "path = /some/path"
+}
+
+test_append_semicolon_skips_if_already_present() {
+    local file="$TMP_DIR/testgitconfig"
+    printf '; === install.sh: gitconfig BEGIN ===\n[include]\n    path = /x\n; === install.sh: gitconfig END ===\n' > "$file"
+    local out; out="$(add_to_file_if_not_present "$file" "gitconfig" "[include]" ";")"
+    assert_output_contains "reports skip" "[skip] gitconfig already present" "$out"
+}
+
+# ---------------------------------------------------------------------------
+# Tests: remove_from_file_section
+# ---------------------------------------------------------------------------
+
+test_remove_section_removes_marked_block() {
+    local file="$TMP_DIR/testfile"
+    # Add content before and after the section
+    printf 'before\n' > "$file"
+    add_to_file_if_not_present "$file" "mysection" "inside block" > /dev/null
+    printf 'after\n' >> "$file"
+
+    local out; out="$(remove_from_file_section "$file" "mysection")"
+    assert_output_contains "reports ok"         "[ ok ] Removed mysection section" "$out"
+    assert_file_contains     "before preserved" "$file" "before"
+    assert_file_contains     "after preserved"  "$file" "after"
+    assert_file_not_contains "BEGIN gone"       "$file" "# === install.sh: mysection BEGIN ==="
+    assert_file_not_contains "END gone"         "$file" "# === install.sh: mysection END ==="
+    assert_file_not_contains "block content gone" "$file" "inside block"
+}
+
+test_remove_section_skips_when_not_present() {
+    local file="$TMP_DIR/testfile"; touch "$file"
+    local out; out="$(remove_from_file_section "$file" "nonexistent")"
+    assert_output_contains "reports skip" "[skip]" "$out"
+}
+
+test_remove_section_skips_missing_file() {
+    local file="$TMP_DIR/no_such_file"
+    local out; out="$(remove_from_file_section "$file" "mysection")"
+    assert_output_contains "reports skip" "[skip]" "$out"
+}
+
+test_remove_section_with_semicolon_comment() {
+    local file="$TMP_DIR/testgitconfig"
+    add_to_file_if_not_present "$file" "gitconfig" "[include]
+    path = /x" ";" > /dev/null
+    local out; out="$(remove_from_file_section "$file" "gitconfig" ";")"
+    assert_output_contains   "reports ok"      "[ ok ] Removed gitconfig section" "$out"
+    assert_file_not_contains "BEGIN gone"      "$file" "; === install.sh: gitconfig BEGIN ==="
+    assert_file_not_contains "content gone"    "$file" "path = /x"
+}
+
+test_remove_section_does_not_remove_other_sections() {
+    local file="$TMP_DIR/testfile"; touch "$file"
+    add_to_file_if_not_present "$file" "section_a" "content a" > /dev/null
+    add_to_file_if_not_present "$file" "section_b" "content b" > /dev/null
+    remove_from_file_section "$file" "section_a" > /dev/null
+    assert_file_not_contains "section_a gone"      "$file" "content a"
+    assert_file_contains     "section_b preserved" "$file" "content b"
+}
+
+# ---------------------------------------------------------------------------
+# Tests: run_cmd
+# ---------------------------------------------------------------------------
+
+test_run_cmd_executes_normally() {
+    DRY_RUN=0
+    local target="$TMP_DIR/run_cmd_test_file"
+    run_cmd touch "$target"
+    assert_path "file was created" -f "$target"
+}
+
+test_run_cmd_dry_run_skips_execution() {
+    DRY_RUN=1
+    local target="$TMP_DIR/run_cmd_dry_file"
+    local out; out="$(run_cmd touch "$target")"
+    assert_path_false    "file was NOT created"  -f "$target"
+    assert_output_contains "prints dry message"  "[dry ] Would run:" "$out"
+    DRY_RUN=0
+}
+
+test_run_cmd_dry_run_includes_command_in_log() {
+    DRY_RUN=1
+    local out; out="$(run_cmd echo hello world)"
+    assert_output_contains "command in log" "echo hello world" "$out"
+    DRY_RUN=0
 }
 
 # ---------------------------------------------------------------------------
@@ -247,7 +357,7 @@ test_get_latest_github_release_extracts_correct_value() {
 }
 
 # ---------------------------------------------------------------------------
-# Tests: install_neovim
+# Tests: module_neovim
 # ---------------------------------------------------------------------------
 
 _stub_neovim_externals() {
@@ -263,12 +373,14 @@ _stub_neovim_externals() {
 
 test_neovim_installs_appimage_and_symlink() {
     _stub_neovim_externals
-    local out; out="$(install_neovim)"
+    local out; out="$(module_neovim "install")"
     local appimage="$TOOLS_DIR/neovim_0.99.0/nvim-linux-x86_64.appimage"
     assert_path   "install dir created"        -d "$TOOLS_DIR/neovim_0.99.0"
     assert_path   "appimage file exists"       -f "$appimage"
-    assert_path   "nvim symlink created"       -L "$BIN_DIR/nvim"
-    assert_equals "symlink points to appimage" "$appimage" "$(readlink "$BIN_DIR/nvim")"
+    assert_path   "nvim binary symlink created" -L "$BIN_DIR/nvim"
+    assert_equals "binary symlink points to appimage" "$appimage" "$(readlink "$BIN_DIR/nvim")"
+    assert_path   "nvim config symlink created" -L "$HOME/.config/nvim"
+    assert_equals "config symlink points to nvim dir" "$SCRIPT_DIR/nvim" "$(readlink "$HOME/.config/nvim")"
     assert_output_contains "reports ok" "[ ok ]" "$out"
 }
 
@@ -278,7 +390,7 @@ test_neovim_skips_if_symlink_exists() {
     local fake_appimage="$TOOLS_DIR/neovim_0.99.0/nvim-linux-x86_64.appimage"
     touch "$fake_appimage"
     ln -s "$fake_appimage" "$BIN_DIR/nvim"
-    local out; out="$(install_neovim)"
+    local out; out="$(module_neovim "install")"
     assert_output_contains "reports skip" "[skip]" "$out"
 }
 
@@ -305,17 +417,33 @@ setup; test_append_to_existing_file;               teardown
 setup; test_append_skips_if_already_present;       teardown
 setup; test_append_creates_file_if_missing;        teardown
 setup; test_append_multiple_different_configs;     teardown
+setup; test_append_with_semicolon_comment_char;    teardown
+setup; test_append_semicolon_skips_if_already_present; teardown
+
+echo ""
+echo "=== remove_from_file_section ==="
+setup; test_remove_section_removes_marked_block;          teardown
+setup; test_remove_section_skips_when_not_present;        teardown
+setup; test_remove_section_skips_missing_file;            teardown
+setup; test_remove_section_with_semicolon_comment;        teardown
+setup; test_remove_section_does_not_remove_other_sections; teardown
+
+echo ""
+echo "=== run_cmd ==="
+setup; test_run_cmd_executes_normally;              teardown
+setup; test_run_cmd_dry_run_skips_execution;        teardown
+setup; test_run_cmd_dry_run_includes_command_in_log; teardown
 
 echo ""
 echo "=== get_latest_github_release ==="
-setup; test_get_latest_github_release_returns_tag;       teardown
-setup; test_get_latest_github_release_starts_with_v;     teardown
+setup; test_get_latest_github_release_returns_tag;            teardown
+setup; test_get_latest_github_release_starts_with_v;          teardown
 setup; test_get_latest_github_release_extracts_correct_value; teardown
 
 echo ""
-echo "=== install_neovim ==="
-setup; test_neovim_installs_appimage_and_symlink;       teardown
-setup; test_neovim_skips_if_symlink_exists;             teardown
+echo "=== module_neovim ==="
+setup; test_neovim_installs_appimage_and_symlink; teardown
+setup; test_neovim_skips_if_symlink_exists;       teardown
 
 # ---------------------------------------------------------------------------
 # Summary
