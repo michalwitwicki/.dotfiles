@@ -613,9 +613,7 @@ module_neovim() {
                 log_ok "Downloaded neovim AppImage"
             fi
 
-            if [[ "$DRY_RUN" -eq 0 ]]; then
-                chmod u+x "$appimage_path"
-            fi
+            run_cmd chmod u+x "$appimage_path"
             create_symlink "$appimage_path" "$nvim_bin"
             log_ok "nvim installed: $nvim_bin -> $appimage_path (version: $version)"
             ;;
@@ -783,8 +781,9 @@ module_fzf() {
             ;;
         uninstall)
             if [[ -d "$fzf_dir" ]]; then
+                run_cmd "$fzf_dir/uninstall"
                 run_cmd rm -rf "$fzf_dir"
-                log_ok "Removed fzf directory: $fzf_dir"
+                log_ok "fzf uninstalled and removed fzf directory: $fzf_dir"
             else
                 log_skip "fzf directory not found: $fzf_dir"
             fi
@@ -800,26 +799,31 @@ register_module "fzf" "fzf — fuzzy finder (git clone + installer)"
 module_fff() {
     local action="${1:-install}"
     local fff_dir="$TOOLS_DIR/fff"
+    local fff_prefix="$HOME/.local"
     case "$action" in
         info)
             echo "fff"
-            echo "fff — terminal file manager (git clone + make install)"
+            echo "fff — terminal file manager (git clone + make install PREFIX=~/.local)"
             ;;
         install)
-            if command -v fff &>/dev/null; then
-                log_skip "fff already in PATH"
+            if [[ -f "$fff_prefix/bin/fff" ]] || command -v fff &>/dev/null; then
+                log_skip "fff already installed"
                 return
             fi
             run_cmd mkdir -p "$TOOLS_DIR"
             log_info "Cloning fff..."
             run_cmd git clone https://github.com/dylanaraps/fff.git "$fff_dir"
-            log_info "Installing fff (sudo make install)..."
-            run_cmd make -C "$fff_dir" install
-            log_ok "fff installed"
+            log_info "Installing fff (make install PREFIX=$fff_prefix)..."
+            if run_cmd make -C "$fff_dir" install PREFIX="$fff_prefix"; then
+                log_ok "fff installed to $fff_prefix/bin/fff"
+            else
+                log_fail "fff installation failed"
+                return 1
+            fi
             ;;
         uninstall)
             if [[ -d "$fff_dir" ]]; then
-                run_cmd make -C "$fff_dir" uninstall 2>/dev/null || true
+                run_cmd make -C "$fff_dir" uninstall PREFIX="$fff_prefix" 2>/dev/null || true
                 run_cmd rm -rf "$fff_dir"
                 log_ok "Removed fff"
             else
@@ -828,7 +832,7 @@ module_fff() {
             ;;
     esac
 }
-register_module "fff" "fff — terminal file manager (git clone + make install)"
+register_module "fff" "fff — terminal file manager (git clone + make install PREFIX=~/.local)"
 
 # ---------------------------------------------------------------------------
 # Module: opencode

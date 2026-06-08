@@ -1,7 +1,7 @@
 # --- FFF settings ---
 
 # Guard: skip if fff is not installed
-command -v fff &>/dev/null || return
+command -v fff &>/dev/null || [ -f "$HOME/.local/bin/fff" ] || return
 
 # Status background color [0-9]
 export FFF_COL2=3
