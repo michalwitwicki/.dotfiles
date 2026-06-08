@@ -26,3 +26,6 @@ fzf_find_grep() {
         --preview-window 'up:60%:border-bottom:+{2}+3/3:~3' \
         --bind 'enter:become(nvim {1} +{2})'
 }
+
+alias ff='fzf_find_file'
+alias fs='fzf_find_grep'
