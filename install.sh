@@ -5,7 +5,7 @@
 #
 # HOW TO ADD A NEW MODULE
 # -----------------------
-# 1. Define a function  module_<name>()  with three subcommands (see template).
+# 1. Define a function  module_<name>()  with two subcommands (see template).
 # 2. Call  register_module "name" "description"  immediately after.
 #    The module will automatically appear in --list, the install loop, etc.
 #    No other changes needed.
@@ -15,10 +15,6 @@
 #   module_myapp() {
 #       local action="${1:-install}"
 #       case "$action" in
-#           info)
-#               echo "myapp"
-#               echo "One-line description shown in --list and prompts"
-#               ;;
 #           install)
 #               # --- dnf dependencies (optional) ---
 #               # run_cmd sudo dnf install -y libfoo libbar
@@ -468,7 +464,7 @@ register_module() {
     MODULE_DESCS["$name"]="$desc"
 }
 
-# Dispatch an action (install|uninstall|info) to a module function.
+# Dispatch an action (install|uninstall) to a module function.
 run_module() {
     local action="$1"
     local name="$2"
@@ -524,10 +520,6 @@ print_summary() {
 module_shell() {
     local action="${1:-install}"
     case "$action" in
-        info)
-            echo "shell"
-            echo "Shell foundation: sources configs/.bashrc from ~/.bashrc, symlinks ~/.inputrc"
-            ;;
         install)
             log_info "Injecting ~/.bashrc source block..."
             add_to_file_if_not_present "$HOME/.bashrc" "bashrc" \
@@ -549,10 +541,6 @@ register_module "shell" "Shell foundation: sources configs/.bashrc from ~/.bashr
 module_cli_tools() {
     local action="${1:-install}"
     case "$action" in
-        info)
-            echo "cli_tools"
-            echo "General CLI utilities without config"
-            ;;
         install)
             install_dnf_packages "cli_tools" \
                 gcc make htop python trash-cli ripgrep fd-find bat \
@@ -581,10 +569,6 @@ register_module "cli_tools" "General CLI utilities without config"
 module_neovim() {
     local action="${1:-install}"
     case "$action" in
-        info)
-            echo "neovim"
-            echo "Neovim: latest stable AppImage + ~/.config/nvim symlink"
-            ;;
         install)
             create_symlink "$SCRIPT_DIR/nvim" "$HOME/.config/nvim"
 
@@ -664,10 +648,6 @@ register_module "neovim" "Neovim: latest stable AppImage + ~/.config/nvim symlin
 module_tmux() {
     local action="${1:-install}"
     case "$action" in
-        info)
-            echo "tmux"
-            echo "tmux terminal multiplexer + ~/.tmux.conf symlink"
-            ;;
         install)
             install_dnf_packages "tmux" tmux
             create_symlink "$CONFIGS_DIR/.tmux.conf" "$HOME/.tmux.conf"
@@ -687,10 +667,6 @@ register_module "tmux" "tmux terminal multiplexer + ~/.tmux.conf symlink"
 module_git() {
     local action="${1:-install}"
     case "$action" in
-        info)
-            echo "git"
-            echo "git + git-delta (better diffs), injects include block into ~/.gitconfig"
-            ;;
         install)
             install_dnf_packages "git" git git-delta
             log_info "Injecting ~/.gitconfig include block..."
@@ -714,10 +690,6 @@ module_forgit() {
     local action="${1:-install}"
     local forgit_dir="$TOOLS_DIR/forgit"
     case "$action" in
-        info)
-            echo "forgit"
-            echo "forgit — interactive git commands via fzf (git clone)"
-            ;;
         install)
             if [[ -d "$forgit_dir" ]]; then
                 log_skip "forgit already cloned at $forgit_dir"
@@ -747,10 +719,6 @@ register_module "forgit" "forgit — interactive git commands via fzf (git clone
 module_rust() {
     local action="${1:-install}"
     case "$action" in
-        info)
-            echo "rust"
-            echo "Rust toolchain"
-            ;;
         install)
             run_cmd curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
             ;;
@@ -768,10 +736,6 @@ register_module "rust" "Rust toolchain"
 module_gdb() {
     local action="${1:-install}"
     case "$action" in
-        info)
-            echo "gdb"
-            echo "GDB debugger + ~/.gdbinit symlink"
-            ;;
         install)
             install_dnf_packages "gdb" gdb
             create_symlink "$CONFIGS_DIR/.gdbinit" "$HOME/.gdbinit"
@@ -792,10 +756,6 @@ module_fzf() {
     local action="${1:-install}"
     local fzf_dir="$TOOLS_DIR/fzf"
     case "$action" in
-        info)
-            echo "fzf"
-            echo "fzf — fuzzy finder (git clone + installer)"
-            ;;
         install)
             if [[ -d "$fzf_dir" ]]; then
                 log_skip "fzf already cloned at $fzf_dir"
@@ -830,10 +790,6 @@ module_fff() {
     local fff_dir="$TOOLS_DIR/fff"
     local fff_prefix="$HOME/.local"
     case "$action" in
-        info)
-            echo "fff"
-            echo "fff — terminal file manager (git clone + make install PREFIX=~/.local)"
-            ;;
         install)
             if [[ -f "$fff_prefix/bin/fff" ]] || command -v fff &>/dev/null; then
                 log_skip "fff already installed"
@@ -872,10 +828,6 @@ module_opencode() {
     local opencode_config_dir="$HOME/.config/opencode"
     local src_dir="$CONFIGS_DIR/opencode"
     case "$action" in
-        info)
-            echo "opencode"
-            echo "opencode — AI coding assistant (curl installer + config symlinks)"
-            ;;
         install)
             if ! command -v opencode &>/dev/null; then
                 log_info "Installing opencode..."
@@ -913,10 +865,6 @@ module_caveman() {
     local action="${1:-install}"
     local skill_file="$HOME/.config/opencode/skills/caveman/SKILL.md"
     case "$action" in
-        info)
-            echo "caveman"
-            echo "caveman skill for opencode (npx install)"
-            ;;
         install)
             if [[ -f "$skill_file" ]]; then
                 log_skip "caveman skill already installed at $skill_file"
