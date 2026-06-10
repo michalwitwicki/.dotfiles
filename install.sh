@@ -532,7 +532,7 @@ module_shell() {
             ;;
     esac
 }
-register_module "shell" "Shell foundation: sources configs/.bashrc from ~/.bashrc, symlinks ~/.inputrc"
+register_module "shell" "Shell configs: source .bashrc and symlink .inputrc"
 
 # ---------------------------------------------------------------------------
 # Module: cli_tools
@@ -556,11 +556,10 @@ module_cli_tools() {
             ;;
         uninstall)
             log_info "cli_tools packages are not automatically removed by this script"
-            log_info "To remove manually: sudo dnf remove python trash-cli ripgrep fd-find bat lua luarocks tree-sitter-cli boxes bear npm"
             ;;
     esac
 }
-register_module "cli_tools" "General CLI utilities without config"
+register_module "cli_tools" "General CLI tools installed with dnf"
 
 # ---------------------------------------------------------------------------
 # Module: neovim
@@ -639,7 +638,7 @@ module_neovim() {
             ;;
     esac
 }
-register_module "neovim" "Neovim: latest stable AppImage + ~/.config/nvim symlink"
+register_module "neovim" "Latest stable AppImage + ~/.config/nvim symlink"
 
 # ---------------------------------------------------------------------------
 # Module: tmux
@@ -658,7 +657,7 @@ module_tmux() {
             ;;
     esac
 }
-register_module "tmux" "tmux terminal multiplexer + ~/.tmux.conf symlink"
+register_module "tmux" "dnf + ~/.tmux.conf symlink"
 
 # ---------------------------------------------------------------------------
 # Module: git
@@ -680,7 +679,7 @@ module_git() {
             ;;
     esac
 }
-register_module "git" "git + git-delta (better diffs), injects include block into ~/.gitconfig"
+register_module "git" "git + git-delta, injects include block into ~/.gitconfig"
 
 # ---------------------------------------------------------------------------
 # Module: forgit
@@ -710,7 +709,7 @@ module_forgit() {
             ;;
     esac
 }
-register_module "forgit" "forgit — interactive git commands via fzf (git clone)"
+register_module "forgit" "Interactive git commands via fzf (git clone)"
 
 # ---------------------------------------------------------------------------
 # Module: rust
@@ -749,7 +748,7 @@ module_gdb() {
             ;;
     esac
 }
-register_module "gdb" "GDB debugger + ~/.gdbinit symlink"
+register_module "gdb" "dnf + .gdbinit symlink"
 
 # ---------------------------------------------------------------------------
 # Module: fzf
@@ -782,7 +781,7 @@ module_fzf() {
             ;;
     esac
 }
-register_module "fzf" "fzf — fuzzy finder (git clone + installer)"
+register_module "fzf" "Fuzzy finder (git clone + installer)"
 
 # ---------------------------------------------------------------------------
 # Module: fff
@@ -820,7 +819,7 @@ module_fff() {
             ;;
     esac
 }
-register_module "fff" "fff — terminal file manager (git clone + make install PREFIX=~/.local)"
+register_module "fff" "Terminal file manager (git clone + make install)"
 
 # ---------------------------------------------------------------------------
 # Module: opencode
@@ -858,7 +857,7 @@ module_opencode() {
             ;;
     esac
 }
-register_module "opencode" "opencode — AI coding assistant (curl installer + config symlinks)"
+register_module "opencode" "AI coding assistant (curl installer + config symlinks)"
 
 # ---------------------------------------------------------------------------
 # Module: caveman
