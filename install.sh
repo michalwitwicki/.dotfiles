@@ -720,7 +720,10 @@ module_rust() {
     local action="${1:-install}"
     case "$action" in
         install)
-            run_cmd curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+            local tmp; tmp="$(mktemp)"
+            run_cmd curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o "$tmp"
+            run_cmd sh "$tmp" -s -- -y
+            rm -f "$tmp"
             ;;
         uninstall)
             rustup self uninstall
