@@ -518,14 +518,14 @@ print_summary() {
 # =============================================================================
 
 # ---------------------------------------------------------------------------
-# Module: base
+# Module: shell
 # ---------------------------------------------------------------------------
 
-module_base() {
+module_shell() {
     local action="${1:-install}"
     case "$action" in
         info)
-            echo "base"
+            echo "shell"
             echo "Shell foundation: sources configs/.bashrc from ~/.bashrc, symlinks ~/.inputrc"
             ;;
         install)
@@ -540,7 +540,7 @@ module_base() {
             ;;
     esac
 }
-register_module "base" "Shell foundation: sources configs/.bashrc from ~/.bashrc, symlinks ~/.inputrc"
+register_module "shell" "Shell foundation: sources configs/.bashrc from ~/.bashrc, symlinks ~/.inputrc"
 
 # ---------------------------------------------------------------------------
 # Module: cli_tools
