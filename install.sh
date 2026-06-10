@@ -555,8 +555,16 @@ module_cli_tools() {
             ;;
         install)
             install_dnf_packages "cli_tools" \
-                python trash-cli ripgrep fd-find bat \
+                gcc make htop python trash-cli ripgrep fd-find bat \
                 lua luarocks tree-sitter-cli boxes bear npm
+
+            log_info "trash-cli alternative:"
+            log_info "  pip install trash-cli"
+            log_info "  pip uninstall trash-cli"
+
+            log_info "bear alternative: https://github.com/rizsotto/Bear/blob/master/INSTALL.md"
+
+            log_info "boxes: https://github.com/ascii-boxes/boxes"
             ;;
         uninstall)
             log_info "cli_tools packages are not automatically removed by this script"
@@ -731,6 +739,27 @@ module_forgit() {
     esac
 }
 register_module "forgit" "forgit — interactive git commands via fzf (git clone)"
+
+# ---------------------------------------------------------------------------
+# Module: rust
+# ---------------------------------------------------------------------------
+
+module_rust() {
+    local action="${1:-install}"
+    case "$action" in
+        info)
+            echo "rust"
+            echo "Rust toolchain"
+            ;;
+        install)
+            run_cmd curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+            ;;
+        uninstall)
+            rustup self uninstall
+            ;;
+    esac
+}
+register_module "rust" "Rust toolchain"
 
 # ---------------------------------------------------------------------------
 # Module: gdb
