@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+# pre-commit — check formatting of staged files and block commit if violations found.
+#
+# Formatters checked:
+#   *.lua  → stylua --check
+#   *.sh   → shfmt -d
+#   *.md   → prettier --check
+#
+# To fix formatting:   ./scripts/format.sh
+# To bypass this hook: git commit --no-verify
+set -euo pipefail
+
+# Augment PATH with common tool install locations (hook runs in non-interactive shell)
+export PATH="$HOME/.cargo/bin:$HOME/go/bin:/usr/local/bin:$PATH"
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+# Collect staged files that are being added/copied/modified/renamed
+mapfile -t staged < <(git diff --cached --name-only --diff-filter=ACMR)
+
+lua_files=()
+sh_files=()
+md_files=()
+
+for f in "${staged[@]}"; do
+    case "$f" in
+        *.lua) lua_files+=("$REPO_ROOT/$f") ;;
+        *.sh)  sh_files+=("$REPO_ROOT/$f")  ;;
+        *.md)  md_files+=("$REPO_ROOT/$f")  ;;
+    esac
+done
+
+exit_code=0
+
+check_lua() {
+    if ! command -v stylua &>/dev/null; then
+        echo "[fmt] stylua not found, skipping Lua check. Run: ./install.sh --only git_hooks"
+        return
+    fi
+    if ! stylua --check "${lua_files[@]}" 2>&1; then
+        exit_code=1
+    fi
+}
+
+check_sh() {
+    if ! command -v shfmt &>/dev/null; then
+        echo "[fmt] shfmt not found, skipping Shell check. Run: ./install.sh --only git_hooks"
+        return
+    fi
+    if ! shfmt -d "${sh_files[@]}"; then
+        exit_code=1
+    fi
+}
+
+check_md() {
+    if ! command -v prettier &>/dev/null; then
+        echo "[fmt] prettier not found, skipping Markdown check. Run: ./install.sh --only git_hooks"
+        return
+    fi
+    if ! prettier --check "${md_files[@]}" 2>&1; then
+        exit_code=1
+    fi
+}
+
+[[ "${#lua_files[@]}" -gt 0 ]] && check_lua
+[[ "${#sh_files[@]}" -gt 0 ]]  && check_sh
+[[ "${#md_files[@]}" -gt 0 ]]  && check_md
+
+if [[ "$exit_code" -ne 0 ]]; then
+    echo ""
+    echo "✖ Commit blocked: formatting violations found in staged files."
+    echo "  Fix them manually, then re-stage and commit."
+    echo ""
+    echo "  Auto-fix:  ./scripts/format.sh"
+    echo "  Check:     ./scripts/format-check.sh"
+    echo "  Bypass:    git commit --no-verify"
+    echo ""
+    exit 1
+fi

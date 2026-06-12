@@ -58,6 +58,47 @@ This repository contains my dotfiles and configs.
     ./scripts/test_terminal_capabilities.sh
     ```
 
+## Code Formatting
+
+Formatting is enforced via a pre-commit git hook using:
+
+| Language | Formatter | Config |
+| -------- | --------- | ------ |
+| Lua      | `stylua`  | `stylua.toml` |
+| Shell    | `shfmt`   | `.editorconfig` |
+| Markdown | `prettier` | `.prettierrc.yaml` |
+
+### Setup (required after each fresh clone)
+
+```
+./install.sh --only git_hooks
+```
+
+This installs the formatters and activates the hook via `git config
+core.hooksPath git-hooks`.
+
+### Manual usage
+
+Format all tracked files:
+
+```
+./scripts/format.sh
+```
+
+Check formatting without modifying files (exits non-zero on violations):
+
+```
+./scripts/format-check.sh
+```
+
+### Bypass
+
+To commit without running the formatter:
+
+```
+git commit --no-verify
+```
+
 ## Miscellaneous
 Other stuff:
 1. `configs_for_remote`: minimal configs for working on temporary remote machine

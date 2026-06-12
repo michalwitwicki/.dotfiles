@@ -544,7 +544,7 @@ module_cli_tools() {
         install)
             install_dnf_packages "cli_tools" \
                 gcc make htop python trash-cli ripgrep fd-find bat \
-                lua luarocks tree-sitter-cli boxes bear npm
+                lua luarocks tree-sitter-cli boxes bear npm golang
 
             log_info "trash-cli alternative:"
             log_info "  pip install trash-cli"
@@ -894,6 +894,80 @@ module_caveman() {
     esac
 }
 register_module "caveman" "caveman skill for opencode (npx install)"
+
+# ---------------------------------------------------------------------------
+# Module: git_hooks
+# ---------------------------------------------------------------------------
+
+module_git_hooks() {
+    local action="${1:-install}"
+    case "$action" in
+        install)
+            # --- stylua ---
+            if command -v stylua &>/dev/null; then
+                log_skip "stylua already installed: $(stylua --version 2>&1)"
+            else
+                if ! command -v cargo &>/dev/null; then
+                    log_skip "cargo not found, skipping stylua install (install rust module first)"
+                else
+                    log_info "Installing stylua via cargo..."
+                    if run_cmd cargo install stylua; then
+                        log_ok "stylua installed"
+                    else
+                        log_fail "stylua install failed"
+                        return 1
+                    fi
+                fi
+            fi
+
+            # --- shfmt ---
+            if command -v shfmt &>/dev/null; then
+                log_skip "shfmt already installed: $(shfmt --version 2>&1)"
+            else
+                if ! command -v go &>/dev/null; then
+                    log_skip "go not found, skipping shfmt install (install golang via cli_tools first)"
+                else
+                    log_info "Installing shfmt via go install..."
+                    if run_cmd go install mvdan.cc/sh/v3/cmd/shfmt@latest; then
+                        log_ok "shfmt installed to $(go env GOPATH)/bin/shfmt"
+                    else
+                        log_fail "shfmt install failed"
+                        return 1
+                    fi
+                fi
+            fi
+
+            # --- prettier ---
+            if command -v prettier &>/dev/null; then
+                log_skip "prettier already installed: $(prettier --version 2>&1)"
+            else
+                if ! command -v npm &>/dev/null; then
+                    log_skip "npm not found, skipping prettier install"
+                else
+                    log_info "Installing prettier via npm..."
+                    if run_cmd sudo npm install -g prettier; then
+                        log_ok "prettier installed"
+                    else
+                        log_fail "prettier install failed"
+                        return 1
+                    fi
+                fi
+            fi
+
+            # --- activate the hook ---
+            log_info "Activating git hook: core.hooksPath = git-hooks"
+            run_cmd git -C "$SCRIPT_DIR" config core.hooksPath git-hooks
+            log_ok "git hook activated — formatters will run on every commit"
+            ;;
+        uninstall)
+            log_info "Deactivating git hook..."
+            run_cmd git -C "$SCRIPT_DIR" config --unset core.hooksPath || true
+            log_ok "core.hooksPath unset"
+            log_skip "stylua, shfmt, and prettier binaries were not removed (shared tools)"
+            ;;
+    esac
+}
+register_module "git_hooks" "Code formatters (stylua, shfmt, prettier) + pre-commit hook"
 
 # =============================================================================
 # MAIN
