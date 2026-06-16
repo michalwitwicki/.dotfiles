@@ -1,5 +1,5 @@
 return {
-  'nullromo/go-up.nvim',
+  "nullromo/go-up.nvim",
   opts = {
     -- affect the behavior of zz
     mapZZ = true,
@@ -13,7 +13,7 @@ return {
     alignOffsetLines = { top = 0, bottom = 0 },
   }, -- specify options here
   config = function(_, opts)
-    local goUp = require('go-up')
+    local goUp = require("go-up")
     goUp.setup(opts)
   end,
 }

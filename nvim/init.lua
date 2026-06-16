@@ -1,4 +1,4 @@
 -- Load config files
-require('remap')
-require('set')
-require('plugins_install')
+require("remap")
+require("set")
+require("plugins_install")

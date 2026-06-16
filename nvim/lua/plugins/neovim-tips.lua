@@ -21,7 +21,7 @@ return {
     show_daily_tip_footer = false,
   },
   keys = {
-    { "<leader>it", ":NeovimTips<CR>",       desc = "Neovim tips" },
+    { "<leader>it", ":NeovimTips<CR>", desc = "Neovim tips" },
     { "<leader>ir", ":NeovimTipsRandom<CR>", desc = "Show random tip" },
   },
 }

@@ -1,7 +1,7 @@
 define print_params
-    continue
-    info args
-    print_params
+continue
+info args
+print_params
 end
 
 # set logging file my-gdb-log

@@ -1,16 +1,16 @@
 return {
-  'saghen/blink.cmp',
+  "saghen/blink.cmp",
   -- optional: provides snippets for the snippet source
   dependencies = {
-    'rafamadriz/friendly-snippets',
+    "rafamadriz/friendly-snippets",
     {
       "fang2hou/blink-copilot",
-      dependencies = { 'zbirenbaum/copilot.lua' }
+      dependencies = { "zbirenbaum/copilot.lua" },
     },
   },
 
   -- use a release tag to download pre-built binaries
-  version = '1.*',
+  version = "1.*",
   -- AND/OR build from source, requires nightly: https://rust-lang.github.io/rustup/concepts/channels.html#working-with-nightly-rust
   -- build = 'cargo build --release',
   -- If you use nix, you can build from source using latest nightly rust with:
@@ -32,22 +32,22 @@ return {
     --
     -- See :h blink-cmp-config-keymap for defining your own keymap
     keymap = {
-      preset = 'none',
+      preset = "none",
 
-      ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
-      ['<C-e>'] = { 'hide', 'fallback' },
-      ['<CR>'] = { 'accept', 'fallback' },
+      ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
+      ["<C-e>"] = { "hide", "fallback" },
+      ["<CR>"] = { "accept", "fallback" },
 
-      ['<Tab>'] = { 'select_next', 'snippet_forward', 'fallback' },
-      ['<S-Tab>'] = { 'select_prev', 'snippet_backward', 'fallback' },
+      ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+      ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
 
-      ['<C-p>'] = { 'select_prev', 'fallback_to_mappings' },
-      ['<C-n>'] = { 'select_next', 'fallback_to_mappings' },
+      ["<C-p>"] = { "select_prev", "fallback_to_mappings" },
+      ["<C-n>"] = { "select_next", "fallback_to_mappings" },
 
-      ['<Up>'] = { 'scroll_documentation_up', 'fallback' },
-      ['<Down>'] = { 'scroll_documentation_down', 'fallback' },
+      ["<Up>"] = { "scroll_documentation_up", "fallback" },
+      ["<Down>"] = { "scroll_documentation_down", "fallback" },
 
-      ['<C-k>'] = { 'show_signature', 'hide_signature', 'fallback' },
+      ["<C-k>"] = { "show_signature", "hide_signature", "fallback" },
     },
 
     signature = { enabled = true },
@@ -55,33 +55,33 @@ return {
     appearance = {
       -- 'mono' (default) for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
       -- Adjusts spacing to ensure icons are aligned
-      nerd_font_variant = 'mono',
+      nerd_font_variant = "mono",
       kind_icons = {
-        Text = 'T',
-        Method = 'ƒ',        -- Function symbol
-        Function = 'λ',      -- Lambda
-        Constructor = 'C',
-        Field = '•',
-        Variable = '𝑥',      -- Italic x
-        Property = '▤',
-        Class = '🅒',
-        Interface = '◌',
-        Struct = '▦',
-        Module = '📦',
-        Unit = 'U',
-        Value = 'V',
-        Enum = '∷',
-        EnumMember = '∈',
-        Keyword = '🔑',
-        Constant = 'π',
-        Snippet = '✂',
-        Color = '⬛',
-        File = '📄',
-        Reference = '🔗',
-        Folder = '📁',
-        Event = '🗲',
-        Operator = '+',
-        TypeParameter = '𝑇',
+        Text = "T",
+        Method = "ƒ", -- Function symbol
+        Function = "λ", -- Lambda
+        Constructor = "C",
+        Field = "•",
+        Variable = "𝑥", -- Italic x
+        Property = "▤",
+        Class = "🅒",
+        Interface = "◌",
+        Struct = "▦",
+        Module = "📦",
+        Unit = "U",
+        Value = "V",
+        Enum = "∷",
+        EnumMember = "∈",
+        Keyword = "🔑",
+        Constant = "π",
+        Snippet = "✂",
+        Color = "⬛",
+        File = "📄",
+        Reference = "🔗",
+        Folder = "📁",
+        Event = "🗲",
+        Operator = "+",
+        TypeParameter = "𝑇",
       },
     },
 
@@ -94,21 +94,21 @@ return {
             -- { "kind_icon", gap = 1, "kind" },
             { "kind_icon", gap = 1 },
             { "source_name" },
-          }
-        }
+          },
+        },
       },
       list = {
         selection = {
           preselect = false,
           auto_insert = true,
-        }
-      }
+        },
+      },
     },
 
     -- Default list of enabled providers defined so that you can extend it
     -- elsewhere in your config, without redefining it, due to `opts_extend`
     sources = {
-      default = { 'lsp', 'path', 'snippets', 'buffer', 'copilot' },
+      default = { "lsp", "path", "snippets", "buffer", "copilot" },
       providers = {
         copilot = {
           name = "copilot",
@@ -118,7 +118,7 @@ return {
           opts = {
             kind_name = "Copilot",
             kind_icon = "🤖",
-          }
+          },
         },
       },
     },
@@ -128,7 +128,7 @@ return {
     -- when the Rust fuzzy matcher is not available, by using `implementation = "prefer_rust"`
     --
     -- See the fuzzy documentation for more information
-    fuzzy = { implementation = "prefer_rust_with_warning" }
+    fuzzy = { implementation = "prefer_rust_with_warning" },
   },
   opts_extend = { "sources.default" },
 }

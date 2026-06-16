@@ -1,6 +1,6 @@
 return {
   {
-    'zbirenbaum/copilot.lua',
+    "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     event = "InsertEnter",
     opts = {
@@ -16,15 +16,15 @@ return {
     },
   },
   {
-    'CopilotC-Nvim/CopilotChat.nvim',
+    "CopilotC-Nvim/CopilotChat.nvim",
     dependencies = {
-      {'zbirenbaum/copilot.lua'},
-      {'ibhagwan/fzf-lua'}, -- Use fzf-lua as a picker
-      {'nvim-lua/plenary.nvim'}, -- for curl, log wrapper
+      { "zbirenbaum/copilot.lua" },
+      { "ibhagwan/fzf-lua" }, -- Use fzf-lua as a picker
+      { "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
     },
     build = "make tiktoken", -- Only on MacOS or Linux
     opts = {
-      model = 'claude-opus-4.6',
+      model = "claude-opus-4.6",
       debug = true, -- Enable debugging
       -- See Configuration section for rest
     },
@@ -89,6 +89,5 @@ return {
       { "<leader>al", "<cmd>CopilotChatReset<cr>", desc = "CopilotChat - Clear buffer and chat history" },
       { "<leader>av", "<cmd>CopilotChatToggle<cr>", desc = "CopilotChat - Toggle side panel" },
     },
-  }
+  },
 }
-

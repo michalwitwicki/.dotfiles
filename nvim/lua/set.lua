@@ -27,16 +27,16 @@ vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 8
 vim.opt.sidescrolloff = 8
-vim.opt.signcolumn = 'yes'
+vim.opt.signcolumn = "yes"
 vim.opt.isfname:append("@-@")
 
 vim.opt.updatetime = 50
 
-vim.opt.mouse = 'a'
+vim.opt.mouse = "a"
 
-vim.opt.jumpoptions = 'view'
+vim.opt.jumpoptions = "view"
 
-vim.o.sessionoptions = 'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions'
+vim.o.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
 
 vim.opt.splitright = true
 vim.opt.splitbelow = true
@@ -50,32 +50,32 @@ vim.api.nvim_create_autocmd("BufEnter", { command = [[set formatoptions+=r]] })
 
 vim.opt.list = true
 vim.opt.listchars = {
-  tab='▸-',
-  lead='·',
-  trail='·',
+  tab = "▸-",
+  lead = "·",
+  trail = "·",
   -- eol = '¬'
 }
 
 -- Map <leader>tw to toggle display of invisible characters
-vim.api.nvim_set_keymap('n', '<leader>tw', ':set list!<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>tw", ":set list!<CR>", { noremap = true, silent = true })
 
 -- Map <leader>tl to toggle Line wrapping
-vim.api.nvim_set_keymap('n', '<leader>tl', ':set wrap!<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>tl", ":set wrap!<CR>", { noremap = true, silent = true })
 
 --- Custom functions ---
 -- run with ":lua Print_tab_settings()"
 function Print_tab_settings()
   local bufnr = vim.api.nvim_get_current_buf()
   print("--- Current TAB settings ---")
-  print("tabstop: " .. vim.api.nvim_buf_get_option(bufnr, 'tabstop'))
-  print("shiftwidth: " .. vim.api.nvim_buf_get_option(bufnr, 'shiftwidth'))
-  print("softtabstop: " .. vim.api.nvim_buf_get_option(bufnr, 'softtabstop'))
-  print("expandtab: " .. tostring(vim.api.nvim_buf_get_option(bufnr, 'expandtab')))
-  print("autoindent: " .. tostring(vim.api.nvim_buf_get_option(bufnr, 'autoindent')))
-  print("smartindent: " .. tostring(vim.api.nvim_buf_get_option(bufnr, 'smartindent')))
-  print("smarttab: " .. tostring(vim.api.nvim_get_option('smarttab')))
-  print("shiftround: " .. tostring(vim.api.nvim_get_option('shiftround')))
-  print("fileencoding: " .. vim.api.nvim_buf_get_option(bufnr, 'fileencoding'))
+  print("tabstop: " .. vim.api.nvim_buf_get_option(bufnr, "tabstop"))
+  print("shiftwidth: " .. vim.api.nvim_buf_get_option(bufnr, "shiftwidth"))
+  print("softtabstop: " .. vim.api.nvim_buf_get_option(bufnr, "softtabstop"))
+  print("expandtab: " .. tostring(vim.api.nvim_buf_get_option(bufnr, "expandtab")))
+  print("autoindent: " .. tostring(vim.api.nvim_buf_get_option(bufnr, "autoindent")))
+  print("smartindent: " .. tostring(vim.api.nvim_buf_get_option(bufnr, "smartindent")))
+  print("smarttab: " .. tostring(vim.api.nvim_get_option("smarttab")))
+  print("shiftround: " .. tostring(vim.api.nvim_get_option("shiftround")))
+  print("fileencoding: " .. vim.api.nvim_buf_get_option(bufnr, "fileencoding"))
   print("--- Applied editorconfig properties ---")
   vim.print(vim.b.editorconfig)
 end
@@ -106,13 +106,27 @@ function _G.toggle_colorcolumn()
 end
 
 -- Map <leader>tc to toggle colorcolumn
-vim.api.nvim_set_keymap('n', '<leader>tc', ':lua toggle_colorcolumn()<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>tc", ":lua toggle_colorcolumn()<CR>", { noremap = true, silent = true })
 
 -- "boxes" utility mappings
-vim.keymap.set('n', '<leader>bb', '!!boxes -a c -s 60 -d simple<CR>', { noremap = true, silent = false, desc = "Draw big box with boxes utility" })
-vim.keymap.set('v', '<leader>bb', '!boxes -a c -s 60 -d simple<CR>', { noremap = true, silent = false, desc = "Draw big box with boxes utility" })
-vim.keymap.set('n', '<leader>bd', '!!boxes -d javadoc<CR>', { noremap = true, silent = false, desc = "Draw doxygen comment" })
-
+vim.keymap.set(
+  "n",
+  "<leader>bb",
+  "!!boxes -a c -s 60 -d simple<CR>",
+  { noremap = true, silent = false, desc = "Draw big box with boxes utility" }
+)
+vim.keymap.set(
+  "v",
+  "<leader>bb",
+  "!boxes -a c -s 60 -d simple<CR>",
+  { noremap = true, silent = false, desc = "Draw big box with boxes utility" }
+)
+vim.keymap.set(
+  "n",
+  "<leader>bd",
+  "!!boxes -d javadoc<CR>",
+  { noremap = true, silent = false, desc = "Draw doxygen comment" }
+)
 
 function surround_line_with_equals(total_length)
   local line_nr = vim.api.nvim_win_get_cursor(0)[1]
@@ -129,5 +143,4 @@ function surround_line_with_equals(total_length)
   vim.api.nvim_set_current_line(new_line)
 end
 
-vim.keymap.set('n', '<leader>bs', ':lua surround_line_with_equals(60)<CR>')
-
+vim.keymap.set("n", "<leader>bs", ":lua surround_line_with_equals(60)<CR>")

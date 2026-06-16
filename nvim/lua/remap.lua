@@ -28,10 +28,10 @@ vim.keymap.set("n", "<leader>o", "o<Esc>k")
 vim.keymap.set("x", "<leader>p", [["_dP]])
 
 -- Delete into void register --
-vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
+vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 -- Yank into system clipboard --
-vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 -- Resize split windows --
@@ -41,7 +41,11 @@ vim.keymap.set("n", "<leader><Right>", ":vertical resize +5<CR>")
 vim.keymap.set("n", "<leader><Left>", ":vertical resize -5<CR>")
 
 -- Open new tmux window with vim config directory and reload config on exit --
-vim.keymap.set("n", "<leader>,", ":silent !tmux new-window -n 'vim_config' 'cd $HOME/.config/nvim && nvim'<CR>:source $MYVIMRC<CR>")
+vim.keymap.set(
+  "n",
+  "<leader>,",
+  ":silent !tmux new-window -n 'vim_config' 'cd $HOME/.config/nvim && nvim'<CR>:source $MYVIMRC<CR>"
+)
 
 -- Adjust indents for whole file --
 vim.keymap.set("n", "<leader>=", "gg=G<C-o>")

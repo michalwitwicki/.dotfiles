@@ -1,7 +1,7 @@
 return {
-  'echasnovski/mini.move',
-  version = '*',
+  "echasnovski/mini.move",
+  version = "*",
   config = function()
-    require('mini.move').setup()
-  end
+    require("mini.move").setup()
+  end,
 }

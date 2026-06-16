@@ -1,7 +1,7 @@
 return {
-  'echasnovski/mini.ai',
-  version = '*',
+  "echasnovski/mini.ai",
+  version = "*",
   config = function()
-    require('mini.ai').setup()
-  end
+    require("mini.ai").setup()
+  end,
 }

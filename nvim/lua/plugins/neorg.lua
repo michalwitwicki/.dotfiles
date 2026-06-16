@@ -3,11 +3,11 @@ return {
   lazy = false,
   version = "*",
   dependencies = {
-    'nvim-neorg/tree-sitter-norg',
-    'nvim-neorg/tree-sitter-norg-meta',
+    "nvim-neorg/tree-sitter-norg",
+    "nvim-neorg/tree-sitter-norg-meta",
   },
   config = function()
-    require("neorg").setup {
+    require("neorg").setup({
       load = {
         ["core.defaults"] = {},
         ["core.concealer"] = {},
@@ -20,16 +20,16 @@ return {
           },
         },
       },
-    }
+    })
 
     vim.wo.foldlevel = 99
     vim.wo.conceallevel = 2
 
-    vim.keymap.set('n', '<leader>nn', '<Plug>(neorg.dirman.new-note)')
-    vim.keymap.set('n', '<leader>ns', ':vnew<CR>:Neorg index<CR>')
-    vim.keymap.set('n', '<leader>nt', ':tabnew<CR>:Neorg index<CR>')
-    vim.keymap.set('n', '<leader>nr', ':Neorg return<CR>')
-    vim.keymap.set('n', '<leader>nc', ':Neorg toggle-concealer<CR>')
+    vim.keymap.set("n", "<leader>nn", "<Plug>(neorg.dirman.new-note)")
+    vim.keymap.set("n", "<leader>ns", ":vnew<CR>:Neorg index<CR>")
+    vim.keymap.set("n", "<leader>nt", ":tabnew<CR>:Neorg index<CR>")
+    vim.keymap.set("n", "<leader>nr", ":Neorg return<CR>")
+    vim.keymap.set("n", "<leader>nc", ":Neorg toggle-concealer<CR>")
   end,
 }
 

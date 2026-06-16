@@ -124,15 +124,15 @@ FLAG_TEST=0
 # ---------------------------------------------------------------------------
 
 if [[ -t 1 ]]; then
-    C_GREEN='\033[0;32m'
-    C_YELLOW='\033[1;33m'
-    C_RED='\033[0;31m'
-    C_CYAN='\033[0;36m'
-    C_BLUE='\033[0;34m'
-    C_BOLD='\033[1m'
-    C_RESET='\033[0m'
+	C_GREEN='\033[0;32m'
+	C_YELLOW='\033[1;33m'
+	C_RED='\033[0;31m'
+	C_CYAN='\033[0;36m'
+	C_BLUE='\033[0;34m'
+	C_BOLD='\033[1m'
+	C_RESET='\033[0m'
 else
-    C_GREEN='' C_YELLOW='' C_RED='' C_CYAN='' C_BLUE='' C_BOLD='' C_RESET=''
+	C_GREEN='' C_YELLOW='' C_RED='' C_CYAN='' C_BLUE='' C_BOLD='' C_RESET=''
 fi
 
 # ---------------------------------------------------------------------------
@@ -140,37 +140,62 @@ fi
 # ---------------------------------------------------------------------------
 
 _parse_args() {
-    while [[ $# -gt 0 ]]; do
-        case "$1" in
-            --dry-run)
-                DRY_RUN=1; shift ;;
-            --all)
-                FLAG_ALL=1; shift ;;
-            --uninstall)
-                FLAG_UNINSTALL=1; shift ;;
-            --uninstall-all)
-                FLAG_UNINSTALL_ALL=1; shift ;;
-            --only)
-                [[ $# -ge 2 ]] || { printf 'Error: --only requires a module name\n' >&2; exit 1; }
-                FLAG_ONLY="$2"; shift 2 ;;
-            --uninstall-only)
-                [[ $# -ge 2 ]] || { printf 'Error: --uninstall-only requires a module name\n' >&2; exit 1; }
-                FLAG_UNINSTALL_ONLY="$2"; shift 2 ;;
-            --list)
-                FLAG_LIST=1; shift ;;
-            --test)
-                FLAG_TEST=1; shift ;;
-            --help|-h)
-                _print_help; exit 0 ;;
-            *)
-                printf 'Unknown option: %s\nRun %s --help for usage.\n' "$1" "$(basename "$0")" >&2
-                exit 1 ;;
-        esac
-    done
+	while [[ $# -gt 0 ]]; do
+		case "$1" in
+		--dry-run)
+			DRY_RUN=1
+			shift
+			;;
+		--all)
+			FLAG_ALL=1
+			shift
+			;;
+		--uninstall)
+			FLAG_UNINSTALL=1
+			shift
+			;;
+		--uninstall-all)
+			FLAG_UNINSTALL_ALL=1
+			shift
+			;;
+		--only)
+			[[ $# -ge 2 ]] || {
+				printf 'Error: --only requires a module name\n' >&2
+				exit 1
+			}
+			FLAG_ONLY="$2"
+			shift 2
+			;;
+		--uninstall-only)
+			[[ $# -ge 2 ]] || {
+				printf 'Error: --uninstall-only requires a module name\n' >&2
+				exit 1
+			}
+			FLAG_UNINSTALL_ONLY="$2"
+			shift 2
+			;;
+		--list)
+			FLAG_LIST=1
+			shift
+			;;
+		--test)
+			FLAG_TEST=1
+			shift
+			;;
+		--help | -h)
+			_print_help
+			exit 0
+			;;
+		*)
+			printf 'Unknown option: %s\nRun %s --help for usage.\n' "$1" "$(basename "$0")" >&2
+			exit 1
+			;;
+		esac
+	done
 }
 
 _print_help() {
-    cat <<EOF
+	cat <<EOF
 Usage: $(basename "$0") [OPTIONS]
 
 Set up dotfiles and install tools for the current user.
@@ -208,12 +233,12 @@ EOF
 # Helpers: log functions
 # ---------------------------------------------------------------------------
 
-log_ok()   { printf "${C_GREEN}[ ok ]${C_RESET} %s\n" "$*"; }
+log_ok() { printf "${C_GREEN}[ ok ]${C_RESET} %s\n" "$*"; }
 log_skip() { printf "${C_CYAN}[skip]${C_RESET} %s\n" "$*"; }
 log_warn() { printf "${C_YELLOW}[warn]${C_RESET} %s\n" "$*"; }
 log_fail() { printf "${C_RED}[fail]${C_RESET} %s\n" "$*" >&2; }
 log_info() { printf "${C_BLUE}[info]${C_RESET} %s\n" "$*"; }
-log_dry()  { printf "${C_YELLOW}[dry ]${C_RESET} %s\n" "$*"; }
+log_dry() { printf "${C_YELLOW}[dry ]${C_RESET} %s\n" "$*"; }
 
 # ---------------------------------------------------------------------------
 # Helper: run_cmd — dry-run-aware command executor
@@ -221,11 +246,11 @@ log_dry()  { printf "${C_YELLOW}[dry ]${C_RESET} %s\n" "$*"; }
 
 # Run a command normally, or log and skip it when --dry-run is active.
 run_cmd() {
-    if [[ "$DRY_RUN" -eq 1 ]]; then
-        log_dry "Would run: $*"
-        return 0
-    fi
-    "$@"
+	if [[ "$DRY_RUN" -eq 1 ]]; then
+		log_dry "Would run: $*"
+		return 0
+	fi
+	"$@"
 }
 
 # ---------------------------------------------------------------------------
@@ -233,32 +258,32 @@ run_cmd() {
 # ---------------------------------------------------------------------------
 
 create_symlink() {
-    local target="$1"
-    local link_name="$2"
-    local link_dir
-    link_dir="$(dirname "$link_name")"
+	local target="$1"
+	local link_name="$2"
+	local link_dir
+	link_dir="$(dirname "$link_name")"
 
-    if [[ ! -d "$link_dir" ]]; then
-        run_cmd mkdir -p "$link_dir"
-        log_ok "Created directory: $link_dir"
-    fi
+	if [[ ! -d "$link_dir" ]]; then
+		run_cmd mkdir -p "$link_dir"
+		log_ok "Created directory: $link_dir"
+	fi
 
-    if [[ -L "$link_name" ]]; then
-        local existing_target
-        existing_target="$(readlink "$link_name")"
-        if [[ "$existing_target" = "$target" ]]; then
-            log_skip "Symlink already exists: $link_name -> $target"
-            return
-        fi
-        log_warn "Symlink $link_name points to $existing_target, replacing with $target"
-        run_cmd rm "$link_name"
-    elif [[ -e "$link_name" ]]; then
-        log_warn "$link_name already exists and is not a symlink, skipping"
-        return
-    fi
+	if [[ -L "$link_name" ]]; then
+		local existing_target
+		existing_target="$(readlink "$link_name")"
+		if [[ "$existing_target" = "$target" ]]; then
+			log_skip "Symlink already exists: $link_name -> $target"
+			return
+		fi
+		log_warn "Symlink $link_name points to $existing_target, replacing with $target"
+		run_cmd rm "$link_name"
+	elif [[ -e "$link_name" ]]; then
+		log_warn "$link_name already exists and is not a symlink, skipping"
+		return
+	fi
 
-    run_cmd ln -s "$target" "$link_name"
-    log_ok "Symlink created: $link_name -> $target"
+	run_cmd ln -s "$target" "$link_name"
+	log_ok "Symlink created: $link_name -> $target"
 }
 
 # ---------------------------------------------------------------------------
@@ -267,23 +292,23 @@ create_symlink() {
 
 # Remove LINK_NAME only if it is a symlink pointing to TARGET.
 remove_symlink_if_ours() {
-    local target="$1"
-    local link_name="$2"
+	local target="$1"
+	local link_name="$2"
 
-    if [[ ! -L "$link_name" ]]; then
-        log_skip "$link_name does not exist or is not a symlink"
-        return
-    fi
+	if [[ ! -L "$link_name" ]]; then
+		log_skip "$link_name does not exist or is not a symlink"
+		return
+	fi
 
-    local existing_target
-    existing_target="$(readlink "$link_name")"
-    if [[ "$existing_target" != "$target" ]]; then
-        log_skip "Symlink $link_name points to $existing_target (not ours), skipping"
-        return
-    fi
+	local existing_target
+	existing_target="$(readlink "$link_name")"
+	if [[ "$existing_target" != "$target" ]]; then
+		log_skip "Symlink $link_name points to $existing_target (not ours), skipping"
+		return
+	fi
 
-    run_cmd rm "$link_name"
-    log_ok "Removed symlink: $link_name"
+	run_cmd rm "$link_name"
+	log_ok "Removed symlink: $link_name"
 }
 
 # ---------------------------------------------------------------------------
@@ -293,32 +318,32 @@ remove_symlink_if_ours() {
 # Append BLOCK to FILE, wrapped in tagged BEGIN/END markers.
 # COMMENT_CHAR defaults to "#"; use ";" for .gitconfig.
 add_to_file_if_not_present() {
-    local file="$1"
-    local config_name="$2"
-    local block="$3"
-    local comment_char="${4:-#}"
-    local begin_marker="${comment_char} === install.sh: ${config_name} BEGIN ==="
-    local end_marker="${comment_char} === install.sh: ${config_name} END ==="
+	local file="$1"
+	local config_name="$2"
+	local block="$3"
+	local comment_char="${4:-#}"
+	local begin_marker="${comment_char} === install.sh: ${config_name} BEGIN ==="
+	local end_marker="${comment_char} === install.sh: ${config_name} END ==="
 
-    if [[ ! -f "$file" ]]; then
-        log_warn "File $file does not exist, creating it"
-        if [[ "$DRY_RUN" -eq 0 ]]; then
-            touch "$file"
-        fi
-    fi
+	if [[ ! -f "$file" ]]; then
+		log_warn "File $file does not exist, creating it"
+		if [[ "$DRY_RUN" -eq 0 ]]; then
+			touch "$file"
+		fi
+	fi
 
-    if grep -qF "$begin_marker" "$file" 2>/dev/null; then
-        log_skip "$config_name already present in $file"
-        return
-    fi
+	if grep -qF "$begin_marker" "$file" 2>/dev/null; then
+		log_skip "$config_name already present in $file"
+		return
+	fi
 
-    if [[ "$DRY_RUN" -eq 1 ]]; then
-        log_dry "Would append $config_name to $file"
-        return
-    fi
+	if [[ "$DRY_RUN" -eq 1 ]]; then
+		log_dry "Would append $config_name to $file"
+		return
+	fi
 
-    printf '\n%s\n%s\n%s\n' "$begin_marker" "$block" "$end_marker" >> "$file"
-    log_ok "$config_name appended to $file"
+	printf '\n%s\n%s\n%s\n' "$begin_marker" "$block" "$end_marker" >>"$file"
+	log_ok "$config_name appended to $file"
 }
 
 # ---------------------------------------------------------------------------
@@ -328,38 +353,38 @@ add_to_file_if_not_present() {
 # Delete the tagged BEGIN/END section for NAME from FILE.
 # Uses fixed-string grep to find line numbers, then sed to delete the range.
 remove_from_file_section() {
-    local file="$1"
-    local config_name="$2"
-    local comment_char="${3:-#}"
-    local begin_marker="${comment_char} === install.sh: ${config_name} BEGIN ==="
-    local end_marker="${comment_char} === install.sh: ${config_name} END ==="
+	local file="$1"
+	local config_name="$2"
+	local comment_char="${3:-#}"
+	local begin_marker="${comment_char} === install.sh: ${config_name} BEGIN ==="
+	local end_marker="${comment_char} === install.sh: ${config_name} END ==="
 
-    if [[ ! -f "$file" ]]; then
-        log_skip "$file does not exist, nothing to remove"
-        return
-    fi
+	if [[ ! -f "$file" ]]; then
+		log_skip "$file does not exist, nothing to remove"
+		return
+	fi
 
-    if ! grep -qF "$begin_marker" "$file"; then
-        log_skip "$config_name not found in $file"
-        return
-    fi
+	if ! grep -qF "$begin_marker" "$file"; then
+		log_skip "$config_name not found in $file"
+		return
+	fi
 
-    if [[ "$DRY_RUN" -eq 1 ]]; then
-        log_dry "Would remove $config_name section from $file"
-        return
-    fi
+	if [[ "$DRY_RUN" -eq 1 ]]; then
+		log_dry "Would remove $config_name section from $file"
+		return
+	fi
 
-    local begin_line end_line
-    begin_line="$(grep -nF "$begin_marker" "$file" | head -1 | cut -d: -f1)"
-    end_line="$(grep -nF "$end_marker" "$file" | head -1 | cut -d: -f1)"
+	local begin_line end_line
+	begin_line="$(grep -nF "$begin_marker" "$file" | head -1 | cut -d: -f1)"
+	end_line="$(grep -nF "$end_marker" "$file" | head -1 | cut -d: -f1)"
 
-    if [[ -z "$begin_line" || -z "$end_line" ]]; then
-        log_warn "Incomplete markers for $config_name in $file, skipping"
-        return
-    fi
+	if [[ -z "$begin_line" || -z "$end_line" ]]; then
+		log_warn "Incomplete markers for $config_name in $file, skipping"
+		return
+	fi
 
-    sed -i "${begin_line},${end_line}d" "$file"
-    log_ok "Removed $config_name section from $file"
+	sed -i "${begin_line},${end_line}d" "$file"
+	log_ok "Removed $config_name section from $file"
 }
 
 # ---------------------------------------------------------------------------
@@ -368,9 +393,9 @@ remove_from_file_section() {
 
 # Query the GitHub releases API and return the latest stable tag name.
 get_latest_github_release() {
-    local repo="$1"
-    curl -fsSL "https://api.github.com/repos/$repo/releases/latest" \
-        | grep -oP '"tag_name":\s*"\K[^"]+'
+	local repo="$1"
+	curl -fsSL "https://api.github.com/repos/$repo/releases/latest" |
+		grep -oP '"tag_name":\s*"\K[^"]+'
 }
 
 # ---------------------------------------------------------------------------
@@ -380,31 +405,32 @@ get_latest_github_release() {
 # Install dnf packages, skipping any that are already present.
 # Prints skip for already-installed packages; installs the rest in one batch.
 install_dnf_packages() {
-    local label="$1"; shift
-    local packages=("$@")
+	local label="$1"
+	shift
+	local packages=("$@")
 
-    if ! command -v dnf &>/dev/null; then
-        log_skip "dnf not found, skipping $label package install"
-        return
-    fi
+	if ! command -v dnf &>/dev/null; then
+		log_skip "dnf not found, skipping $label package install"
+		return
+	fi
 
-    local to_install=()
-    for pkg in "${packages[@]}"; do
-        if dnf list --installed "$pkg" &>/dev/null 2>&1; then
-            log_skip "already installed: $pkg"
-        else
-            to_install+=("$pkg")
-        fi
-    done
+	local to_install=()
+	for pkg in "${packages[@]}"; do
+		if dnf list --installed "$pkg" &>/dev/null 2>&1; then
+			log_skip "already installed: $pkg"
+		else
+			to_install+=("$pkg")
+		fi
+	done
 
-    if [[ "${#to_install[@]}" -eq 0 ]]; then
-        log_skip "All $label packages already installed"
-        return
-    fi
+	if [[ "${#to_install[@]}" -eq 0 ]]; then
+		log_skip "All $label packages already installed"
+		return
+	fi
 
-    log_info "Installing $label packages: ${to_install[*]}"
-    run_cmd sudo dnf install -y "${to_install[@]}"
-    log_ok "$label packages installed"
+	log_info "Installing $label packages: ${to_install[*]}"
+	run_cmd sudo dnf install -y "${to_install[@]}"
+	log_ok "$label packages installed"
 }
 
 # ---------------------------------------------------------------------------
@@ -415,37 +441,37 @@ install_dnf_packages() {
 # VERB is the action label shown in the prompt (default "Proceed").
 # Automatically proceeds without prompting when --all or --uninstall-all is active.
 prompt_proceed() {
-    local name="$1"
-    local desc="$2"
-    local verb="${3:-Proceed}"
+	local name="$1"
+	local desc="$2"
+	local verb="${3:-Proceed}"
 
-    if [[ "$FLAG_ALL" -eq 1 || "$FLAG_UNINSTALL_ALL" -eq 1 ]]; then
-        printf "\n${C_BOLD}[ %s ]${C_RESET} %s\n" "$name" "$desc"
-        return 0
-    fi
+	if [[ "$FLAG_ALL" -eq 1 || "$FLAG_UNINSTALL_ALL" -eq 1 ]]; then
+		printf "\n${C_BOLD}[ %s ]${C_RESET} %s\n" "$name" "$desc"
+		return 0
+	fi
 
-    printf "\n${C_BOLD}Module: %s${C_RESET}\n" "$name"
-    printf "  %s\n" "$desc"
-    printf "%s? [Y/s/q] " "$verb"
+	printf "\n${C_BOLD}Module: %s${C_RESET}\n" "$name"
+	printf "  %s\n" "$desc"
+	printf "%s? [Y/s/q] " "$verb"
 
-    local reply
-    IFS= read -r reply </dev/tty 2>/dev/null || reply="y"
-    reply="${reply,,}"   # to lower-case
+	local reply
+	IFS= read -r reply </dev/tty 2>/dev/null || reply="y"
+	reply="${reply,,}" # to lower-case
 
-    case "$reply" in
-        s|skip)
-            log_info "Skipping $name"
-            return 1
-            ;;
-        q|quit)
-            printf "\n"
-            print_summary
-            exit 0
-            ;;
-        *)
-            return 0
-            ;;
-    esac
+	case "$reply" in
+	s | skip)
+		log_info "Skipping $name"
+		return 1
+		;;
+	q | quit)
+		printf "\n"
+		print_summary
+		exit 0
+		;;
+	*)
+		return 0
+		;;
+	esac
 }
 
 # ---------------------------------------------------------------------------
@@ -458,55 +484,55 @@ declare -A MODULE_RESULTS
 
 # Register a module so it appears in --list and is included in the install loop.
 register_module() {
-    local name="$1"
-    local desc="$2"
-    MODULES+=("$name")
-    MODULE_DESCS["$name"]="$desc"
+	local name="$1"
+	local desc="$2"
+	MODULES+=("$name")
+	MODULE_DESCS["$name"]="$desc"
 }
 
 # Dispatch an action (install|uninstall) to a module function.
 run_module() {
-    local action="$1"
-    local name="$2"
-    local fn="module_${name}"
+	local action="$1"
+	local name="$2"
+	local fn="module_${name}"
 
-    if ! declare -F "$fn" > /dev/null 2>&1; then
-        log_fail "Unknown module: $name"
-        return 1
-    fi
+	if ! declare -F "$fn" >/dev/null 2>&1; then
+		log_fail "Unknown module: $name"
+		return 1
+	fi
 
-    "$fn" "$action"
+	"$fn" "$action"
 }
 
 record_result() {
-    local name="$1"
-    local result="$2"
-    MODULE_RESULTS["$name"]="$result"
+	local name="$1"
+	local result="$2"
+	MODULE_RESULTS["$name"]="$result"
 }
 
 print_summary() {
-    local installed=0 skipped=0 failed=0
-    printf "\n${C_BOLD}=== Summary ===${C_RESET}\n"
-    for name in "${MODULES[@]}"; do
-        local result="${MODULE_RESULTS[$name]:-}"
-        [[ -z "$result" ]] && continue
-        case "$result" in
-            installed|uninstalled)
-                printf "  ${C_GREEN}✓${C_RESET} %-20s %s\n" "$name" "$result"
-                installed=$(( installed + 1 ))
-                ;;
-            skipped)
-                printf "  ${C_YELLOW}~${C_RESET} %-20s %s\n" "$name" "$result"
-                skipped=$(( skipped + 1 ))
-                ;;
-            failed)
-                printf "  ${C_RED}✗${C_RESET} %-20s %s\n" "$name" "$result"
-                failed=$(( failed + 1 ))
-                ;;
-        esac
-    done
-    printf "${C_BOLD}===============${C_RESET}\n"
-    printf "%d done, %d skipped, %d failed\n" "$installed" "$skipped" "$failed"
+	local installed=0 skipped=0 failed=0
+	printf "\n${C_BOLD}=== Summary ===${C_RESET}\n"
+	for name in "${MODULES[@]}"; do
+		local result="${MODULE_RESULTS[$name]:-}"
+		[[ -z "$result" ]] && continue
+		case "$result" in
+		installed | uninstalled)
+			printf "  ${C_GREEN}✓${C_RESET} %-20s %s\n" "$name" "$result"
+			installed=$((installed + 1))
+			;;
+		skipped)
+			printf "  ${C_YELLOW}~${C_RESET} %-20s %s\n" "$name" "$result"
+			skipped=$((skipped + 1))
+			;;
+		failed)
+			printf "  ${C_RED}✗${C_RESET} %-20s %s\n" "$name" "$result"
+			failed=$((failed + 1))
+			;;
+		esac
+	done
+	printf "${C_BOLD}===============${C_RESET}\n"
+	printf "%d done, %d skipped, %d failed\n" "$installed" "$skipped" "$failed"
 }
 
 # =============================================================================
@@ -518,19 +544,19 @@ print_summary() {
 # ---------------------------------------------------------------------------
 
 module_shell() {
-    local action="${1:-install}"
-    case "$action" in
-        install)
-            log_info "Injecting ~/.bashrc source block..."
-            add_to_file_if_not_present "$HOME/.bashrc" "bashrc" \
-                "[ -f \"$CONFIGS_DIR/.bashrc\" ] && source \"$CONFIGS_DIR/.bashrc\""
-            create_symlink "$CONFIGS_DIR/.inputrc" "$HOME/.inputrc"
-            ;;
-        uninstall)
-            remove_from_file_section "$HOME/.bashrc" "bashrc"
-            remove_symlink_if_ours "$CONFIGS_DIR/.inputrc" "$HOME/.inputrc"
-            ;;
-    esac
+	local action="${1:-install}"
+	case "$action" in
+	install)
+		log_info "Injecting ~/.bashrc source block..."
+		add_to_file_if_not_present "$HOME/.bashrc" "bashrc" \
+			"[ -f \"$CONFIGS_DIR/.bashrc\" ] && source \"$CONFIGS_DIR/.bashrc\""
+		create_symlink "$CONFIGS_DIR/.inputrc" "$HOME/.inputrc"
+		;;
+	uninstall)
+		remove_from_file_section "$HOME/.bashrc" "bashrc"
+		remove_symlink_if_ours "$CONFIGS_DIR/.inputrc" "$HOME/.inputrc"
+		;;
+	esac
 }
 register_module "shell" "Shell configs: source .bashrc and symlink .inputrc"
 
@@ -539,25 +565,25 @@ register_module "shell" "Shell configs: source .bashrc and symlink .inputrc"
 # ---------------------------------------------------------------------------
 
 module_cli_tools() {
-    local action="${1:-install}"
-    case "$action" in
-        install)
-            install_dnf_packages "cli_tools" \
-                gcc make htop python trash-cli ripgrep fd-find bat \
-                lua luarocks tree-sitter-cli boxes bear npm golang
+	local action="${1:-install}"
+	case "$action" in
+	install)
+		install_dnf_packages "cli_tools" \
+			gcc make htop python trash-cli ripgrep fd-find bat \
+			lua luarocks tree-sitter-cli boxes bear npm golang
 
-            log_info "trash-cli alternative:"
-            log_info "  pip install trash-cli"
-            log_info "  pip uninstall trash-cli"
+		log_info "trash-cli alternative:"
+		log_info "  pip install trash-cli"
+		log_info "  pip uninstall trash-cli"
 
-            log_info "bear alternative: https://github.com/rizsotto/Bear/blob/master/INSTALL.md"
+		log_info "bear alternative: https://github.com/rizsotto/Bear/blob/master/INSTALL.md"
 
-            log_info "boxes: https://github.com/ascii-boxes/boxes"
-            ;;
-        uninstall)
-            log_info "cli_tools packages are not automatically removed by this script"
-            ;;
-    esac
+		log_info "boxes: https://github.com/ascii-boxes/boxes"
+		;;
+	uninstall)
+		log_info "cli_tools packages are not automatically removed by this script"
+		;;
+	esac
 }
 register_module "cli_tools" "General CLI tools installed with dnf"
 
@@ -566,77 +592,77 @@ register_module "cli_tools" "General CLI tools installed with dnf"
 # ---------------------------------------------------------------------------
 
 module_neovim() {
-    local action="${1:-install}"
-    case "$action" in
-        install)
-            create_symlink "$SCRIPT_DIR/nvim" "$HOME/.config/nvim"
+	local action="${1:-install}"
+	case "$action" in
+	install)
+		create_symlink "$SCRIPT_DIR/nvim" "$HOME/.config/nvim"
 
-            run_cmd mkdir -p "$BIN_DIR"
-            local nvim_bin="$BIN_DIR/nvim"
+		run_cmd mkdir -p "$BIN_DIR"
+		local nvim_bin="$BIN_DIR/nvim"
 
-            if [[ -L "$nvim_bin" ]]; then
-                log_skip "nvim symlink already exists at $nvim_bin"
-                return
-            fi
+		if [[ -L "$nvim_bin" ]]; then
+			log_skip "nvim symlink already exists at $nvim_bin"
+			return
+		fi
 
-            log_info "Fetching latest stable neovim release..."
-            local version
-            version="$(get_latest_github_release "neovim/neovim")"
-            if [[ -z "$version" ]]; then
-                log_fail "Could not determine latest neovim version"
-                return 1
-            fi
-            log_ok "Latest neovim: $version"
+		log_info "Fetching latest stable neovim release..."
+		local version
+		version="$(get_latest_github_release "neovim/neovim")"
+		if [[ -z "$version" ]]; then
+			log_fail "Could not determine latest neovim version"
+			return 1
+		fi
+		log_ok "Latest neovim: $version"
 
-            local version_num="${version#v}"
-            local install_dir="$TOOLS_DIR/neovim_${version_num}"
-            local appimage="nvim-linux-x86_64.appimage"
-            local appimage_path="$install_dir/$appimage"
+		local version_num="${version#v}"
+		local install_dir="$TOOLS_DIR/neovim_${version_num}"
+		local appimage="nvim-linux-x86_64.appimage"
+		local appimage_path="$install_dir/$appimage"
 
-            run_cmd mkdir -p "$install_dir"
+		run_cmd mkdir -p "$install_dir"
 
-            if [[ -f "$appimage_path" ]]; then
-                log_skip "AppImage already downloaded: $appimage_path"
-            else
-                local url="https://github.com/neovim/neovim/releases/download/${version}/${appimage}"
-                log_info "Downloading $url"
-                run_cmd wget -q -O "$appimage_path" "$url"
-                log_ok "Downloaded neovim AppImage"
-            fi
+		if [[ -f "$appimage_path" ]]; then
+			log_skip "AppImage already downloaded: $appimage_path"
+		else
+			local url="https://github.com/neovim/neovim/releases/download/${version}/${appimage}"
+			log_info "Downloading $url"
+			run_cmd wget -q -O "$appimage_path" "$url"
+			log_ok "Downloaded neovim AppImage"
+		fi
 
-            run_cmd chmod u+x "$appimage_path"
-            create_symlink "$appimage_path" "$nvim_bin"
-            log_ok "nvim installed: $nvim_bin -> $appimage_path (version: $version)"
-            ;;
-        uninstall)
-            remove_symlink_if_ours "$SCRIPT_DIR/nvim" "$HOME/.config/nvim"
+		run_cmd chmod u+x "$appimage_path"
+		create_symlink "$appimage_path" "$nvim_bin"
+		log_ok "nvim installed: $nvim_bin -> $appimage_path (version: $version)"
+		;;
+	uninstall)
+		remove_symlink_if_ours "$SCRIPT_DIR/nvim" "$HOME/.config/nvim"
 
-            local nvim_bin="$BIN_DIR/nvim"
-            if [[ -L "$nvim_bin" ]]; then
-                local target
-                target="$(readlink "$nvim_bin")"
-                if [[ "$target" == "$TOOLS_DIR/neovim_"* ]]; then
-                    run_cmd rm "$nvim_bin"
-                    log_ok "Removed nvim symlink: $nvim_bin"
-                else
-                    log_skip "nvim symlink does not point into our tools dir, skipping"
-                fi
-            else
-                log_skip "No nvim symlink found at $nvim_bin"
-            fi
+		local nvim_bin="$BIN_DIR/nvim"
+		if [[ -L "$nvim_bin" ]]; then
+			local target
+			target="$(readlink "$nvim_bin")"
+			if [[ "$target" == "$TOOLS_DIR/neovim_"* ]]; then
+				run_cmd rm "$nvim_bin"
+				log_ok "Removed nvim symlink: $nvim_bin"
+			else
+				log_skip "nvim symlink does not point into our tools dir, skipping"
+			fi
+		else
+			log_skip "No nvim symlink found at $nvim_bin"
+		fi
 
-            local removed=0
-            for dir in "$TOOLS_DIR"/neovim_*/; do
-                [[ -d "$dir" ]] || continue
-                run_cmd rm -rf "$dir"
-                log_ok "Removed: $dir"
-                removed=$(( removed + 1 ))
-            done
-            if [[ "$removed" -eq 0 ]]; then
-                log_skip "No neovim install directories found in $TOOLS_DIR"
-            fi
-            ;;
-    esac
+		local removed=0
+		for dir in "$TOOLS_DIR"/neovim_*/; do
+			[[ -d "$dir" ]] || continue
+			run_cmd rm -rf "$dir"
+			log_ok "Removed: $dir"
+			removed=$((removed + 1))
+		done
+		if [[ "$removed" -eq 0 ]]; then
+			log_skip "No neovim install directories found in $TOOLS_DIR"
+		fi
+		;;
+	esac
 }
 register_module "neovim" "Latest stable AppImage + ~/.config/nvim symlink"
 
@@ -645,17 +671,17 @@ register_module "neovim" "Latest stable AppImage + ~/.config/nvim symlink"
 # ---------------------------------------------------------------------------
 
 module_tmux() {
-    local action="${1:-install}"
-    case "$action" in
-        install)
-            install_dnf_packages "tmux" tmux
-            create_symlink "$CONFIGS_DIR/.tmux.conf" "$HOME/.tmux.conf"
-            ;;
-        uninstall)
-            remove_symlink_if_ours "$CONFIGS_DIR/.tmux.conf" "$HOME/.tmux.conf"
-            log_info "tmux package is not automatically removed by this script"
-            ;;
-    esac
+	local action="${1:-install}"
+	case "$action" in
+	install)
+		install_dnf_packages "tmux" tmux
+		create_symlink "$CONFIGS_DIR/.tmux.conf" "$HOME/.tmux.conf"
+		;;
+	uninstall)
+		remove_symlink_if_ours "$CONFIGS_DIR/.tmux.conf" "$HOME/.tmux.conf"
+		log_info "tmux package is not automatically removed by this script"
+		;;
+	esac
 }
 register_module "tmux" "dnf + ~/.tmux.conf symlink"
 
@@ -664,20 +690,20 @@ register_module "tmux" "dnf + ~/.tmux.conf symlink"
 # ---------------------------------------------------------------------------
 
 module_git() {
-    local action="${1:-install}"
-    case "$action" in
-        install)
-            install_dnf_packages "git" git git-delta
-            log_info "Injecting ~/.gitconfig include block..."
-            add_to_file_if_not_present "$HOME/.gitconfig" "gitconfig" \
-                "[include]
+	local action="${1:-install}"
+	case "$action" in
+	install)
+		install_dnf_packages "git" git git-delta
+		log_info "Injecting ~/.gitconfig include block..."
+		add_to_file_if_not_present "$HOME/.gitconfig" "gitconfig" \
+			"[include]
     path = $CONFIGS_DIR/.gitconfig" ";"
-            ;;
-        uninstall)
-            remove_from_file_section "$HOME/.gitconfig" "gitconfig" ";"
-            log_info "git/git-delta packages are not automatically removed by this script"
-            ;;
-    esac
+		;;
+	uninstall)
+		remove_from_file_section "$HOME/.gitconfig" "gitconfig" ";"
+		log_info "git/git-delta packages are not automatically removed by this script"
+		;;
+	esac
 }
 register_module "git" "git + git-delta, injects include block into ~/.gitconfig"
 
@@ -686,28 +712,28 @@ register_module "git" "git + git-delta, injects include block into ~/.gitconfig"
 # ---------------------------------------------------------------------------
 
 module_forgit() {
-    local action="${1:-install}"
-    local forgit_dir="$TOOLS_DIR/forgit"
-    case "$action" in
-        install)
-            if [[ -d "$forgit_dir" ]]; then
-                log_skip "forgit already cloned at $forgit_dir"
-                return
-            fi
-            run_cmd mkdir -p "$TOOLS_DIR"
-            log_info "Cloning forgit..."
-            run_cmd git clone https://github.com/wfxr/forgit.git "$forgit_dir"
-            log_ok "forgit cloned to $forgit_dir"
-            ;;
-        uninstall)
-            if [[ -d "$forgit_dir" ]]; then
-                run_cmd rm -rf "$forgit_dir"
-                log_ok "Removed forgit directory: $forgit_dir"
-            else
-                log_skip "forgit directory not found: $forgit_dir"
-            fi
-            ;;
-    esac
+	local action="${1:-install}"
+	local forgit_dir="$TOOLS_DIR/forgit"
+	case "$action" in
+	install)
+		if [[ -d "$forgit_dir" ]]; then
+			log_skip "forgit already cloned at $forgit_dir"
+			return
+		fi
+		run_cmd mkdir -p "$TOOLS_DIR"
+		log_info "Cloning forgit..."
+		run_cmd git clone https://github.com/wfxr/forgit.git "$forgit_dir"
+		log_ok "forgit cloned to $forgit_dir"
+		;;
+	uninstall)
+		if [[ -d "$forgit_dir" ]]; then
+			run_cmd rm -rf "$forgit_dir"
+			log_ok "Removed forgit directory: $forgit_dir"
+		else
+			log_skip "forgit directory not found: $forgit_dir"
+		fi
+		;;
+	esac
 }
 register_module "forgit" "Interactive git commands via fzf (git clone)"
 
@@ -716,18 +742,19 @@ register_module "forgit" "Interactive git commands via fzf (git clone)"
 # ---------------------------------------------------------------------------
 
 module_rust() {
-    local action="${1:-install}"
-    case "$action" in
-        install)
-            local tmp; tmp="$(mktemp)"
-            run_cmd curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o "$tmp"
-            run_cmd sh "$tmp" -s -- -y
-            rm -f "$tmp"
-            ;;
-        uninstall)
-            rustup self uninstall
-            ;;
-    esac
+	local action="${1:-install}"
+	case "$action" in
+	install)
+		local tmp
+		tmp="$(mktemp)"
+		run_cmd curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o "$tmp"
+		run_cmd sh "$tmp" -s -- -y
+		rm -f "$tmp"
+		;;
+	uninstall)
+		rustup self uninstall
+		;;
+	esac
 }
 register_module "rust" "Rust toolchain"
 
@@ -736,17 +763,17 @@ register_module "rust" "Rust toolchain"
 # ---------------------------------------------------------------------------
 
 module_gdb() {
-    local action="${1:-install}"
-    case "$action" in
-        install)
-            install_dnf_packages "gdb" gdb
-            create_symlink "$CONFIGS_DIR/.gdbinit" "$HOME/.gdbinit"
-            ;;
-        uninstall)
-            remove_symlink_if_ours "$CONFIGS_DIR/.gdbinit" "$HOME/.gdbinit"
-            log_info "gdb package is not automatically removed by this script"
-            ;;
-    esac
+	local action="${1:-install}"
+	case "$action" in
+	install)
+		install_dnf_packages "gdb" gdb
+		create_symlink "$CONFIGS_DIR/.gdbinit" "$HOME/.gdbinit"
+		;;
+	uninstall)
+		remove_symlink_if_ours "$CONFIGS_DIR/.gdbinit" "$HOME/.gdbinit"
+		log_info "gdb package is not automatically removed by this script"
+		;;
+	esac
 }
 register_module "gdb" "dnf + .gdbinit symlink"
 
@@ -755,31 +782,31 @@ register_module "gdb" "dnf + .gdbinit symlink"
 # ---------------------------------------------------------------------------
 
 module_fzf() {
-    local action="${1:-install}"
-    local fzf_dir="$TOOLS_DIR/fzf"
-    case "$action" in
-        install)
-            if [[ -d "$fzf_dir" ]]; then
-                log_skip "fzf already cloned at $fzf_dir"
-                return
-            fi
-            run_cmd mkdir -p "$TOOLS_DIR"
-            log_info "Cloning fzf..."
-            run_cmd git clone --depth 1 https://github.com/junegunn/fzf.git "$fzf_dir"
-            log_info "Running fzf installer..."
-            run_cmd "$fzf_dir/install" --all
-            log_ok "fzf installed"
-            ;;
-        uninstall)
-            if [[ -d "$fzf_dir" ]]; then
-                run_cmd "$fzf_dir/uninstall"
-                run_cmd rm -rf "$fzf_dir"
-                log_ok "fzf uninstalled and removed fzf directory: $fzf_dir"
-            else
-                log_skip "fzf directory not found: $fzf_dir"
-            fi
-            ;;
-    esac
+	local action="${1:-install}"
+	local fzf_dir="$TOOLS_DIR/fzf"
+	case "$action" in
+	install)
+		if [[ -d "$fzf_dir" ]]; then
+			log_skip "fzf already cloned at $fzf_dir"
+			return
+		fi
+		run_cmd mkdir -p "$TOOLS_DIR"
+		log_info "Cloning fzf..."
+		run_cmd git clone --depth 1 https://github.com/junegunn/fzf.git "$fzf_dir"
+		log_info "Running fzf installer..."
+		run_cmd "$fzf_dir/install" --all
+		log_ok "fzf installed"
+		;;
+	uninstall)
+		if [[ -d "$fzf_dir" ]]; then
+			run_cmd "$fzf_dir/uninstall"
+			run_cmd rm -rf "$fzf_dir"
+			log_ok "fzf uninstalled and removed fzf directory: $fzf_dir"
+		else
+			log_skip "fzf directory not found: $fzf_dir"
+		fi
+		;;
+	esac
 }
 register_module "fzf" "Fuzzy finder (git clone + installer)"
 
@@ -788,36 +815,36 @@ register_module "fzf" "Fuzzy finder (git clone + installer)"
 # ---------------------------------------------------------------------------
 
 module_fff() {
-    local action="${1:-install}"
-    local fff_dir="$TOOLS_DIR/fff"
-    local fff_prefix="$HOME/.local"
-    case "$action" in
-        install)
-            if [[ -f "$fff_prefix/bin/fff" ]] || command -v fff &>/dev/null; then
-                log_skip "fff already installed"
-                return
-            fi
-            run_cmd mkdir -p "$TOOLS_DIR"
-            log_info "Cloning fff..."
-            run_cmd git clone https://github.com/dylanaraps/fff.git "$fff_dir"
-            log_info "Installing fff (make install PREFIX=$fff_prefix)..."
-            if run_cmd make -C "$fff_dir" install PREFIX="$fff_prefix"; then
-                log_ok "fff installed to $fff_prefix/bin/fff"
-            else
-                log_fail "fff installation failed"
-                return 1
-            fi
-            ;;
-        uninstall)
-            if [[ -d "$fff_dir" ]]; then
-                run_cmd make -C "$fff_dir" uninstall PREFIX="$fff_prefix" 2>/dev/null || true
-                run_cmd rm -rf "$fff_dir"
-                log_ok "Removed fff"
-            else
-                log_skip "fff directory not found: $fff_dir"
-            fi
-            ;;
-    esac
+	local action="${1:-install}"
+	local fff_dir="$TOOLS_DIR/fff"
+	local fff_prefix="$HOME/.local"
+	case "$action" in
+	install)
+		if [[ -f "$fff_prefix/bin/fff" ]] || command -v fff &>/dev/null; then
+			log_skip "fff already installed"
+			return
+		fi
+		run_cmd mkdir -p "$TOOLS_DIR"
+		log_info "Cloning fff..."
+		run_cmd git clone https://github.com/dylanaraps/fff.git "$fff_dir"
+		log_info "Installing fff (make install PREFIX=$fff_prefix)..."
+		if run_cmd make -C "$fff_dir" install PREFIX="$fff_prefix"; then
+			log_ok "fff installed to $fff_prefix/bin/fff"
+		else
+			log_fail "fff installation failed"
+			return 1
+		fi
+		;;
+	uninstall)
+		if [[ -d "$fff_dir" ]]; then
+			run_cmd make -C "$fff_dir" uninstall PREFIX="$fff_prefix" 2>/dev/null || true
+			run_cmd rm -rf "$fff_dir"
+			log_ok "Removed fff"
+		else
+			log_skip "fff directory not found: $fff_dir"
+		fi
+		;;
+	esac
 }
 register_module "fff" "Terminal file manager (git clone + make install)"
 
@@ -826,36 +853,36 @@ register_module "fff" "Terminal file manager (git clone + make install)"
 # ---------------------------------------------------------------------------
 
 module_opencode() {
-    local action="${1:-install}"
-    local opencode_config_dir="$HOME/.config/opencode"
-    local src_dir="$CONFIGS_DIR/opencode"
-    case "$action" in
-        install)
-            if ! command -v opencode &>/dev/null; then
-                log_info "Installing opencode..."
-                local tmp_installer
-                tmp_installer="$(mktemp)"
-                run_cmd curl -fsSL https://opencode.ai/install -o "$tmp_installer"
-                run_cmd bash "$tmp_installer"
-                rm -f "$tmp_installer"
-                log_ok "opencode installed"
-                log_info "Run 'opencode auth login' to authenticate"
-            else
-                log_skip "opencode already in PATH"
-            fi
+	local action="${1:-install}"
+	local opencode_config_dir="$HOME/.config/opencode"
+	local src_dir="$CONFIGS_DIR/opencode"
+	case "$action" in
+	install)
+		if ! command -v opencode &>/dev/null; then
+			log_info "Installing opencode..."
+			local tmp_installer
+			tmp_installer="$(mktemp)"
+			run_cmd curl -fsSL https://opencode.ai/install -o "$tmp_installer"
+			run_cmd bash "$tmp_installer"
+			rm -f "$tmp_installer"
+			log_ok "opencode installed"
+			log_info "Run 'opencode auth login' to authenticate"
+		else
+			log_skip "opencode already in PATH"
+		fi
 
-            run_cmd mkdir -p "$opencode_config_dir"
-            create_symlink "$src_dir/opencode.json" "$opencode_config_dir/opencode.json"
-            create_symlink "$src_dir/tui.json"      "$opencode_config_dir/tui.json"
-            create_symlink "$src_dir/agents"        "$opencode_config_dir/agents"
-            ;;
-        uninstall)
-            remove_symlink_if_ours "$src_dir/opencode.json" "$opencode_config_dir/opencode.json"
-            remove_symlink_if_ours "$src_dir/tui.json"      "$opencode_config_dir/tui.json"
-            remove_symlink_if_ours "$src_dir/agents"        "$opencode_config_dir/agents"
-            log_info "opencode binary is not removed (installed system-wide)"
-            ;;
-    esac
+		run_cmd mkdir -p "$opencode_config_dir"
+		create_symlink "$src_dir/opencode.json" "$opencode_config_dir/opencode.json"
+		create_symlink "$src_dir/tui.json" "$opencode_config_dir/tui.json"
+		create_symlink "$src_dir/agents" "$opencode_config_dir/agents"
+		;;
+	uninstall)
+		remove_symlink_if_ours "$src_dir/opencode.json" "$opencode_config_dir/opencode.json"
+		remove_symlink_if_ours "$src_dir/tui.json" "$opencode_config_dir/tui.json"
+		remove_symlink_if_ours "$src_dir/agents" "$opencode_config_dir/agents"
+		log_info "opencode binary is not removed (installed system-wide)"
+		;;
+	esac
 }
 register_module "opencode" "AI coding assistant (curl installer + config symlinks)"
 
@@ -864,34 +891,34 @@ register_module "opencode" "AI coding assistant (curl installer + config symlink
 # ---------------------------------------------------------------------------
 
 module_caveman() {
-    local action="${1:-install}"
-    local skill_file="$HOME/.config/opencode/skills/caveman/SKILL.md"
-    case "$action" in
-        install)
-            if [[ -f "$skill_file" ]]; then
-                log_skip "caveman skill already installed at $skill_file"
-                return
-            fi
-            if ! command -v npx &>/dev/null; then
-                log_skip "npx not found, skipping caveman skill install"
-                return
-            fi
-            log_info "Installing caveman skill via npx..."
-            run_cmd npx skills add JuliusBrussee/caveman -a opencode -g -y
-            log_ok "caveman skill installed"
-            ;;
-        uninstall)
-            if [[ -f "$skill_file" ]]; then
-                run_cmd rm -f "$skill_file"
-                log_ok "Removed caveman skill: $skill_file"
-                local skill_dir
-                skill_dir="$(dirname "$skill_file")"
-                [[ -d "$skill_dir" ]] && { run_cmd rmdir "$skill_dir" 2>/dev/null || true; }
-            else
-                log_skip "caveman skill not found at $skill_file"
-            fi
-            ;;
-    esac
+	local action="${1:-install}"
+	local skill_file="$HOME/.config/opencode/skills/caveman/SKILL.md"
+	case "$action" in
+	install)
+		if [[ -f "$skill_file" ]]; then
+			log_skip "caveman skill already installed at $skill_file"
+			return
+		fi
+		if ! command -v npx &>/dev/null; then
+			log_skip "npx not found, skipping caveman skill install"
+			return
+		fi
+		log_info "Installing caveman skill via npx..."
+		run_cmd npx skills add JuliusBrussee/caveman -a opencode -g -y
+		log_ok "caveman skill installed"
+		;;
+	uninstall)
+		if [[ -f "$skill_file" ]]; then
+			run_cmd rm -f "$skill_file"
+			log_ok "Removed caveman skill: $skill_file"
+			local skill_dir
+			skill_dir="$(dirname "$skill_file")"
+			[[ -d "$skill_dir" ]] && { run_cmd rmdir "$skill_dir" 2>/dev/null || true; }
+		else
+			log_skip "caveman skill not found at $skill_file"
+		fi
+		;;
+	esac
 }
 register_module "caveman" "caveman skill for opencode (npx install)"
 
@@ -900,72 +927,72 @@ register_module "caveman" "caveman skill for opencode (npx install)"
 # ---------------------------------------------------------------------------
 
 module_git_hooks() {
-    local action="${1:-install}"
-    case "$action" in
-        install)
-            # --- stylua ---
-            if command -v stylua &>/dev/null; then
-                log_skip "stylua already installed: $(stylua --version 2>&1)"
-            else
-                if ! command -v cargo &>/dev/null; then
-                    log_skip "cargo not found, skipping stylua install (install rust module first)"
-                else
-                    log_info "Installing stylua via cargo..."
-                    if run_cmd cargo install stylua; then
-                        log_ok "stylua installed"
-                    else
-                        log_fail "stylua install failed"
-                        return 1
-                    fi
-                fi
-            fi
+	local action="${1:-install}"
+	case "$action" in
+	install)
+		# --- stylua ---
+		if command -v stylua &>/dev/null; then
+			log_skip "stylua already installed: $(stylua --version 2>&1)"
+		else
+			if ! command -v cargo &>/dev/null; then
+				log_skip "cargo not found, skipping stylua install (install rust module first)"
+			else
+				log_info "Installing stylua via cargo..."
+				if run_cmd cargo install stylua; then
+					log_ok "stylua installed"
+				else
+					log_fail "stylua install failed"
+					return 1
+				fi
+			fi
+		fi
 
-            # --- shfmt ---
-            if command -v shfmt &>/dev/null; then
-                log_skip "shfmt already installed: $(shfmt --version 2>&1)"
-            else
-                if ! command -v go &>/dev/null; then
-                    log_skip "go not found, skipping shfmt install (install golang via cli_tools first)"
-                else
-                    log_info "Installing shfmt via go install..."
-                    if run_cmd go install mvdan.cc/sh/v3/cmd/shfmt@latest; then
-                        log_ok "shfmt installed to $(go env GOPATH)/bin/shfmt"
-                    else
-                        log_fail "shfmt install failed"
-                        return 1
-                    fi
-                fi
-            fi
+		# --- shfmt ---
+		if command -v shfmt &>/dev/null; then
+			log_skip "shfmt already installed: $(shfmt --version 2>&1)"
+		else
+			if ! command -v go &>/dev/null; then
+				log_skip "go not found, skipping shfmt install (install golang via cli_tools first)"
+			else
+				log_info "Installing shfmt via go install..."
+				if run_cmd go install mvdan.cc/sh/v3/cmd/shfmt@latest; then
+					log_ok "shfmt installed to $(go env GOPATH)/bin/shfmt"
+				else
+					log_fail "shfmt install failed"
+					return 1
+				fi
+			fi
+		fi
 
-            # --- prettier ---
-            if command -v prettier &>/dev/null; then
-                log_skip "prettier already installed: $(prettier --version 2>&1)"
-            else
-                if ! command -v npm &>/dev/null; then
-                    log_skip "npm not found, skipping prettier install"
-                else
-                    log_info "Installing prettier via npm..."
-                    if run_cmd sudo npm install -g prettier; then
-                        log_ok "prettier installed"
-                    else
-                        log_fail "prettier install failed"
-                        return 1
-                    fi
-                fi
-            fi
+		# --- prettier ---
+		if command -v prettier &>/dev/null; then
+			log_skip "prettier already installed: $(prettier --version 2>&1)"
+		else
+			if ! command -v npm &>/dev/null; then
+				log_skip "npm not found, skipping prettier install"
+			else
+				log_info "Installing prettier via npm..."
+				if run_cmd sudo npm install -g prettier; then
+					log_ok "prettier installed"
+				else
+					log_fail "prettier install failed"
+					return 1
+				fi
+			fi
+		fi
 
-            # --- activate the hook ---
-            log_info "Activating git hook: core.hooksPath = git-hooks"
-            run_cmd git -C "$SCRIPT_DIR" config core.hooksPath git-hooks
-            log_ok "git hook activated — formatters will run on every commit"
-            ;;
-        uninstall)
-            log_info "Deactivating git hook..."
-            run_cmd git -C "$SCRIPT_DIR" config --unset core.hooksPath || true
-            log_ok "core.hooksPath unset"
-            log_skip "stylua, shfmt, and prettier binaries were not removed (shared tools)"
-            ;;
-    esac
+		# --- activate the hook ---
+		log_info "Activating git hook: core.hooksPath = git-hooks"
+		run_cmd git -C "$SCRIPT_DIR" config core.hooksPath git-hooks
+		log_ok "git hook activated — formatters will run on every commit"
+		;;
+	uninstall)
+		log_info "Deactivating git hook..."
+		run_cmd git -C "$SCRIPT_DIR" config --unset core.hooksPath || true
+		log_ok "core.hooksPath unset"
+		log_skip "stylua, shfmt, and prettier binaries were not removed (shared tools)"
+		;;
+	esac
 }
 register_module "git_hooks" "Code formatters (stylua, shfmt, prettier) + pre-commit hook"
 
@@ -974,83 +1001,84 @@ register_module "git_hooks" "Code formatters (stylua, shfmt, prettier) + pre-com
 # =============================================================================
 
 _run_single_module() {
-    local action="$1"
-    local name="$2"
+	local action="$1"
+	local name="$2"
 
-    if ! declare -F "module_${name}" > /dev/null 2>&1; then
-        log_fail "Unknown module: '$name'"
-        printf "Available modules: %s\n" "${MODULES[*]}" >&2
-        exit 1
-    fi
+	if ! declare -F "module_${name}" >/dev/null 2>&1; then
+		log_fail "Unknown module: '$name'"
+		printf "Available modules: %s\n" "${MODULES[*]}" >&2
+		exit 1
+	fi
 
-    printf "${C_BOLD}[ %s ]${C_RESET} %s\n" "$name" "${MODULE_DESCS[$name]}"
-    local result_label
-    result_label="${action}ed"   # "install" -> "installed", "uninstall" -> "uninstalled"
-    if run_module "$action" "$name"; then
-        record_result "$name" "$result_label"
-    else
-        record_result "$name" "failed"
-    fi
-    print_summary
+	printf "${C_BOLD}[ %s ]${C_RESET} %s\n" "$name" "${MODULE_DESCS[$name]}"
+	local result_label
+	result_label="${action}ed" # "install" -> "installed", "uninstall" -> "uninstalled"
+	if run_module "$action" "$name"; then
+		record_result "$name" "$result_label"
+	else
+		record_result "$name" "failed"
+	fi
+	print_summary
 }
 
 _run_all_modules() {
-    local action="$1"   # "install" or "uninstall"
-    local verb
-    verb="$( [[ "$action" == "uninstall" ]] && echo "Uninstall" || echo "Proceed" )"
+	local action="$1" # "install" or "uninstall"
+	local verb
+	verb="$([[ "$action" == "uninstall" ]] && echo "Uninstall" || echo "Proceed")"
 
-    for name in "${MODULES[@]}"; do
-        local desc="${MODULE_DESCS[$name]}"
+	for name in "${MODULES[@]}"; do
+		local desc="${MODULE_DESCS[$name]}"
 
-        if ! prompt_proceed "$name" "$desc" "$verb"; then
-            record_result "$name" "skipped"
-            continue
-        fi
+		if ! prompt_proceed "$name" "$desc" "$verb"; then
+			record_result "$name" "skipped"
+			continue
+		fi
 
-        local result_label="${action}ed"
-        if run_module "$action" "$name"; then
-            record_result "$name" "$result_label"
-        else
-            record_result "$name" "failed"
-        fi
-    done
+		local result_label="${action}ed"
+		if run_module "$action" "$name"; then
+			record_result "$name" "$result_label"
+		else
+			record_result "$name" "failed"
+		fi
+	done
 
-    print_summary
+	print_summary
 }
 
 main() {
-    _parse_args "$@"
+	_parse_args "$@"
 
-    if [[ "$FLAG_TEST" -eq 1 ]]; then
-        exec bash "$SCRIPT_DIR/tests/test_install.sh"
-    fi
+	if [[ "$FLAG_TEST" -eq 1 ]]; then
+		exec bash "$SCRIPT_DIR/tests/test_install.sh"
+	fi
 
-    if [[ "$FLAG_LIST" -eq 1 ]]; then
-        printf "${C_BOLD}%-20s  %s${C_RESET}\n" "MODULE" "DESCRIPTION"
-        printf '%0.s-' {1..60}; printf '\n'
-        for name in "${MODULES[@]}"; do
-            printf "%-20s  %s\n" "$name" "${MODULE_DESCS[$name]}"
-        done
-        exit 0
-    fi
+	if [[ "$FLAG_LIST" -eq 1 ]]; then
+		printf "${C_BOLD}%-20s  %s${C_RESET}\n" "MODULE" "DESCRIPTION"
+		printf '%0.s-' {1..60}
+		printf '\n'
+		for name in "${MODULES[@]}"; do
+			printf "%-20s  %s\n" "$name" "${MODULE_DESCS[$name]}"
+		done
+		exit 0
+	fi
 
-    if [[ -n "$FLAG_UNINSTALL_ONLY" ]]; then
-        _run_single_module "uninstall" "$FLAG_UNINSTALL_ONLY"
-        exit 0
-    fi
+	if [[ -n "$FLAG_UNINSTALL_ONLY" ]]; then
+		_run_single_module "uninstall" "$FLAG_UNINSTALL_ONLY"
+		exit 0
+	fi
 
-    if [[ "$FLAG_UNINSTALL_ALL" -eq 1 || "$FLAG_UNINSTALL" -eq 1 ]]; then
-        _run_all_modules "uninstall"
-        exit 0
-    fi
+	if [[ "$FLAG_UNINSTALL_ALL" -eq 1 || "$FLAG_UNINSTALL" -eq 1 ]]; then
+		_run_all_modules "uninstall"
+		exit 0
+	fi
 
-    if [[ -n "$FLAG_ONLY" ]]; then
-        _run_single_module "install" "$FLAG_ONLY"
-        exit 0
-    fi
+	if [[ -n "$FLAG_ONLY" ]]; then
+		_run_single_module "install" "$FLAG_ONLY"
+		exit 0
+	fi
 
-    # Default: interactive (or --all) install
-    _run_all_modules "install"
+	# Default: interactive (or --all) install
+	_run_all_modules "install"
 }
 
 # ---------------------------------------------------------------------------
@@ -1058,5 +1086,5 @@ main() {
 # ---------------------------------------------------------------------------
 
 if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
-    main "$@"
+	main "$@"
 fi
