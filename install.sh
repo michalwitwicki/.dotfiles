@@ -570,7 +570,7 @@ module_cli_tools() {
 	install)
 		install_dnf_packages "cli_tools" \
 			gcc make htop python trash-cli ripgrep fd-find bat \
-			lua luarocks tree-sitter-cli boxes bear npm golang
+			lua luarocks tree-sitter-cli boxes bear npm golang ncdu
 
 		log_info "trash-cli alternative:"
 		log_info "  pip install trash-cli"
