@@ -884,43 +884,7 @@ module_opencode() {
 		;;
 	esac
 }
-register_module "opencode" "AI coding assistant (curl installer + config symlinks)"
-
-# ---------------------------------------------------------------------------
-# Module: caveman
-# ---------------------------------------------------------------------------
-
-module_caveman() {
-	local action="${1:-install}"
-	local skill_file="$HOME/.config/opencode/skills/caveman/SKILL.md"
-	case "$action" in
-	install)
-		if [[ -f "$skill_file" ]]; then
-			log_skip "caveman skill already installed at $skill_file"
-			return
-		fi
-		if ! command -v npx &>/dev/null; then
-			log_skip "npx not found, skipping caveman skill install"
-			return
-		fi
-		log_info "Installing caveman skill via npx..."
-		run_cmd npx skills add JuliusBrussee/caveman -a opencode -g -y
-		log_ok "caveman skill installed"
-		;;
-	uninstall)
-		if [[ -f "$skill_file" ]]; then
-			run_cmd rm -f "$skill_file"
-			log_ok "Removed caveman skill: $skill_file"
-			local skill_dir
-			skill_dir="$(dirname "$skill_file")"
-			[[ -d "$skill_dir" ]] && { run_cmd rmdir "$skill_dir" 2>/dev/null || true; }
-		else
-			log_skip "caveman skill not found at $skill_file"
-		fi
-		;;
-	esac
-}
-register_module "caveman" "caveman skill for opencode (npx install)"
+# register_module "opencode" "AI coding assistant (curl installer + config symlinks)"
 
 # ---------------------------------------------------------------------------
 # Module: git_hooks
