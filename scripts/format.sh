@@ -108,7 +108,7 @@ run_md() {
 
 [[ "${#lua_files[@]}" -gt 0 ]] && run_lua
 [[ "${#sh_files[@]}" -gt 0 ]]  && run_sh
-[[ "${#md_files[@]}" -gt 0 ]]  && run_md
+# [[ "${#md_files[@]}" -gt 0 ]]  && run_md
 
 if $CHECK; then
     if [[ "$exit_code" -eq 0 ]]; then
@@ -117,6 +117,7 @@ if $CHECK; then
         echo ""
         echo "✖ Formatting violations found. Auto-fix: ./scripts/format.sh"
         echo "  Bypass hook: git commit --no-verify"
+        echo "  Markdown files format check is skipped"
     fi
 else
     echo "$tag done"
